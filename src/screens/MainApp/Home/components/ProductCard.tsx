@@ -8,17 +8,17 @@ import {
 } from 'react-native';
 import React from 'react';
 import Text from '../../../../components/Text/Text';
-import { CartIcon } from '../../../../assets/Svg/Index';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../../../../redux/cart/cartSlice';
+import {CartIcon} from '../../../../assets/Svg/Index';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {addToCart} from '../../../../redux/cart/cartSlice';
 import Toast from 'react-native-toast-message';
-import { ProductMini } from '../../Shop/shop-api';
+import {ProductMini} from '../../Shop/shop-api';
 
 const ProductCard = (props: ProductMini) => {
-  const { imageUrl, name, price, description, shop } = props;
+  const {imageUrl, name, price, shop} = props;
   const navigate = useNavigation();
-  const cart = useSelector((state) => state.cart);
+  const cart = useSelector(state => state.cart);
   const shopName = cart[0]?.shop?.name;
 
   const dispatch = useDispatch();
@@ -26,9 +26,9 @@ const ProductCard = (props: ProductMini) => {
     <View style={styles.container}>
       <ImageBackground
         resizeMode="cover"
-        source={{ uri: imageUrl }}
+        source={{uri: imageUrl}}
         style={styles.image}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <TouchableOpacity
             onPress={() => {
               if (shopName === undefined || shopName === shop.name) {
@@ -59,8 +59,8 @@ const ProductCard = (props: ProductMini) => {
           </View>
         </View>
       </ImageBackground>
-      <View style={{ paddingHorizontal: 10, margin: 0 }}>
-        <Text style={{ fontWeight: '700' }}>{name}</Text>
+      <View style={{paddingHorizontal: 10, margin: 0}}>
+        <Text style={{fontWeight: '700'}}>{name}</Text>
         <Text>₦ {price}</Text>
       </View>
     </View>
@@ -78,7 +78,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderWidth: 1,
     borderColor: '#D9D9D9',
-    elevation: 2,
+    // elevation: 2,
+    padding: 4,
   },
   image: {
     width: '100%',

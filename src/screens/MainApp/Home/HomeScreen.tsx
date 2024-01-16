@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   StyleSheet,
@@ -7,9 +8,9 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import AppHeader from '../../../components/Headers/AppHeader';
-import { HeaderImage } from '../../../assets/Images';
+import {HeaderImage} from '../../../assets/Images';
 import HomeCarousel from './components/HomeCarousel';
 import Text from '../../../components/Text/Text';
 import Colors from '../../../constants/Colors';
@@ -20,24 +21,24 @@ import {
   useShopQuery,
 } from '../Shop/shop-api';
 import LoadingState from '../../../components/LoadingState';
-import { EmptyState } from '../../../components/EmptyState';
+import {EmptyState} from '../../../components/EmptyState';
 import ProductCard from './components/ProductCard';
 import CategoryModal from './components/CategoryModal';
-import { CloseIcon } from '../../../assets/Svg/Index';
+import {CloseIcon} from '../../../assets/Svg/Index';
 
 export default function HomeScreen() {
-  const { data, isLoading } = useShopQuery();
+  const {data, isLoading} = useShopQuery();
   const [search, setSearch] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [modal, setModal] = useState(false);
 
-  const { data: products, isLoading: loadingProducts } = useProductsQuery({
+  const {data: products, isLoading: loadingProducts} = useProductsQuery({
     filter: search.toLocaleLowerCase(),
     page: 0,
     size: 10,
     categoryId: categoryId,
   });
-  const { data: categories, isLoading: loadingCategories } = useCategoryQuery();
+  const {data: categories, isLoading: loadingCategories} = useCategoryQuery();
   return (
     <View style={styles.container}>
       <StatusBar
@@ -54,22 +55,20 @@ export default function HomeScreen() {
         contentContainerStyle={styles.wrapStyle}
         style={styles.products}>
         <HomeCarousel />
-        <Text style={{ textAlign: 'center' }} h1>
+        <Text style={{textAlign: 'center'}} h1>
           What do you want to buy?
         </Text>
         <TouchableOpacity
           style={styles.category}
           onPress={() => setModal(true)}>
-          <Text style={{ color: Colors.general.primary }}>
-            Choose a category
-          </Text>
+          <Text style={{color: Colors.general.primary}}>Choose a category</Text>
         </TouchableOpacity>
         <View style={styles.label}>
-          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Products</Text>
+          <Text style={{fontSize: 16, fontWeight: 'bold'}}>Products</Text>
 
           {categoryId && (
             <TouchableOpacity onPress={() => setCategoryId('')}>
-              <Text style={{ color: Colors.general.secondary }}>
+              <Text style={{color: Colors.general.secondary}}>
                 <CloseIcon />
               </Text>
             </TouchableOpacity>
@@ -77,31 +76,28 @@ export default function HomeScreen() {
         </View>
 
         {loadingProducts ? (
-          <View style={{ height: 250, width: Dimensions.get('window').width }}>
+          <View style={{height: 250, width: Dimensions.get('window').width}}>
             <LoadingState />
           </View>
         ) : !products?.data.length ? (
-          <View style={{ width: '100%' }}>
+          <View style={{width: '100%'}}>
             <EmptyState title={`products`} />
           </View>
         ) : (
-          products.data.map((data) => {
+          products.data.map(data => {
             return <ProductCard key={data?.id} {...data} />;
           })
         )}
 
         <View style={styles.label}>
-          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
-            Popular Shops
-          </Text>
+          <Text style={{fontSize: 16, fontWeight: 'bold'}}>Popular Shops</Text>
 
           <TouchableOpacity>
-            <Text style={{ color: Colors.general.secondary }}>View all</Text>
+            <Text style={{color: Colors.general.secondary}}>View all</Text>
           </TouchableOpacity>
         </View>
         {isLoading ? (
-          <View
-            style={{ minHeight: 250, width: Dimensions.get('window').width }}>
+          <View style={{minHeight: 250, width: Dimensions.get('window').width}}>
             <LoadingState />
           </View>
         ) : !data?.data.length ? (
@@ -109,7 +105,7 @@ export default function HomeScreen() {
             <EmptyState title={'popular shops'} />
           </View>
         ) : (
-          data?.data?.map(({ id, logoUrl, status, name, category }) => {
+          data?.data?.map(({id, logoUrl, status, name, category}) => {
             return (
               <CategoriesCard
                 id={id}
