@@ -46,9 +46,7 @@ export default function HomeScreen() {
         translucent
         backgroundColor="transparent"
       />
-      <ImageBackground
-        source={HeaderImage}
-        style={styles.mainHeader}></ImageBackground>
+      <ImageBackground source={HeaderImage} style={styles.mainHeader} />
       <AppHeader search={search} setSearch={setSearch} />
       <ScrollView
         showsVerticalScrollIndicator={false}

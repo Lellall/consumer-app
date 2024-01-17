@@ -1,7 +1,18 @@
-import { Modal, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import {Modal, StyleSheet, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import LoadingState from '../../../../components/LoadingState';
 import Text from '../../../../components/Text/Text';
+import {Category} from '../../Shop/shop-api';
+import {CloseIcon} from '../../../../assets/Svg/Index';
+
+type ModalProps = {
+  loadingCategories: boolean;
+  modal: boolean;
+  categories: Category;
+  setModal: (val: boolean) => void;
+  setCategoryId: (val: string) => void;
+};
 
 const CategoryModal = ({
   loadingCategories,
@@ -9,7 +20,7 @@ const CategoryModal = ({
   categories,
   setModal,
   setCategoryId,
-}) => {
+}: ModalProps) => {
   return (
     <Modal
       statusBarTranslucent
@@ -21,10 +32,21 @@ const CategoryModal = ({
           style={{
             backgroundColor: '#ffffff',
           }}>
-          <Text style={{ margin: 20 }} h2>
-            Categories
-          </Text>
-
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: 10,
+              width: '90%',
+            }}>
+            <Text style={{margin: 20}} h2>
+              Categories
+            </Text>
+            <TouchableOpacity onPress={() => setModal(false)}>
+              <CloseIcon />
+            </TouchableOpacity>
+          </View>
           {loadingCategories ? (
             <LoadingState />
           ) : (
@@ -34,27 +56,29 @@ const CategoryModal = ({
                 flexWrap: 'wrap',
                 height: '35%',
               }}>
-              {categories?.map((item) => {
-                return (
-                  <TouchableOpacity
-                    key={item.id}
-                    style={{
-                      width: 100,
-                      alignItems: 'center',
-                      margin: 10,
-                    }}
-                    onPress={() => {
-                      setModal(false);
-                      setCategoryId(item.id);
-                    }}>
-                    <Image
-                      source={{ uri: item.imageUrl }}
-                      style={{ width: 50, height: 50, borderRadius: 50 }}
-                    />
-                    <Text>{item.name}</Text>
-                  </TouchableOpacity>
-                );
-              })}
+              {categories?.map(
+                (item: {id: string; imageUrl: any; name: any}) => {
+                  return (
+                    <TouchableOpacity
+                      key={item.id}
+                      style={{
+                        width: 100,
+                        alignItems: 'center',
+                        margin: 10,
+                      }}
+                      onPress={() => {
+                        setModal(false);
+                        setCategoryId(item.id);
+                      }}>
+                      <Image
+                        source={{uri: item.imageUrl}}
+                        style={{width: 50, height: 50, borderRadius: 50}}
+                      />
+                      <Text>{item.name}</Text>
+                    </TouchableOpacity>
+                  );
+                },
+              )}
             </View>
           )}
         </View>

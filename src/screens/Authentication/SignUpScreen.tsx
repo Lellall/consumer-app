@@ -1,6 +1,6 @@
-import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
 import * as Yup from 'yup';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Input from '../../components/Inputs/Input';
 import Text from '../../components/Text/Text';
 import Button from '../../components/Buttons/Button';
@@ -11,13 +11,11 @@ import {
   UserIcon,
 } from '../../assets/Svg/Index';
 import Colors from '../../constants/Colors';
-import { useFormik } from 'formik';
-import useAlert from '../../hooks/useAlert';
-import { useDispatch } from 'react-redux';
-import { usePostSignupMutation } from './auth-api';
+import {useFormik} from 'formik';
+import {usePostSignupMutation} from './auth-api';
 import Toast from 'react-native-toast-message';
 
-export default function SignUpScreen({ navigation, signIn }) {
+export default function SignUpScreen({navigation, signIn}) {
   const initialValues = {
     first_name: '',
     last_name: '',
@@ -27,7 +25,7 @@ export default function SignUpScreen({ navigation, signIn }) {
     address: '',
   };
 
-  const [postSignup, { data, isLoading, isSuccess, isError, error }] =
+  const [postSignup, {isLoading, isSuccess, isError, error}] =
     usePostSignupMutation();
 
   const validationSchema = Yup.object({
@@ -36,7 +34,11 @@ export default function SignUpScreen({ navigation, signIn }) {
     email: Yup.string().required('Email is required'),
     password: Yup.string()
       .min(8, 'Password must be more than eight characters')
-      .required(),
+      .required()
+      .matches(
+        /^(?=.*[A-Z])(?=.*[a-z])/,
+        'Password must contain at least one uppercase letter and one lowercase letter',
+      ),
     confirm_password: Yup.string()
       .oneOf([Yup.ref('password')], 'Passwords must match')
       .required('Confirm password is required'),
@@ -46,8 +48,8 @@ export default function SignUpScreen({ navigation, signIn }) {
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      const { password, last_name, first_name, email } = values;
+    onSubmit: async values => {
+      const {password, last_name, first_name, email} = values;
       postSignup({
         firstName: first_name,
         lastName: last_name,
@@ -59,9 +61,10 @@ export default function SignUpScreen({ navigation, signIn }) {
     },
   });
 
-  const formatError = (error) => {
+  const formatError = error => {
     if (error) {
-      const { errors, data } = error;
+      console.log('---------EREG', error);
+      const {errors, data} = error;
       const message =
         data?.message || errors?.message || 'Something went wrong';
       return message;
@@ -86,11 +89,11 @@ export default function SignUpScreen({ navigation, signIn }) {
       });
     }
   }, [isError, error]);
-  const { handleChange, handleSubmit, values, errors } = formik;
-  const { password, email, first_name, last_name, confirm_password } = values;
+  const {handleChange, handleSubmit, values, errors} = formik;
+  const {password, email, first_name, last_name, confirm_password} = values;
   return (
     <View style={styles.container}>
-      <Text style={{ color: '#818391', textAlign: 'center' }}>
+      <Text style={{color: '#818391', textAlign: 'center'}}>
         Please fill in this form to create an account
       </Text>
       <Input
@@ -157,7 +160,7 @@ export default function SignUpScreen({ navigation, signIn }) {
       />
 
       <View style={styles.otherSign}>
-        <Text style={{ color: '#AAAAAA' }}>Other sign in options</Text>
+        <Text style={{color: '#AAAAAA'}}>Other sign in options</Text>
 
         <TouchableOpacity style={styles.option}>
           <GoogleIcon />
@@ -169,8 +172,8 @@ export default function SignUpScreen({ navigation, signIn }) {
 
       <View style={styles.haveAccount}>
         <Text>Already have an account?</Text>
-        <TouchableOpacity onPress={() => signIn()} style={{ marginLeft: 10 }}>
-          <Text style={{ fontSize: 12, color: Colors.general.secondary }}>
+        <TouchableOpacity onPress={() => signIn()} style={{marginLeft: 10}}>
+          <Text style={{fontSize: 12, color: Colors.general.secondary}}>
             Sign In
           </Text>
         </TouchableOpacity>
@@ -182,7 +185,7 @@ export default function SignUpScreen({ navigation, signIn }) {
             borderLeftColor: Colors.general.border,
             paddingHorizontal: 10,
           }}>
-          <Text style={{ fontSize: 12, color: Colors.general.border }}>
+          <Text style={{fontSize: 12, color: Colors.general.border}}>
             Skip for now
           </Text>
         </TouchableOpacity>
