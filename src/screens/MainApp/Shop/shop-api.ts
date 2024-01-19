@@ -113,6 +113,7 @@ export interface Product {
   category: Category;
 }
 export interface Category {
+  map: any;
   id: string;
   name: string;
   imageUrl: string;

@@ -1,4 +1,11 @@
-import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import {
+  Dimensions,
+  Linking,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import * as Yup from 'yup';
 import React, {useEffect} from 'react';
 import Input from '../../components/Inputs/Input';
@@ -12,10 +19,17 @@ import {
 } from '../../assets/Svg/Index';
 import Colors from '../../constants/Colors';
 import {useFormik} from 'formik';
-import {usePostSignupMutation} from './auth-api';
+import {
+  usePostGoogleAuthMutation,
+  usePostGoogleAuthVerifyMutation,
+  usePostSignupMutation,
+} from './auth-api';
 import Toast from 'react-native-toast-message';
+import useDeepLink from '../../utils/useDeepLink';
 
 export default function SignUpScreen({navigation, signIn}) {
+  const {value} = useDeepLink();
+
   const initialValues = {
     first_name: '',
     last_name: '',
@@ -27,6 +41,9 @@ export default function SignUpScreen({navigation, signIn}) {
 
   const [postSignup, {isLoading, isSuccess, isError, error}] =
     usePostSignupMutation();
+
+  const [postGoogleAuthVerify, {isSuccess: verifySuccess}] =
+    usePostGoogleAuthVerifyMutation();
 
   const validationSchema = Yup.object({
     first_name: Yup.string().required('First name is required'),
@@ -71,6 +88,11 @@ export default function SignUpScreen({navigation, signIn}) {
     }
   };
 
+  const [
+    googleSignup,
+    {isLoading: isGoogleLoadin, isSuccess: isGoogleSuccess},
+  ] = usePostGoogleAuthMutation();
+
   useEffect(() => {
     if (isSuccess) {
       signIn();
@@ -79,7 +101,17 @@ export default function SignUpScreen({navigation, signIn}) {
         text1: 'Registered successfully 👋',
       });
     }
-  }, [isSuccess]);
+  }, [isSuccess, signIn]);
+  useEffect(() => {
+    if (value) {
+      postGoogleAuthVerify({
+        code: value,
+      });
+    }
+    if (verifySuccess) {
+      navigation.navigate('MainApp');
+    }
+  }, [navigation, postGoogleAuthVerify, value, verifySuccess]);
 
   useEffect(() => {
     if (isError) {
@@ -91,6 +123,7 @@ export default function SignUpScreen({navigation, signIn}) {
   }, [isError, error]);
   const {handleChange, handleSubmit, values, errors} = formik;
   const {password, email, first_name, last_name, confirm_password} = values;
+
   return (
     <View style={styles.container}>
       <Text style={{color: '#818391', textAlign: 'center'}}>
@@ -162,7 +195,13 @@ export default function SignUpScreen({navigation, signIn}) {
       <View style={styles.otherSign}>
         <Text style={{color: '#AAAAAA'}}>Other sign in options</Text>
 
-        <TouchableOpacity style={styles.option}>
+        <TouchableOpacity
+          onPress={async () => {
+            const data1 = await googleSignup('');
+            console.log(data1, 'lll');
+            Linking.openURL(data1.error.data);
+          }}
+          style={styles.option}>
           <GoogleIcon />
         </TouchableOpacity>
         <TouchableOpacity style={styles.option}>
