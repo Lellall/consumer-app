@@ -1,6 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react/';
-import { baseApi } from '../../../redux/base-api';
-import { baseUrl } from '../../../utils/utils';
+import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {baseApi} from '../../../redux/base-api';
+import {baseUrl} from '../../../utils/utils';
 // import { baseUrl } from '../../services/controller';
 
 export const shopApi = createApi({
@@ -9,45 +9,45 @@ export const shopApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: baseUrl,
   }),
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     shop: builder.query<Shops, void>({
       query: () => 'shops',
     }),
     postShop: builder.mutation({
-      query: (data) => ({
+      query: data => ({
         url: 'shop',
         method: 'post',
         body: data,
       }),
     }),
     getShop: builder.query<CompleteShop, string>({
-      query: (id) => ({
+      query: id => ({
         url: `shops/${id}`,
         method: 'get',
       }),
     }),
-    getShopProduct: builder.query<any, string>({
-      query: (id) => ({
+    getShopProducts: builder.query<any, string>({
+      query: id => ({
         url: `shops/${id}/products`,
         method: 'get',
       }),
     }),
     deleteShop: builder.mutation({
-      query: (id) => ({
+      query: id => ({
         url: `shops/${id}`,
         method: 'delete',
       }),
     }),
     updateShop: builder.mutation({
-      query: (data) => ({
+      query: data => ({
         url: `shops/${data?.id}`,
         method: 'put',
         body: data,
       }),
     }),
     products: builder.query<ProductsResponse, ProductSearch>({
-      query: (params) => ({
-        url: `products`,
+      query: params => ({
+        url: 'products',
         method: 'get',
         params,
       }),
@@ -56,6 +56,11 @@ export const shopApi = createApi({
       query: () => ({
         url: `shops/categories`,
         method: 'get',
+      }),
+    }),
+    getProduct: builder.query<Product, any>({
+      query: params => ({
+        url: `shops/${params.shopId}/products/${params.productId}`,
       }),
     }),
   }),
@@ -68,10 +73,16 @@ export const {
   useGetShopQuery,
   useDeleteShopMutation,
   useUpdateShopMutation,
-  useGetShopProductQuery,
+  useGetShopProductsQuery,
   useProductsQuery,
   useCategoryQuery,
+  useGetProductQuery,
 } = shopApi;
+
+// transformResponse: [(data) => {
+//   // Your custom JSON parsing logic goes here
+//   // You might want to increase the nesting level limit or handle the data differently
+//   return JSON.parse(data);
 
 export interface Shop {
   id: string;

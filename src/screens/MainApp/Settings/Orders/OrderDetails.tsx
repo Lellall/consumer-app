@@ -1,11 +1,11 @@
-import { StyleSheet, View, Image, ScrollView, Modal } from 'react-native';
-import React, { useState } from 'react';
-import Text from '../../../components/Text/Text';
-import { SettingsHeader } from './Components/SettingsHeader';
-import Button from '../../../components/Buttons/Button';
+import {StyleSheet, View, Image, ScrollView, Modal} from 'react-native';
+import React, {useState} from 'react';
+import Text from '../../../../components/Text/Text';
+import {SettingsHeader} from '../Components/SettingsHeader';
+import Button from '../../../../components/Buttons/Button';
 // import Colors from '../../../constants/Colors';
 
-export default function OrderDetails({ navigation }) {
+export default function OrderDetails({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.container}>
@@ -56,7 +56,7 @@ export default function OrderDetails({ navigation }) {
               source={{
                 uri: 'https://chart.googleapis.com/chart?chl=lellal-app.com&chs=200x200&cht=qr&chld=H%7C0',
               }}
-              style={{ height: 200, width: 200 }}
+              style={{height: 200, width: 200}}
             />
           </View>
 
@@ -75,7 +75,7 @@ export default function OrderDetails({ navigation }) {
                 marginTop: 20,
                 backgroundColor: '#F3F3F8',
               }}
-              fontStyle={{ color: '#0E5D37' }}
+              fontStyle={{color: '#0E5D37'}}
               label="Cancel Order"
               onPress={() => setModalVisible(true)}
             />
@@ -91,7 +91,7 @@ export default function OrderDetails({ navigation }) {
           <View style={styles.overlay}>
             <View style={styles.modalWrapper}>
               <Text style={styles.modalHeader}>Are you sure?</Text>
-              <Text style={{ textAlign: 'center', paddingTop: 10 }}>
+              <Text style={{textAlign: 'center', paddingTop: 10}}>
                 Your order will be cancelled, but don’t worry your money will be
                 refunded.
               </Text>
@@ -110,7 +110,7 @@ export default function OrderDetails({ navigation }) {
                   marginTop: 20,
                   backgroundColor: '#F3F3F8',
                 }}
-                fontStyle={{ color: '#0E5D37' }}
+                fontStyle={{color: '#0E5D37'}}
                 label="Back"
                 onPress={() => setModalVisible(false)}
               />

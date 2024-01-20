@@ -1,11 +1,11 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../../screens/MainApp/Home/HomeScreen';
 import ProfileScreen from '../../screens/MainApp/Settings/ProfileScreen';
 import SettingsScreen from '../../screens/MainApp/Settings/SettingsScreen';
-import TrackOrderScreen from '../../screens/MainApp/Settings/TrackOrderScreen';
-import OrderScreen from '../../screens/MainApp/Settings/OrderScreen';
-import OrderDetails from '../../screens/MainApp/Settings/OrderDetails';
+import TrackOrderScreen from '../../screens/MainApp/Settings/Orders/TrackOrderScreen';
+import OrderScreen from '../../screens/MainApp/Settings/Orders/OrderScreen';
+import OrderDetails from '../../screens/MainApp/Settings/Orders/OrderDetails';
 
 const SettingsStack = createStackNavigator();
 

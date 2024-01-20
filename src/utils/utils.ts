@@ -1,8 +1,8 @@
-export const formatError = (error) => {
+export const formatError = error => {
   if (error) {
-    const { status, data } = error.response;
+    const {status, data} = error.response;
     const message = data?.details || error.message;
-    return { error: { status, message } };
+    return {error: {status, message}};
   }
 };
 

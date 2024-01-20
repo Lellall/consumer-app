@@ -1,15 +1,20 @@
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import React from 'react';
 import Text from '../Text/Text';
 import Colors from '../../constants/Colors';
-import { CartIcon, SearchIcon } from '../../assets/Svg/Index';
+import {CartIcon, SearchIcon} from '../../assets/Svg/Index';
 import Input from '../Inputs/Input';
-import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
-import { User } from '../../screens/Authentication/auth-api';
+import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import {User} from '../../screens/Authentication/auth-api';
 
-export default function AppHeader({ search, setSearch }) {
-  const { user } = useSelector((state: User) => state.user);
+interface Props {
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export default function AppHeader({search, setSearch}: Props) {
+  const {user} = useSelector((state: User) => state.user);
 
   const navigation = useNavigation();
 
@@ -17,7 +22,7 @@ export default function AppHeader({ search, setSearch }) {
     <View style={styles.header}>
       <View style={styles.icon}>
         <Input
-          inputStyle={{ borderRadius: 40 }}
+          inputStyle={{borderRadius: 40}}
           style={styles.input}
           IconLeft={<SearchIcon color="#121D2B" />}
           placeholder="Search"
@@ -29,10 +34,10 @@ export default function AppHeader({ search, setSearch }) {
         </TouchableOpacity>
       </View>
       <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-        <View style={[styles.image, { backgroundColor: 'lightblue' }]}>
-          <Text style={{ fontSize: 24, fontWeight: '800' }}>
-            {user.firstName[0]}
-            {user.lastName[0]}
+        <View style={[styles.image, {backgroundColor: 'lightblue'}]}>
+          <Text style={{fontSize: 24, fontWeight: '800'}}>
+            {user?.firstName[0]}
+            {user?.lastName[0]}
           </Text>
         </View>
       </TouchableOpacity>

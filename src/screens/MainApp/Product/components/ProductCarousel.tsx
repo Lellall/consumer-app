@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   Text,
@@ -10,7 +11,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import {CarouselImage} from '../../../../assets/Images';
 import Colors from '../../../../constants/Colors';
 
-export default function HomeCarousel() {
+export default function ProductCarousel() {
   const width = Dimensions.get('window').width;
   const [currentIndex, setCurrent] = useState(0);
   const data = [...new Array(6).keys()];
@@ -19,7 +20,7 @@ export default function HomeCarousel() {
       <Carousel
         loop
         width={width - 20}
-        height={130}
+        height={220}
         autoPlay={true}
         data={data}
         scrollAnimationDuration={1000}
@@ -48,7 +49,7 @@ export default function HomeCarousel() {
 }
 const styles = StyleSheet.create({
   container: {
-    height: 130,
+    height: 220,
     width: '100%',
     overflow: 'hidden',
     justifyContent: 'center',

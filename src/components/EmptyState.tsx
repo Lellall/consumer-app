@@ -1,12 +1,12 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import { EmptyImage } from '../assets/Images';
+import {EmptyImage} from '../assets/Images';
 
-export const EmptyState = ({ title }) => {
+export const EmptyState = ({title}) => {
   return (
     <View style={styles.Container}>
       <Image source={EmptyImage} />
-      <Text style={{ color: '#000' }}>No {title} available</Text>
+      <Text style={{color: '#000'}}> {title} </Text>
     </View>
   );
 };

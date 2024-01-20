@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   StyleSheet,
@@ -7,22 +8,22 @@ import {
 import React from 'react';
 import Text from '../../../../components/Text/Text';
 import Colors from '../../../../constants/Colors';
-import { HeartIcon } from '../../../../assets/Svg/Index';
-import { useNavigation } from '@react-navigation/native';
-import { Shop } from '../../Shop/shop-api';
+import {HeartIcon} from '../../../../assets/Svg/Index';
+import {useNavigation} from '@react-navigation/native';
+import {Shop} from '../../Shop/shop-api';
 
 export default function CategoriesCard(props: Shop) {
-  const { id, logoUrl, status, name, category } = props;
+  const {id, logoUrl, status, name, category} = props;
   const navigation = useNavigation();
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('Shop', { shopId: id })}
-      style={[styles.container, { padding: 5 }]}>
+      onPress={() => navigation.navigate('Shop', {shopId: id})}
+      style={[styles.container, {padding: 5}]}>
       <>
         <ImageBackground
           resizeMode="cover"
-          source={{ uri: logoUrl }}
+          source={{uri: logoUrl}}
           style={styles.image}>
           <View style={styles.open}>
             <Text
@@ -40,7 +41,7 @@ export default function CategoriesCard(props: Shop) {
           </View>
         </ImageBackground>
         <View style={styles.foot}>
-          <Text style={{ fontSize: 10 }}>{name}</Text>
+          <Text style={{fontSize: 10}}>{name}</Text>
         </View>
 
         <View style={styles.foot}>

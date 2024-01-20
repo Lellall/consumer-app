@@ -6,14 +6,10 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import { HeaderImage } from '../../../../assets/Images';
-import {
-  ArrowLeftIcon2,
-  Cancel,
-  CancelIcon,
-} from '../../../../assets/Svg/Index';
+import {HeaderImage} from '../../../../assets/Images';
+import {ArrowLeftIcon2, Cancel, CancelIcon} from '../../../../assets/Svg/Index';
 import Text from '../../../../components/Text/Text';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 export const SettingsHeader = ({
   iconRight = true,

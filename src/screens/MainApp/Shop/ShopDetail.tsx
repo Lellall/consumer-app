@@ -6,25 +6,26 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import DetailHeader from './components/DetailHeader';
 import Text from '../../../components/Text/Text';
 import Colors from '../../../constants/Colors';
 import MenuItem from './components/MenuItem';
 import TopSellers from './TopSellers';
 import ReviewPage from './ReviewPage';
-import { useGetShopProductQuery, useGetShopQuery } from './shop-api';
+import {useGetShopProductsQuery, useGetShopQuery} from './shop-api';
 import LoadingState from '../../../components/LoadingState';
 const MENUS = ['Top sellers', 'Drinks', 'Best treats', 'Packaging', 'Reviews'];
-const ShopDetail = ({ route }) => {
+const ShopDetail = ({route}) => {
   const shopId = route.params.shopId;
   const [activeMenu, setActiveMenu] = useState(0);
-  const handlePress = (ind) => {
+  const handlePress = ind => {
     setActiveMenu(ind);
   };
 
-  const { data, isLoading: loadingShop } = useGetShopQuery(shopId);
-  const { data: products, isLoading } = useGetShopProductQuery(shopId);
+  const {data, isLoading: loadingShop} = useGetShopQuery(shopId);
+  const {data: products, isLoading} = useGetShopProductsQuery(shopId);
+  console.log(loadingShop);
   return (
     <View style={styles.container}>
       <DetailHeader />
@@ -32,25 +33,23 @@ const ShopDetail = ({ route }) => {
         <LoadingState />
       ) : (
         <>
-          <ImageBackground
-            source={{ uri: data?.logoUrl }}
-            style={styles.banner}>
+          <ImageBackground source={{uri: data?.logoUrl}} style={styles.banner}>
             <View style={styles.logoContainer}>
               <View style={styles.logo}>
                 <Image
                   resizeMode="contain"
-                  source={{ uri: data?.logoUrl }}
+                  source={{uri: data?.logoUrl}}
                   style={styles.image}
                 />
               </View>
 
-              <Text h3 style={{ color: '#fff', marginLeft: 10 }}>
+              <Text h3 style={{color: '#fff', marginLeft: 10}}>
                 {data?.name}
               </Text>
             </View>
 
             <View style={styles.open}>
-              <Text style={{ color: Colors.general.primary }}>
+              <Text style={{color: Colors.general.primary}}>
                 {data?.status}
               </Text>
             </View>

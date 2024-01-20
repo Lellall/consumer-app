@@ -1,7 +1,5 @@
 import {
-  Image,
   ImageBackground,
-  ScrollView,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -22,8 +20,13 @@ const ProductCard = (props: ProductMini) => {
   const shopName = cart[0]?.shop?.name;
 
   const dispatch = useDispatch();
+  // console.log(props);
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        navigate.navigate('Product', {id: props.id, shopId: props.shop.id});
+      }}>
       <ImageBackground
         resizeMode="cover"
         source={{uri: imageUrl}}
@@ -49,21 +52,21 @@ const ProductCard = (props: ProductMini) => {
             style={styles.cartButton}>
             <CartIcon color="#F06D06" />
           </TouchableOpacity>
-          <View style={styles.promoCard}>
+          {/* <View style={styles.promoCard}>
             <Text
               style={{
                 color: '#f06d06',
               }}>
               20% off
             </Text>
-          </View>
+          </View> */}
         </View>
       </ImageBackground>
       <View style={{paddingHorizontal: 10, margin: 0}}>
         <Text style={{fontWeight: '700'}}>{name}</Text>
         <Text>₦ {price}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

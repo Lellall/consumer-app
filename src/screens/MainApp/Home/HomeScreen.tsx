@@ -32,13 +32,25 @@ export default function HomeScreen() {
   const [categoryId, setCategoryId] = useState('');
   const [modal, setModal] = useState(false);
 
-  const {data: products, isLoading: loadingProducts} = useProductsQuery({
+  const {
+    data: products,
+    isLoading: loadingProducts,
+    refetch,
+    isFetching,
+  } = useProductsQuery({
     filter: search.toLocaleLowerCase(),
     page: 0,
     size: 10,
     categoryId: categoryId,
   });
+
   const {data: categories, isLoading: loadingCategories} = useCategoryQuery();
+
+  const handleCategoryChange = (newCategoryId: string) => {
+    setCategoryId(newCategoryId);
+    refetch(); // Trigger refetch with updated categoryId
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -46,9 +58,7 @@ export default function HomeScreen() {
         translucent
         backgroundColor="transparent"
       />
-      <ImageBackground
-        source={HeaderImage}
-        style={styles.mainHeader}></ImageBackground>
+      <ImageBackground source={HeaderImage} style={styles.mainHeader} />
       <AppHeader search={search} setSearch={setSearch} />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -67,7 +77,9 @@ export default function HomeScreen() {
           <Text style={{fontSize: 16, fontWeight: 'bold'}}>Products</Text>
 
           {categoryId && (
-            <TouchableOpacity onPress={() => setCategoryId('')}>
+            <TouchableOpacity
+              style={{padding: 20}}
+              onPress={() => setCategoryId('')}>
               <Text style={{color: Colors.general.secondary}}>
                 <CloseIcon />
               </Text>
@@ -75,13 +87,13 @@ export default function HomeScreen() {
           )}
         </View>
 
-        {loadingProducts ? (
+        {loadingProducts || isFetching ? (
           <View style={{height: 250, width: Dimensions.get('window').width}}>
             <LoadingState />
           </View>
         ) : !products?.data.length ? (
           <View style={{width: '100%'}}>
-            <EmptyState title={`products`} />
+            <EmptyState title={'No Products available'} />
           </View>
         ) : (
           products.data.map(data => {
@@ -124,7 +136,7 @@ export default function HomeScreen() {
         categories={categories}
         loadingCategories={loadingCategories}
         modal={modal}
-        setCategoryId={setCategoryId}
+        setCategoryId={handleCategoryChange}
         setModal={setModal}
       />
     </View>

@@ -1,15 +1,17 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
 import HomeScreen from '../../screens/MainApp/Home/HomeScreen';
 import ShopDetail from '../../screens/MainApp/Shop/ShopDetail';
 import AllCarts from '../../screens/MainApp/Cart/AllCarts';
 import CheckoutScreen from '../../screens/MainApp/Checkout/CheckoutScreen';
 import CheckOutSuccess from '../../screens/MainApp/Checkout/CheckOutSuccess';
+import Product from '../../screens/MainApp/Product/Product';
 
 type HomeStackParamList = {
   HomeScreenIndex: undefined;
-  CheckoutSuccess: { tansaction_id: number | string };
+  CheckoutSuccess: {tansaction_id: number | string};
+  Product: {id: string};
 };
 const HomeStack = createStackNavigator<HomeStackParamList>();
 
@@ -26,6 +28,7 @@ export default function HomeScreenStack() {
       initialRouteName="HomeScreenIndex">
       <HomeStack.Screen name="HomeScreenIndex" component={HomeScreen} />
       <HomeStack.Screen name="Shop" component={ShopDetail} />
+      <HomeStack.Screen name="Product" component={Product} />
       <HomeStack.Screen name="Carts" component={AllCarts} />
       <HomeStack.Screen name="Checkout" component={CheckoutScreen} />
       <HomeStack.Screen name="CheckoutSuccess" component={CheckOutSuccess} />

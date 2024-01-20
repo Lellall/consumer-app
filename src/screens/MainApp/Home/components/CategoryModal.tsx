@@ -1,7 +1,17 @@
-import { Modal, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import {Modal, StyleSheet, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import LoadingState from '../../../../components/LoadingState';
 import Text from '../../../../components/Text/Text';
+import {CloseIcon} from '../../../../assets/Svg/Index';
+
+interface CategoryModalProps {
+  modal: boolean;
+  setModal: Function;
+  categories: any;
+  loadingCategories: boolean;
+  setCategoryId: Function;
+}
 
 const CategoryModal = ({
   loadingCategories,
@@ -9,7 +19,7 @@ const CategoryModal = ({
   categories,
   setModal,
   setCategoryId,
-}) => {
+}: CategoryModalProps) => {
   return (
     <Modal
       statusBarTranslucent
@@ -21,9 +31,23 @@ const CategoryModal = ({
           style={{
             backgroundColor: '#ffffff',
           }}>
-          <Text style={{ margin: 20 }} h2>
-            Categories
-          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '90%',
+              margin: 'auto',
+            }}>
+            <Text style={{margin: 20}} h2>
+              Categories
+            </Text>
+            <TouchableOpacity
+              onPress={() => setModal(false)}
+              style={{padding: 10}}>
+              <CloseIcon />
+            </TouchableOpacity>
+          </View>
 
           {loadingCategories ? (
             <LoadingState />
@@ -34,7 +58,7 @@ const CategoryModal = ({
                 flexWrap: 'wrap',
                 height: '35%',
               }}>
-              {categories?.map((item) => {
+              {categories?.map(item => {
                 return (
                   <TouchableOpacity
                     key={item.id}
@@ -48,8 +72,8 @@ const CategoryModal = ({
                       setCategoryId(item.id);
                     }}>
                     <Image
-                      source={{ uri: item.imageUrl }}
-                      style={{ width: 50, height: 50, borderRadius: 50 }}
+                      source={{uri: item.imageUrl}}
+                      style={{width: 50, height: 50, borderRadius: 50}}
                     />
                     <Text>{item.name}</Text>
                   </TouchableOpacity>

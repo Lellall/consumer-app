@@ -1,14 +1,14 @@
-import { ScrollView, StyleSheet, View } from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import React from 'react';
 import CartHeader from './components/CartHeader';
 import Text from '../../../components/Text/Text';
 import CartItem from './components/CartItem';
 import Button from '../../../components/Buttons/Button';
 import ShopItem from '../Shop/components/Product';
-import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
-import { Product } from '../Shop/shop-api';
-import { EmptyState } from '../../../components/EmptyState';
+import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import {Product} from '../Shop/shop-api';
+import {EmptyState} from '../../../components/EmptyState';
 
 const AllCarts = () => {
   const navigation = useNavigation();
@@ -16,23 +16,23 @@ const AllCarts = () => {
 
   const total = cart?.reduce(
     (acc, currVal) => acc + currVal.price * currVal.quantity,
-    0
+    0,
   );
 
   return (
     <View style={styles.container}>
       <CartHeader />
       {!cart.length ? (
-        <EmptyState title={'product'} />
+        <EmptyState title={'No Product available'} />
       ) : (
         <ScrollView
           contentContainerStyle={styles.content}
           style={styles.remain}>
           <View>
-            <Text style={{ fontWeight: 'bold' }}>Items ({cart.length})</Text>
+            <Text style={{fontWeight: 'bold'}}>Items ({cart.length})</Text>
           </View>
           {/* <CartItem /> */}
-          {cart?.map((item) => {
+          {cart?.map(item => {
             return <CartItem {...item} />;
           })}
 
@@ -49,7 +49,7 @@ const AllCarts = () => {
             <Text>₦500</Text>
           </View>
           <Button
-            fontStyle={{ color: '#000' }}
+            fontStyle={{color: '#000'}}
             style={styles.button}
             label="Add discount code"
           />
@@ -66,10 +66,9 @@ const AllCarts = () => {
             }}
             label="Proceed to checkout"
           />
-          <Text style={{ marginVertical: 20 }} h2>
+          <Text style={{marginVertical: 20}} h2>
             You may also like
           </Text>
- 
         </ScrollView>
       )}
     </View>

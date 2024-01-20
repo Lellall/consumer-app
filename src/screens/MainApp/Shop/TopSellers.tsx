@@ -1,11 +1,11 @@
-import { ScrollView, StatusBar, StyleSheet, View } from 'react-native';
+import {ScrollView, StatusBar, StyleSheet, View} from 'react-native';
 import React from 'react';
 import Text from '../../../components/Text/Text';
-import { Product } from './shop-api';
-import { EmptyState } from '../../../components/EmptyState';
+import {Product} from './shop-api';
+import {EmptyState} from '../../../components/EmptyState';
 import ProductItem from './components/Product';
 
-const TopSellers = ({ products }) => {
+const TopSellers = ({products}) => {
   return (
     <ScrollView
       contentContainerStyle={styles.contentStyle}
@@ -14,7 +14,7 @@ const TopSellers = ({ products }) => {
       <Text h2>Top Sellers</Text>
 
       {!products.length ? (
-        <EmptyState title={'products'} />
+        <EmptyState title={'No products available'} />
       ) : (
         products.map((product: Product) => {
           return <ProductItem key={product?.id} {...product} />;

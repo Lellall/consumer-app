@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { LoginResponse } from '../../screens/Authentication/auth-api';
+import {createSlice} from '@reduxjs/toolkit';
+import {LoginResponse} from '../../screens/Authentication/auth-api';
 
 const initialState: LoginResponse = {
   refresh_token: '',
@@ -7,7 +7,7 @@ const initialState: LoginResponse = {
   token_type: '',
   user: undefined,
 };
-const setAuthHandler = (state, { payload: auth }) => {
+const setAuthHandler = (state, {payload: auth}) => {
   state = auth;
   return state;
 };
@@ -16,10 +16,10 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: setAuthHandler,
-    setToken: (state, action) => {
-      state.token = action.payload;
+    logout: () => {
+      return initialState;
     },
   },
 });
 
-export const { setUser, setToken } = userSlice.actions;
+export const {setUser, logout} = userSlice.actions;

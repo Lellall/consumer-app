@@ -1,29 +1,26 @@
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import React, { useEffect } from 'react';
-import { ShoeImage } from '../../../../assets/Images';
+/* eslint-disable react-native/no-inline-styles */
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {ShoeImage} from '../../../../assets/Images';
 import Text from '../../../../components/Text/Text';
 import Button from '../../../../components/Buttons/Button';
-import {
-  DeleteIcon,
-  ShareIcon,
-  ShareIcon2,
-} from '../../../../assets/Svg/Index';
-import { Product } from '../../Shop/shop-api';
+import {DeleteIcon, ShareIcon, ShareIcon2} from '../../../../assets/Svg/Index';
+import {Product} from '../../Shop/shop-api';
 import {
   removeFromCart,
   increaseQuantity,
   decreaseQuantity,
 } from '../../../../redux/cart/cartSlice';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 const CartItem = (props: Product) => {
-  const { id, price, name, imageUrl, category, quantity } = props;
+  const {id, price, name, imageUrl, category, quantity} = props;
 
   const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <View style={styles.cartDetail}>
-        <Image source={{ uri: imageUrl }} style={styles.image} />
+        <Image source={{uri: imageUrl}} style={styles.image} />
         <View
           style={{
             borderBottomColor: '#F3F3F8',
@@ -31,12 +28,12 @@ const CartItem = (props: Product) => {
             borderStyle: 'dashed',
             flex: 1,
           }}>
-          <Text style={{ fontSize: 14 }} h2>
+          <Text style={{fontSize: 14}} h2>
             {name}
           </Text>
           <Text>{category?.name}</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ fontSize: 14 }} h2>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style={{fontSize: 14}} h2>
               N {price}
             </Text>
             <Text
@@ -50,16 +47,16 @@ const CartItem = (props: Product) => {
             </Text>
           </View>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text>Color:</Text>
-            <Text style={{ fontSize: 14 }} h2>
+            <Text style={{fontSize: 14}} h2>
               Black
             </Text>
           </View>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text>Size:</Text>
-            <Text style={{ fontSize: 14 }} h2>
+            <Text style={{fontSize: 14}} h2>
               M
             </Text>
           </View>
@@ -67,9 +64,9 @@ const CartItem = (props: Product) => {
       </View>
 
       <View style={styles.bottom}>
-        <View style={{ width: '40%' }}>
+        <View style={{width: '40%'}}>
           <Button
-            fontStyle={{ color: '#000' }}
+            fontStyle={{color: '#000'}}
             style={styles.share}
             IconRight={<ShareIcon2 />}
             label="Share"

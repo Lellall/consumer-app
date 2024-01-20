@@ -1,13 +1,13 @@
-import { StyleSheet, View } from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import CheckoutHeader from './Components/CheckoutHeader';
 import Text from '../../../components/Text/Text';
 import LocationSelector from './Components/LocationSelector';
 import Previous from './Components/Previous';
-import { PayWithFlutterwave } from 'flutterwave-react-native';
+import {PayWithFlutterwave} from 'flutterwave-react-native';
 import Toast from 'react-native-toast-message';
-import { useDispatch } from 'react-redux';
-import { clearCart } from '../../../redux/cart/cartSlice';
+import {useDispatch} from 'react-redux';
+import {clearCart} from '../../../redux/cart/cartSlice';
 
 interface RedirectParams {
   status: 'successful' | 'cancelled';
@@ -51,7 +51,7 @@ const generateTransactionRef = (length: number) => {
 //   }
 // };
 
-const CheckoutScreen = ({ navigation }) => {
+const CheckoutScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const handleOnRedirect = (data: RedirectParams) => {
     if (data.status === 'completed') {
@@ -77,7 +77,7 @@ const CheckoutScreen = ({ navigation }) => {
     <View style={styles.container}>
       <CheckoutHeader />
       <View style={styles.location}>
-        <Text style={{ fontWeight: 'bold' }}>Confirm your location</Text>
+        <Text style={{fontWeight: 'bold'}}>Confirm your location</Text>
         <View style={styles.decoContainer}>
           <View style={styles.deco} />
           <View style={styles.deco2} />

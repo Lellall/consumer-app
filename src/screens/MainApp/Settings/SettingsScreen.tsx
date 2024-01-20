@@ -1,8 +1,8 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import Text from '../../../components/Text/Text';
-import { SettingsHeader } from './Components/SettingsHeader';
-import { SettingsCardItem } from './Components/SettingsCardItem';
+import {SettingsHeader} from './Components/SettingsHeader';
+import {SettingsCardItem} from './Components/SettingsCardItem';
 // import Colors from '../../../constants/Colors';
 import {
   BookIcon,
@@ -13,9 +13,12 @@ import {
   TicketIcon,
   ArrowRightIcon2,
 } from '../../../assets/Svg/Index';
-import { ProfileHeader } from './Components/ProfileHeader';
+import {ProfileHeader} from './Components/ProfileHeader';
+import {useDispatch} from 'react-redux';
+import {logout} from '../../../redux/user/userSlice';
 
-export default function SettingsScreen({ navigation }) {
+export default function SettingsScreen({navigation}) {
+  const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <SettingsHeader
@@ -63,7 +66,12 @@ export default function SettingsScreen({ navigation }) {
       </View>
 
       <View>
-        <TouchableOpacity style={styles.logout}>
+        <TouchableOpacity
+          onPress={() => {
+            dispatch(logout());
+            navigation.navigate('Signup');
+          }}
+          style={styles.logout}>
           <Text style={styles.logoutText}>
             <LogOutIcon color={'#0E5D37'} />
           </Text>

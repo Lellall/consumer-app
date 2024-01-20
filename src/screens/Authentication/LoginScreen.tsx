@@ -6,42 +6,47 @@ import {
   View,
 } from 'react-native';
 import * as Yup from 'yup';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Input from '../../components/Inputs/Input';
 import Text from '../../components/Text/Text';
 import Button from '../../components/Buttons/Button';
-import { AppleLogo, EmailIcon, GoogleIcon } from '../../assets/Svg/Index';
+import {AppleLogo, EmailIcon, GoogleIcon} from '../../assets/Svg/Index';
 import Colors from '../../constants/Colors';
-import { useFormik } from 'formik';
-import { Logo } from '../../assets/Images';
-import { usePostLoginMutation } from './auth-api';
+import {useFormik} from 'formik';
+import {Logo} from '../../assets/Images';
+import {usePostLoginMutation} from './auth-api';
 import Toast from 'react-native-toast-message';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../../redux/user/userSlice';
+import {useDispatch} from 'react-redux';
+import {setUser} from '../../redux/user/userSlice';
 
-export default function LoginScreen({ navigation, signUp }) {
+export default function LoginScreen({navigation, signUp}) {
   const initialValues = {
     password: '',
     email: '',
     role: '',
   };
   const dispatch = useDispatch();
-  const [postLogin, { isError, isLoading, isSuccess, error, data }] =
+  const [postLogin, {isError, isLoading, isSuccess, error, data}] =
     usePostLoginMutation();
 
   const validationSchema = Yup.object({
     password: Yup.string()
       .min(6, 'Password must be more than six characters')
-      .required('Password is required'),
+      .required('Password is required')
+      .matches(
+        /^(?=.*[A-Z])(?=.*[a-z])/,
+        'Password must contain at least one uppercase letter and one lowercase letter',
+      ),
     email: Yup.string()
       .required('Registered email address is required')
       .email(),
   });
+
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      const { email, password } = values;
+    onSubmit: async values => {
+      const {email, password} = values;
       postLogin({
         email: email.toLowerCase(),
         password,
@@ -49,9 +54,9 @@ export default function LoginScreen({ navigation, signUp }) {
       });
     },
   });
-  const formatError = (error) => {
+  const formatError = error => {
     if (error) {
-      const { errors, data } = error;
+      const {errors, data} = error;
       console.log('---------E', error);
 
       const message =
@@ -76,14 +81,13 @@ export default function LoginScreen({ navigation, signUp }) {
     }
   }, [isSuccess, isError]);
 
-  const { values, handleChange, handleSubmit, errors } = formik;
-  const { password, email } = values;
+  const {values, handleChange, handleSubmit, errors} = formik;
+  const {password, email} = values;
   return (
     <View style={styles.container}>
       <Image resizeMode="contain" style={styles.logo} source={Logo} />
       <Text h1>Create Account</Text>
-      <Text
-        style={{ color: '#818391', textAlign: 'center', marginVertical: 20 }}>
+      <Text style={{color: '#818391', textAlign: 'center', marginVertical: 20}}>
         Log back into your account with your credentials
       </Text>
 
@@ -129,7 +133,7 @@ export default function LoginScreen({ navigation, signUp }) {
         isLoading={isLoading}
       />
       <View style={styles.otherSign}>
-        <Text style={{ color: '#AAAAAA' }}>Other sign in options</Text>
+        <Text style={{color: '#AAAAAA'}}>Other sign in options</Text>
 
         <TouchableOpacity style={styles.option}>
           <GoogleIcon />
@@ -141,8 +145,8 @@ export default function LoginScreen({ navigation, signUp }) {
 
       <View style={styles.haveAccount}>
         <Text>Don’t have an account? </Text>
-        <TouchableOpacity onPress={() => signUp()} style={{ marginLeft: 10 }}>
-          <Text style={{ fontSize: 12, color: Colors.general.secondary }}>
+        <TouchableOpacity onPress={() => signUp()} style={{marginLeft: 10}}>
+          <Text style={{fontSize: 12, color: Colors.general.secondary}}>
             Sign up
           </Text>
         </TouchableOpacity>
@@ -154,7 +158,7 @@ export default function LoginScreen({ navigation, signUp }) {
             borderLeftColor: Colors.general.border,
             paddingHorizontal: 10,
           }}>
-          <Text style={{ fontSize: 12, color: Colors.general.border }}>
+          <Text style={{fontSize: 12, color: Colors.general.border}}>
             Skip for now
           </Text>
         </TouchableOpacity>

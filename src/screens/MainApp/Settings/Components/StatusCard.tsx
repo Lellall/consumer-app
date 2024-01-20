@@ -1,6 +1,6 @@
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import {StyleSheet, View, ViewStyle} from 'react-native';
 import React from 'react';
-import { MiniDot } from '../../../../assets/Svg/Index';
+import {MiniDot} from '../../../../assets/Svg/Index';
 import Text from '../../../../components/Text/Text';
 
 interface IProps {
@@ -9,7 +9,7 @@ interface IProps {
   delivered?: boolean;
 }
 
-const StatusCard = ({ pending, canceled, delivered }: IProps) => {
+const StatusCard = ({pending, canceled, delivered}: IProps) => {
   // Define the background color style
   const backgroundColorStyle: ViewStyle = {
     backgroundColor:
