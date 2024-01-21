@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   Dimensions,
   Image,
@@ -25,7 +26,6 @@ const ShopDetail = ({route}) => {
 
   const {data, isLoading: loadingShop} = useGetShopQuery(shopId);
   const {data: products, isLoading} = useGetShopProductsQuery(shopId);
-  console.log(loadingShop);
   return (
     <View style={styles.container}>
       <DetailHeader />

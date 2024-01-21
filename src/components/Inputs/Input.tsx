@@ -1,4 +1,6 @@
-import { ReactElement } from 'react';
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/react-in-jsx-scope */
+import {ReactElement} from 'react';
 import {
   KeyboardType,
   StyleSheet,
@@ -58,12 +60,12 @@ function Input({
     const borderColor = interpolateColor(
       borderWidthValue.value,
       [1, 2],
-      ['#fff', '#008751']
+      ['#fff', '#008751'],
     );
     const bgColor = interpolateColor(
       borderWidthValue.value,
       [1, 2],
-      ['#fff', '#ffffff']
+      ['#fff', '#ffffff'],
     );
     return {
       borderWidth: borderWidthValue.value,
@@ -104,7 +106,7 @@ function Input({
         />
         {Icon && Icon}
       </AnimatedTouchableOpacity>
-      {error && <Text style={{ color: 'red' }}>{error}</Text>}
+      {error && <Text style={{color: 'red'}}>{error}</Text>}
     </View>
   );
 }

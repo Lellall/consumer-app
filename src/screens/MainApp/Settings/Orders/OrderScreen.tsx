@@ -11,6 +11,7 @@ import {useOrdersQuery} from '../payment-order-api';
 import {useSelector} from 'react-redux';
 import {User} from '../../../Authentication/auth-api';
 import {EmptyState} from '../../../../components/EmptyState';
+import LoadingState from '../../../../components/LoadingState';
 
 const MENUS = ['All', 'Pending', 'Completed', 'Rejected'];
 
@@ -82,12 +83,8 @@ export default function OrderScreen({navigation}) {
     setActiveMenu(ind);
   };
   const {user} = useSelector((state: User) => state.user);
-  console.log('---------user---------');
-  console.log(user.id);
   const {data, isLoading, isError, error} = useOrdersQuery(user.id);
-  // console.log(data);
-  // console.log(isLoading);
-  // console.log(isError);
+
   return (
     <View style={styles.container}>
       <SettingsHeader
@@ -96,7 +93,9 @@ export default function OrderScreen({navigation}) {
         navigateLeftTo={'SettingsScreenIndex'}
         iconRight={false}
       />
-      {error?.data?.status === 403 ? (
+      {isLoading ? (
+        <LoadingState />
+      ) : error?.data?.status === 403 ? (
         <EmptyState title={'No orders yet'} />
       ) : (
         <>

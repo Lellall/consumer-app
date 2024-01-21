@@ -11,7 +11,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import {CarouselImage} from '../../../../assets/Images';
 import Colors from '../../../../constants/Colors';
 
-export default function ProductCarousel() {
+export default function ProductCarousel({imageUrl}) {
   const width = Dimensions.get('window').width;
   const [currentIndex, setCurrent] = useState(0);
   const data = [...new Array(6).keys()];
@@ -26,7 +26,7 @@ export default function ProductCarousel() {
         scrollAnimationDuration={1000}
         onSnapToItem={index => setCurrent(index)}
         renderItem={({index}) => (
-          <ImageBackground style={styles.content} source={CarouselImage} />
+          <ImageBackground style={styles.content} source={{uri: imageUrl}} />
         )}
       />
       <View style={styles.indicator}>

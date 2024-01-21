@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   Dimensions,
   Image,
@@ -10,7 +11,14 @@ import React, {useEffect} from 'react';
 import Input from '../../components/Inputs/Input';
 import Text from '../../components/Text/Text';
 import Button from '../../components/Buttons/Button';
-import {AppleLogo, EmailIcon, GoogleIcon} from '../../assets/Svg/Index';
+import {
+  AppleLogo,
+  CartIcon,
+  EmailIcon,
+  EyeClosed,
+  EyeIcon,
+  GoogleIcon,
+} from '../../assets/Svg/Index';
 import Colors from '../../constants/Colors';
 import {useFormik} from 'formik';
 import {Logo} from '../../assets/Images';
@@ -107,7 +115,7 @@ export default function LoginScreen({navigation, signUp}) {
         value={password}
         onChange={handleChange('password')}
         placeholder="Password"
-        Icon={<EmailIcon />}
+        Icon={<EyeClosed />}
       />
       <TouchableOpacity
         style={{

@@ -1,5 +1,5 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Text from '../../../components/Text/Text';
 import {SettingsHeader} from './Components/SettingsHeader';
 import {SettingsCardItem} from './Components/SettingsCardItem';
@@ -16,15 +16,18 @@ import {
 import {ProfileHeader} from './Components/ProfileHeader';
 import {useDispatch} from 'react-redux';
 import {logout} from '../../../redux/user/userSlice';
+import AboutUsModal from './Components/AboutUsModal';
 
 export default function SettingsScreen({navigation}) {
   const dispatch = useDispatch();
+  const [isModal, setIsModal] = useState(false);
+
   return (
     <View style={styles.container}>
       <SettingsHeader
-        icon
-        navigation={navigation}
-        navigateTo="HomeScreenIndex"
+        iconLeft={null}
+        title="Settings"
+        navigateRightTo="HomeScreenIndex"
       />
       <ProfileHeader />
 
@@ -54,7 +57,7 @@ export default function SettingsScreen({navigation}) {
       />
       <SettingsCardItem
         title={'About'}
-        onPress={() => navigation.navigate('profile')}
+        onPress={() => setIsModal(true)}
         iconBefore={<DocumentIcon />}
         iconAfter={<ArrowRightIcon2 />}
       />
@@ -81,6 +84,7 @@ export default function SettingsScreen({navigation}) {
       {/* <TouchableOpacity onPress={() => navigation.navigate('profile')}>
         <Text>Profile</Text>
       </TouchableOpacity> */}
+      <AboutUsModal setModal={setIsModal} modal={isModal} />
     </View>
   );
 }

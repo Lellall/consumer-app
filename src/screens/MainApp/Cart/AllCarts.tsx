@@ -1,10 +1,10 @@
+/* eslint-disable react-native/no-inline-styles */
 import {ScrollView, StyleSheet, View} from 'react-native';
 import React from 'react';
 import CartHeader from './components/CartHeader';
 import Text from '../../../components/Text/Text';
 import CartItem from './components/CartItem';
 import Button from '../../../components/Buttons/Button';
-import ShopItem from '../Shop/components/Product';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {Product} from '../Shop/shop-api';
@@ -29,7 +29,7 @@ const AllCarts = () => {
           contentContainerStyle={styles.content}
           style={styles.remain}>
           <View>
-            <Text style={{fontWeight: 'bold'}}>Items ({cart.length})</Text>
+            <Text style={{fontWeight: 'bold'}}>Product ({cart.length})</Text>
           </View>
           {/* <CartItem /> */}
           {cart?.map(item => {
@@ -66,9 +66,9 @@ const AllCarts = () => {
             }}
             label="Proceed to checkout"
           />
-          <Text style={{marginVertical: 20}} h2>
+          {/* <Text style={{marginVertical: 20}} h2>
             You may also like
-          </Text>
+          </Text> */}
         </ScrollView>
       )}
     </View>

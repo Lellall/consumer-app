@@ -1,4 +1,4 @@
-import { StyleProp, ViewStyle } from 'react-native';
+import {StyleProp, ViewStyle} from 'react-native';
 import React from 'react';
 import Svg, {
   Circle,
@@ -14,8 +14,8 @@ import Svg, {
 } from 'react-native-svg';
 
 type SvgIconProps = {
-  height: number;
-  width: number;
+  height?: number;
+  width?: number;
   color?: string;
   style?: StyleProp<ViewStyle>;
 };
@@ -55,7 +55,7 @@ export const DarkOnboardingtroke = ({
   </Svg>
 );
 
-export const MiniDot = ({ color }: { color?: string }) => (
+export const MiniDot = ({color}: {color?: string}) => (
   <Svg
     width="9"
     height="9"
@@ -82,7 +82,7 @@ export const DotCircles = () => (
   </Svg>
 );
 
-export const QuolaLogo = ({ height, width, color, style }: SvgIconProps) => (
+export const QuolaLogo = ({height, width, color, style}: SvgIconProps) => (
   <Svg
     style={style}
     width={width}
@@ -132,7 +132,7 @@ export const UserIcon = ({
     />
   </Svg>
 );
-export const DocumentIcon = ({ color }: { color?: string }) => {
+export const DocumentIcon = ({color}: {color?: string}) => {
   return (
     <Svg
       width="20"
@@ -164,7 +164,7 @@ export const DocumentIcon = ({ color }: { color?: string }) => {
     </Svg>
   );
 };
-export const TicketIcon = ({ color }: { color?: string }) => {
+export const TicketIcon = ({color}: {color?: string}) => {
   return (
     <Svg
       width="20"
@@ -203,7 +203,7 @@ export const TicketIcon = ({ color }: { color?: string }) => {
     </Svg>
   );
 };
-export const NotificationIcon = ({ color }: { color?: string }) => {
+export const NotificationIcon = ({color}: {color?: string}) => {
   return (
     <Svg
       width="20"
@@ -366,40 +366,54 @@ export const EyeOpenIcon = ({
 );
 
 export const EyeClosed = ({
-  height,
-  width,
-  color = 'blue',
+  height = 18,
+  width = 17,
+  color = '#aaa',
   style,
 }: SvgIconProps) => (
   <Svg
-    style={style}
     width={width}
     height={height}
-    viewBox="0 0 20 20"
-    fill="none">
+    viewBox="0 0 17 18"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={style}>
     <Path
-      d="M7.8916 12.7333C7.73327 12.7333 7.57493 12.675 7.44993 12.55C6.7666 11.8667 6.3916 10.9583 6.3916 10C6.3916 8.00833 8.00827 6.39167 9.99993 6.39167C10.9583 6.39167 11.8666 6.76667 12.5499 7.45C12.6666 7.56667 12.7333 7.725 12.7333 7.89167C12.7333 8.05833 12.6666 8.21667 12.5499 8.33333L8.33327 12.55C8.20827 12.675 8.04994 12.7333 7.8916 12.7333ZM9.99993 7.64167C8.69993 7.64167 7.6416 8.7 7.6416 10C7.6416 10.4167 7.74993 10.8167 7.94993 11.1667L11.1666 7.95C10.8166 7.75 10.4166 7.64167 9.99993 7.64167Z"
-      fill={color}
+      d="M10.2923 7.20786L6.70811 10.792C6.24769 10.3316 5.96436 9.70119 5.96436 8.99994C5.96436 7.59744 7.09769 6.46411 8.50019 6.46411C9.20144 6.46411 9.83186 6.74744 10.2923 7.20786Z"
+      stroke={color}
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
     <Path
-      d="M4.66654 15.425C4.52487 15.425 4.37487 15.375 4.2582 15.275C3.36654 14.5167 2.56654 13.5833 1.8832 12.5C0.99987 11.125 0.99987 8.88333 1.8832 7.5C3.91654 4.31667 6.87487 2.48333 9.99987 2.48333C11.8332 2.48333 13.6415 3.11667 15.2249 4.30833C15.4999 4.51667 15.5582 4.90833 15.3499 5.18333C15.1415 5.45833 14.7499 5.51667 14.4749 5.30833C13.1082 4.275 11.5582 3.73333 9.99987 3.73333C7.3082 3.73333 4.7332 5.35 2.9332 8.175C2.3082 9.15 2.3082 10.85 2.9332 11.825C3.5582 12.8 4.27487 13.6417 5.06654 14.325C5.32487 14.55 5.3582 14.9417 5.1332 15.2083C5.01654 15.35 4.84154 15.425 4.66654 15.425Z"
-      fill={color}
+      d="M12.6224 4.58709C11.3828 3.65209 9.96614 3.14209 8.49989 3.14209C5.99947 3.14209 3.66906 4.61542 2.04697 7.16542C1.40947 8.16417 1.40947 9.84292 2.04697 10.8417C2.60656 11.72 3.25822 12.4779 3.96656 13.0871"
+      stroke={color}
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
     <Path
-      d="M10.0001 17.5167C8.8918 17.5167 7.80847 17.2917 6.7668 16.85C6.45013 16.7167 6.30013 16.35 6.43347 16.0333C6.5668 15.7167 6.93347 15.5667 7.25013 15.7C8.13347 16.075 9.05847 16.2667 9.9918 16.2667C12.6835 16.2667 15.2585 14.65 17.0585 11.825C17.6835 10.85 17.6835 9.15 17.0585 8.175C16.8001 7.76667 16.5168 7.375 16.2168 7.00833C16.0001 6.74167 16.0418 6.35 16.3085 6.125C16.5751 5.90833 16.9668 5.94167 17.1918 6.21667C17.5168 6.61667 17.8335 7.05 18.1168 7.5C19.0001 8.875 19.0001 11.1167 18.1168 12.5C16.0835 15.6833 13.1251 17.5167 10.0001 17.5167Z"
-      fill={color}
+      d="M5.96436 14.3339C6.77186 14.6739 7.62894 14.858 8.50019 14.858C11.0006 14.858 13.331 13.3847 14.9531 10.8347C15.5906 9.83594 15.5906 8.15719 14.9531 7.15844C14.7194 6.7901 14.4644 6.44302 14.2023 6.11719"
+      stroke={color}
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
     <Path
-      d="M10.5747 13.5583C10.283 13.5583 10.0163 13.35 9.95799 13.05C9.89133 12.7083 10.1163 12.3833 10.458 12.325C11.3747 12.1583 12.1413 11.3917 12.308 10.475C12.3747 10.1333 12.6997 9.91667 13.0413 9.975C13.383 10.0417 13.608 10.3667 13.5413 10.7083C13.2747 12.15 12.1247 13.2917 10.6913 13.5583C10.6497 13.55 10.6163 13.5583 10.5747 13.5583Z"
-      fill={color}
+      d="M10.9863 9.49585C10.8021 10.4946 9.98752 11.3092 8.98877 11.4934"
+      stroke={color}
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
     <Path
-      d="M1.66686 18.9583C1.50853 18.9583 1.3502 18.9 1.2252 18.775C0.983529 18.5333 0.983529 18.1333 1.2252 17.8917L7.4502 11.6667C7.69186 11.425 8.09186 11.425 8.33353 11.6667C8.5752 11.9083 8.5752 12.3083 8.33353 12.55L2.10853 18.775C1.98353 18.9 1.8252 18.9583 1.66686 18.9583Z"
-      fill={color}
+      d="M6.70775 10.792L1.4165 16.0832"
+      stroke={color}
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
     <Path
-      d="M12.1083 8.51667C11.9499 8.51667 11.7916 8.45833 11.6666 8.33333C11.4249 8.09167 11.4249 7.69167 11.6666 7.45L17.8916 1.225C18.1333 0.983334 18.5333 0.983334 18.7749 1.225C19.0166 1.46667 19.0166 1.86667 18.7749 2.10833L12.5499 8.33333C12.4249 8.45833 12.2666 8.51667 12.1083 8.51667Z"
-      fill={color}
+      d="M15.5832 1.91675L10.292 7.208"
+      stroke={color}
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
   </Svg>
 );
@@ -443,7 +457,7 @@ export const BiometricIcon = ({
   </Svg>
 );
 
-export const ArrowLeftIcon = ({ color = 'blue' }) => (
+export const ArrowLeftIcon = ({color = 'blue'}) => (
   <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
     <Path
       d="M9.57 5.93018L3.5 12.0002L9.57 18.0702"
@@ -673,7 +687,7 @@ export const Exclamation = () => (
   </Svg>
 );
 
-export const WaveSvg = ({ style }) => (
+export const WaveSvg = ({style}) => (
   <Svg style={style} viewBox="0 0 1440 320">
     <Path
       fill="#03045e"
@@ -839,7 +853,7 @@ export const AddCarSvg = () => (
   </Svg>
 );
 
-export const HomeIcon = ({ color }: { color: string }) => {
+export const HomeIcon = ({color}: {color: string}) => {
   return (
     <Svg width={26} height={29} fill="none">
       <Path
@@ -860,7 +874,7 @@ export const HomeIcon = ({ color }: { color: string }) => {
   );
 };
 
-export const ClockIcon = ({ color }: { color: string }) => {
+export const ClockIcon = ({color}: {color: string}) => {
   return (
     <Svg width={28} height={27} fill="none">
       <Path
@@ -881,7 +895,7 @@ export const ClockIcon = ({ color }: { color: string }) => {
   );
 };
 
-export const WalletIcon = ({ color }: { color: string }) => {
+export const WalletIcon = ({color}: {color: string}) => {
   return (
     <Svg width={26} height={21} fill="none">
       <Path
@@ -895,7 +909,7 @@ export const WalletIcon = ({ color }: { color: string }) => {
   );
 };
 
-export const InfoIcon = ({ color }: { color: string }) => {
+export const InfoIcon = ({color}: {color: string}) => {
   return (
     <Svg width={24} height={25} fill="none">
       <Path
@@ -906,7 +920,7 @@ export const InfoIcon = ({ color }: { color: string }) => {
   );
 };
 
-export const MessageQuestionIcon = ({ color }: { color: string }) => {
+export const MessageQuestionIcon = ({color}: {color: string}) => {
   return (
     <Svg width={32} height={33} fill="none">
       <Path
@@ -935,7 +949,7 @@ export const MessageQuestionIcon = ({ color }: { color: string }) => {
   );
 };
 
-export const ShieldIcon = ({ color }: { color: string }) => {
+export const ShieldIcon = ({color}: {color: string}) => {
   return (
     <Svg width={32} height={33} fill="none">
       <Path
@@ -970,7 +984,7 @@ export const CloseIcon = () => {
   );
 };
 
-export const ChurchIcon = ({ color }: { color: string }) => {
+export const ChurchIcon = ({color}: {color: string}) => {
   return (
     <Svg width={24} height={25} fill="none">
       <Path
@@ -981,7 +995,7 @@ export const ChurchIcon = ({ color }: { color: string }) => {
   );
 };
 
-export const SpeakerIcon = ({ color }: { color: string }) => {
+export const SpeakerIcon = ({color}: {color: string}) => {
   return (
     <Svg width={21} height={18} fill="none">
       <Path
@@ -1006,7 +1020,7 @@ export const SpeakerIcon = ({ color }: { color: string }) => {
     </Svg>
   );
 };
-export const CarIcon = ({ color }) => (
+export const CarIcon = ({color}) => (
   <Svg width="26" height="26" viewBox="0 0 22 21" fill="none">
     <Path
       d="M14.5433 1H7.51662C5.03662 1 4.47663 2.24002 4.16996 3.77336L3.03662 9.17334H19.0366L17.9033 3.77336C17.57 2.24002 17.0233 1 14.5433 1Z"
@@ -1053,7 +1067,7 @@ export const CarIcon = ({ color }) => (
   </Svg>
 );
 
-export const EditIcon = ({ color = '#fff' }) => {
+export const EditIcon = ({color = '#fff'}) => {
   return (
     <Svg width={19} height={19} fill="none">
       <Path
@@ -1068,7 +1082,7 @@ export const EditIcon = ({ color = '#fff' }) => {
   );
 };
 
-export const DrawerIcon = ({ color = '#fff' }) => (
+export const DrawerIcon = ({color = '#fff'}) => (
   <Svg width={20} height={20} viewBox="0 0 20 15" fill="none">
     <Rect width="15" height="2.5" rx="1.25" fill={color} />
     <Rect y="6" width="20" height="2.5" rx="1.25" fill={color} />
@@ -1121,7 +1135,7 @@ export const WarnIcon = () => (
   </Svg>
 );
 
-export const Cancel = ({ color }) => (
+export const Cancel = ({color}) => (
   <Svg width="14" height="14" viewBox="0 0 14 14" fill="none">
     <Path
       d="M1 13L7 7L13 13M13 1L6.99886 7L1 1"
@@ -1134,7 +1148,7 @@ export const Cancel = ({ color }) => (
   </Svg>
 );
 
-export const HistoryIcon = ({ color }) => (
+export const HistoryIcon = ({color}) => (
   <Svg width="28" height="27" viewBox="0 0 28 27" fill="none">
     <Path
       d="M14 25.6667C20.6274 25.6667 26 20.2942 26 13.6667C26 7.03933 20.6274 1.66675 14 1.66675C7.37258 1.66675 2 7.03933 2 13.6667C2 20.2942 7.37258 25.6667 14 25.6667Z"
@@ -1181,7 +1195,7 @@ export const PenIcon = () => (
   </Svg>
 );
 
-export const TickIcon = ({ color, size = 15 }) => (
+export const TickIcon = ({color, size = 15}) => (
   <Svg width={size} height={size} viewBox="0 0 16 13" fill="none">
     <Path
       d="M16 1.28914L5.02857 12.2606L0 7.232L1.28914 5.94286L5.02857 9.67314L14.7109 0L16 1.28914Z"
@@ -1215,7 +1229,7 @@ export const GoogleMapIcon = () => (
   </Svg>
 );
 
-export const NavigateIcon = ({ color = '#fff' }) => (
+export const NavigateIcon = ({color = '#fff'}) => (
   <Svg width="16" height="16" viewBox="0 0 16 16" fill="none">
     <Path
       d="M15.1268 0.00472444L15.2102 0L15.3126 0.00629913L15.3835 0.0188976L15.4803 0.0464567L15.5646 0.0826772L15.6433 0.127559L15.7142 0.180315L15.7787 0.23937L15.8197 0.285827L15.8843 0.377165L15.9252 0.452756C15.9622 0.531496 15.9858 0.614961 15.9961 0.701575L16 0.785039C16 0.844094 15.9937 0.902362 15.9811 0.958268L15.9535 1.05512L10.8102 15.289C10.7127 15.5012 10.5564 15.6811 10.3597 15.8071C10.1631 15.9331 9.93437 16.0001 9.70079 16C9.49042 16.0007 9.28346 15.9468 9.10007 15.8438C8.91668 15.7407 8.76312 15.5919 8.65433 15.4118L8.60315 15.3118L5.96378 10.0346L0.711811 7.40787C0.517481 7.319 0.349892 7.18066 0.225805 7.00669C0.101718 6.83272 0.0254834 6.62921 0.00472444 6.41654L0 6.29921C0 5.85827 0.237008 5.45512 0.662205 5.22047L0.772441 5.16535L14.9591 0.0425196L15.0425 0.0188976L15.1268 0.00472444Z"
@@ -1516,7 +1530,7 @@ export const LogoIcon = () => {
   );
 };
 
-export const ArrowRightIcon = ({ color }: any) => {
+export const ArrowRightIcon = ({color}: any) => {
   return (
     <Svg width={25} height={25} fill="none">
       <Path
@@ -1568,7 +1582,7 @@ export const MenuIcon = () => {
   );
 };
 
-export const SearchIcon = ({ color }) => {
+export const SearchIcon = ({color}) => {
   return (
     <Svg width="18" height="18" viewBox="0 0 24 24" fill="none">
       <Path
@@ -1708,7 +1722,7 @@ export const EditIcon2 = () => {
   );
 };
 
-export const HomeIcon2 = ({ color }: { color: string }) => {
+export const HomeIcon2 = ({color}: {color: string}) => {
   return (
     <Svg width="23" height="23" viewBox="0 0 23 23" fill="none">
       <Path
@@ -1729,7 +1743,7 @@ export const HomeIcon2 = ({ color }: { color: string }) => {
   );
 };
 
-export const ClockIcon2 = ({ color }: { color: string }) => {
+export const ClockIcon2 = ({color}: {color: string}) => {
   return (
     <Svg width={20} height={20} fill="none">
       <Path
@@ -1750,7 +1764,7 @@ export const ClockIcon2 = ({ color }: { color: string }) => {
   );
 };
 
-export const WalletIcon2 = ({ color }: { color: string }) => {
+export const WalletIcon2 = ({color}: {color: string}) => {
   return (
     <Svg width={26} height={21} fill="none">
       <Path
@@ -1764,7 +1778,7 @@ export const WalletIcon2 = ({ color }: { color: string }) => {
   );
 };
 
-export const InfoIcon2 = ({ color }: { color: string }) => {
+export const InfoIcon2 = ({color}: {color: string}) => {
   return (
     <Svg width={24} height={25} fill="none">
       <Path
@@ -1775,7 +1789,7 @@ export const InfoIcon2 = ({ color }: { color: string }) => {
   );
 };
 
-export const MessageQuestionIcon2 = ({ color }: { color: string }) => {
+export const MessageQuestionIcon2 = ({color}: {color: string}) => {
   return (
     <Svg width={32} height={33} fill="none">
       <Path
@@ -1804,7 +1818,7 @@ export const MessageQuestionIcon2 = ({ color }: { color: string }) => {
   );
 };
 
-export const ShieldIcon2 = ({ color }: { color: string }) => {
+export const ShieldIcon2 = ({color}: {color: string}) => {
   return (
     <Svg width={32} height={33} fill="none">
       <Path
@@ -1839,7 +1853,7 @@ export const CloseIcon2 = () => {
   );
 };
 
-export const ChurchIcon2 = ({ color }: { color: string }) => {
+export const ChurchIcon2 = ({color}: {color: string}) => {
   return (
     <Svg width={24} height={25} fill="none">
       <Path
@@ -1850,7 +1864,7 @@ export const ChurchIcon2 = ({ color }: { color: string }) => {
   );
 };
 
-export const SpeakerIcon2 = ({ color }: { color: string }) => {
+export const SpeakerIcon2 = ({color}: {color: string}) => {
   return (
     <Svg width={21} height={18} fill="none">
       <Path
@@ -1876,7 +1890,7 @@ export const SpeakerIcon2 = ({ color }: { color: string }) => {
   );
 };
 
-export const EyeIcon = ({ color }: { color: string }) => {
+export const EyeIcon = ({color}: {color: string}) => {
   return (
     <Svg width={20} height={14} fill="none">
       <Path
@@ -1887,7 +1901,7 @@ export const EyeIcon = ({ color }: { color: string }) => {
   );
 };
 
-export const ArrowRightSmallIcon = ({ color }: any) => {
+export const ArrowRightSmallIcon = ({color}: any) => {
   return (
     <Svg width={10} height={8} fill="none">
       <Path
@@ -1923,7 +1937,7 @@ export const ExitIcon = () => {
   );
 };
 
-export const EyeOffIcon = ({ color }: { color: string }) => {
+export const EyeOffIcon = ({color}: {color: string}) => {
   return (
     <Svg width={20} height={14} fill="none">
       <Path
@@ -1990,7 +2004,7 @@ export const SuccessStatusIcon = () => {
   );
 };
 
-export const GpsMarkerIcon = ({ color }: { color?: string }) => {
+export const GpsMarkerIcon = ({color}: {color?: string}) => {
   return (
     <Svg width={14} height={21} fill="none">
       <Path
@@ -2015,7 +2029,7 @@ export const DashedLineIcon = () => {
   );
 };
 
-export const ChevronIcon = ({ color }: { color?: string }) => {
+export const ChevronIcon = ({color}: {color?: string}) => {
   return (
     <Svg width={18} height={11} fill="none">
       <Path
@@ -2028,7 +2042,7 @@ export const ChevronIcon = ({ color }: { color?: string }) => {
   );
 };
 
-export const CancelIcon = ({ color }: { color?: string }) => {
+export const CancelIcon = ({color}: {color?: string}) => {
   return (
     <Svg width={20} height={20} fill="none">
       <Path
@@ -2041,7 +2055,7 @@ export const CancelIcon = ({ color }: { color?: string }) => {
   );
 };
 
-export const AddIcon = ({ color }: { color?: string }) => {
+export const AddIcon = ({color}: {color?: string}) => {
   return (
     <Svg width={14} height={14} fill="none">
       <Path
@@ -2054,7 +2068,7 @@ export const AddIcon = ({ color }: { color?: string }) => {
   );
 };
 
-export const WithdrawIcon = ({ color }: { color?: string }) => {
+export const WithdrawIcon = ({color}: {color?: string}) => {
   return (
     <Svg width={13} height={14} fill="none">
       <Path
@@ -2064,7 +2078,7 @@ export const WithdrawIcon = ({ color }: { color?: string }) => {
     </Svg>
   );
 };
-export const ArrowUpIcon = ({ color }: { color?: string }) => {
+export const ArrowUpIcon = ({color}: {color?: string}) => {
   return (
     <Svg width={11} height={15} fill="none">
       <Path
@@ -2075,7 +2089,7 @@ export const ArrowUpIcon = ({ color }: { color?: string }) => {
   );
 };
 
-export const ArrowDownIcon2 = ({ color }: { color?: string }) => {
+export const ArrowDownIcon2 = ({color}: {color?: string}) => {
   return (
     <Svg width={11} height={14} fill="none">
       <Path
@@ -2105,7 +2119,7 @@ export const CheckIcon = ({
   );
 };
 
-export const ShareIcon = ({ color }: { color?: string }) => {
+export const ShareIcon = ({color}: {color?: string}) => {
   return (
     <Svg width={14} height={17} fill="none">
       <Path
@@ -2116,7 +2130,7 @@ export const ShareIcon = ({ color }: { color?: string }) => {
   );
 };
 
-export const CreditCardIcon = ({ color }: { color?: string }) => {
+export const CreditCardIcon = ({color}: {color?: string}) => {
   return (
     <Svg width={18} height={13} fill="none">
       <Path
@@ -2168,18 +2182,39 @@ export const GoogleIcon = () => (
 );
 
 export const EmailIcon = () => (
-  <Svg width={20} height={20} viewBox="0 0 24 25" fill="none">
+  <Svg
+    width="18"
+    height="18"
+    viewBox="0 0 18 18"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg">
     <Path
-      d="M19.5 8.5C20.8807 8.5 22 7.38071 22 6C22 4.61929 20.8807 3.5 19.5 3.5C18.1193 3.5 17 4.61929 17 6C17 7.38071 18.1193 8.5 19.5 8.5Z"
-      fill="#F06D06"
+      d="M1.9165 6.52091C1.9165 4.04175 3.33317 2.97925 5.45817 2.97925H12.5415C14.6665 2.97925 16.0832 4.04175 16.0832 6.52091V11.4792C16.0832 13.9584 14.6665 15.0209 12.5415 15.0209H5.45817"
+      stroke="#AAAAAA"
+      stroke-miterlimit="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
     <Path
-      d="M19.5 8.5C20.8807 8.5 22 7.38071 22 6C22 4.61929 20.8807 3.5 19.5 3.5C18.1193 3.5 17 4.61929 17 6C17 7.38071 18.1193 8.5 19.5 8.5Z"
-      fill="#F06D06"
+      d="M12.5418 6.875L10.3247 8.64583C9.59516 9.22667 8.39808 9.22667 7.66849 8.64583L5.4585 6.875"
+      stroke="#AAAAAA"
+      stroke-miterlimit="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
     <Path
-      d="M20.72 9.81C20.02 10.03 19.25 10.07 18.45 9.87C17.11 9.52 16.02 8.45 15.65 7.11C15.47 6.46 15.46 5.82 15.57 5.24C15.7 4.6 15.25 4 14.61 4H7C4 4 2 5.5 2 9V16C2 19.5 4 21 7 21H17C20 21 22 19.5 22 16V10.76C22 10.1 21.36 9.6 20.72 9.81ZM15.52 11.65L14.34 12.59C13.68 13.12 12.84 13.38 12 13.38C11.16 13.38 10.31 13.12 9.66 12.59L6.53 10.09C6.21 9.83 6.16 9.35 6.41 9.03C6.67 8.71 7.14 8.65 7.46 8.91L10.59 11.41C11.35 12.02 12.64 12.02 13.4 11.41L14.58 10.47C14.9 10.21 15.38 10.26 15.63 10.59C15.89 10.91 15.84 11.39 15.52 11.65Z"
-      fill="#fff"
+      d="M1.9165 12.1875H6.1665"
+      stroke="#AAAAAA"
+      stroke-miterlimit="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <Path
+      d="M1.9165 9.35425H4.0415"
+      stroke="#AAAAAA"
+      stroke-miterlimit="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
   </Svg>
 );
@@ -2224,7 +2259,7 @@ export const AppleLogo = () => (
   </Svg>
 );
 
-export const CartIcon = ({ color = '#292D32' }) => (
+export const CartIcon = ({color = '#292D32'}) => (
   <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
     <Path
       d="M2 2H3.74001C4.82001 2 5.67 2.93 5.58 4L4.75 13.96C4.61 15.59 5.89999 16.99 7.53999 16.99H18.19C19.63 16.99 20.89 15.81 21 14.38L21.54 6.88C21.66 5.22 20.4 3.87 18.73 3.87H5.82001"
@@ -2265,7 +2300,7 @@ export const StarIcon = () => (
   <Svg
     width="12"
     height="12"
-    style={{ marginRight: 2 }}
+    style={{marginRight: 2}}
     viewBox="0 0 12 12"
     fill="none">
     <Path
@@ -2279,7 +2314,7 @@ export const RatingIcon = () => (
   <Svg
     width="17"
     height="17"
-    style={{ marginRight: 2 }}
+    style={{marginRight: 2}}
     viewBox="0 0 12 12"
     fill="none">
     <Path
@@ -2325,7 +2360,7 @@ export const LeaveRating = () => (
 //   </Svg>
 // );
 
-export const SettingsIcon = ({ color }) => (
+export const SettingsIcon = ({color}) => (
   <Svg width="23" height="23" viewBox="0 0 24 23" fill="none">
     <G clipPath="url(#clip0_1773_10385)">
       <Path
@@ -2402,7 +2437,7 @@ export const ShareIcon2 = () => (
 // <Path d="M12.3216 12.4942L9.89021 11.0432C9.46668 10.7922 9.12158 10.1883 9.12158 9.6942V6.47852" stroke="#2F313F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 // </Svg>
 // )
-export const HeartIcon = ({ color }) => (
+export const HeartIcon = ({color}) => (
   <Svg width="25" height="25" viewBox="0 0 25 25" fill="none">
     <Path
       d="M7.33545 3.41113C4.57445 3.41113 2.33545 5.62713 2.33545 8.36113C2.33545 10.5681 3.21045 15.8061 11.8234 21.1011C11.9777 21.195 12.1549 21.2447 12.3354 21.2447C12.516 21.2447 12.6932 21.195 12.8474 21.1011C21.4604 15.8061 22.3354 10.5681 22.3354 8.36113C22.3354 5.62713 20.0964 3.41113 17.3354 3.41113C14.5744 3.41113 12.3354 6.41113 12.3354 6.41113C12.3354 6.41113 10.0964 3.41113 7.33545 3.41113Z"

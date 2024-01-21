@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
 import * as Yup from 'yup';
 import React, {useEffect} from 'react';
@@ -7,13 +8,14 @@ import Button from '../../components/Buttons/Button';
 import {
   AppleLogo,
   EmailIcon,
+  EyeClosed,
   GoogleIcon,
   UserIcon,
 } from '../../assets/Svg/Index';
 import Colors from '../../constants/Colors';
 import {useFormik} from 'formik';
-import useAlert from '../../hooks/useAlert';
-import {useDispatch} from 'react-redux';
+// import useAlert from '../../hooks/useAlert';
+// import {useDispatch} from 'react-redux';
 import {usePostSignupMutation} from './auth-api';
 import Toast from 'react-native-toast-message';
 
@@ -108,7 +110,7 @@ export default function SignUpScreen({navigation, signIn}) {
         value={first_name}
         onChange={handleChange('first_name')}
         placeholder="First Name"
-        Icon={<UserIcon height={20} width={20} color="#AAAAAA" />}
+        Icon={<UserIcon height={17} width={17} color="#AAAAAA" />}
       />
       <Input
         label=""
@@ -118,7 +120,7 @@ export default function SignUpScreen({navigation, signIn}) {
         value={last_name}
         onChange={handleChange('last_name')}
         placeholder="Last Name"
-        Icon={<UserIcon height={20} width={20} color="#AAAAAA" />}
+        Icon={<UserIcon height={17} width={17} color="#AAAAAA" />}
       />
       <Input
         label=""
@@ -136,7 +138,7 @@ export default function SignUpScreen({navigation, signIn}) {
         value={password}
         onChange={handleChange('password')}
         placeholder="Password"
-        Icon={<EmailIcon />}
+        Icon={<EyeClosed />}
       />
       <Input
         label=""
@@ -148,7 +150,7 @@ export default function SignUpScreen({navigation, signIn}) {
         value={confirm_password}
         onChange={handleChange('confirm_password')}
         placeholder="Confirm Password"
-        Icon={<EmailIcon />}
+        Icon={<EyeClosed />}
       />
       <Button
         // onPress={() => navigation.navigate('Otp')}

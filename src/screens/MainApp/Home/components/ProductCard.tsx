@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   ImageBackground,
   StyleSheet,
@@ -20,7 +21,7 @@ const ProductCard = (props: ProductMini) => {
   const shopName = cart[0]?.shop?.name;
 
   const dispatch = useDispatch();
-  // console.log(props);
+
   return (
     <TouchableOpacity
       style={styles.container}
