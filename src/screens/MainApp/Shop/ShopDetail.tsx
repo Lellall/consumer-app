@@ -20,7 +20,7 @@ const MENUS = ['Top sellers', 'Drinks', 'Best treats', 'Packaging', 'Reviews'];
 const ShopDetail = ({route}) => {
   const shopId = route.params.shopId;
   const [activeMenu, setActiveMenu] = useState(0);
-  const handlePress = ind => {
+  const handlePress = (ind: React.SetStateAction<number>) => {
     setActiveMenu(ind);
   };
 
@@ -84,7 +84,7 @@ const ShopDetail = ({route}) => {
             onPress={() => handlePress(ind)}
             title={menu}
             key={menu}
-            active={ind == activeMenu}
+            active={ind === activeMenu}
           />
         ))}
       </ScrollView>
@@ -93,7 +93,7 @@ const ShopDetail = ({route}) => {
         <LoadingState />
       ) : (
         <>
-          {activeMenu == 4 ? (
+          {activeMenu === 4 ? (
             <ReviewPage />
           ) : (
             <TopSellers products={products?.data} />

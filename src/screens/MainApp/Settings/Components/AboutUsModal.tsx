@@ -40,13 +40,13 @@ const AboutUsModal = ({modal, setModal}: aboutProps) => {
           </View>
           <View>
             <Text style={{padding: 20, textAlign: 'justify'}}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              Welcome to LÉLLALL, your on-demand in-city shopping destination.
+              At LÉLLALL, we're meticulous about the details, dedicated to
+              delivering exceptional services to our users and partners. Our
+              mission is to collaborate with small businesses, often overlooked
+              in the market, providing them with a platform to boost their sales
+              and connect with a broader customer base, igniting their creative
+              potential online.
             </Text>
           </View>
         </View>

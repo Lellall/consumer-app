@@ -1,7 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import {
+  ActivityIndicator,
   Dimensions,
   Image,
+  Linking,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -13,21 +15,25 @@ import Text from '../../components/Text/Text';
 import Button from '../../components/Buttons/Button';
 import {
   AppleLogo,
-  CartIcon,
   EmailIcon,
   EyeClosed,
-  EyeIcon,
   GoogleIcon,
 } from '../../assets/Svg/Index';
 import Colors from '../../constants/Colors';
 import {useFormik} from 'formik';
 import {Logo} from '../../assets/Images';
-import {usePostLoginMutation} from './auth-api';
+import {
+  usePostGoogleAuthMutation,
+  usePostGoogleAuthVerifyMutation,
+  usePostLoginMutation,
+} from './auth-api';
 import Toast from 'react-native-toast-message';
 import {useDispatch} from 'react-redux';
 import {setUser} from '../../redux/user/userSlice';
+import useDeepLink from '../../utils/useDeepLink';
 
 export default function LoginScreen({navigation, signUp}) {
+  const {value} = useDeepLink();
   const initialValues = {
     password: '',
     email: '',
@@ -75,6 +81,35 @@ export default function LoginScreen({navigation, signUp}) {
       return message;
     }
   };
+  const [
+    postGoogleAuth,
+    {
+      isLoading: googleLoading,
+      isSuccess: googleSucess,
+      isError: googleError,
+      // data,
+    },
+  ] = usePostGoogleAuthMutation();
+  const [
+    postGoogleAuthVerify,
+    {
+      isLoading: verifyLoading,
+      isError: verifyError,
+      isSuccess: verifySuccess,
+      data: verifyData,
+    },
+  ] = usePostGoogleAuthVerifyMutation();
+  useEffect(() => {
+    if (value) {
+      postGoogleAuthVerify({
+        code: value,
+      });
+    }
+
+    if (verifySuccess) {
+      navigation.navigate('MainApp');
+    }
+  }, [navigation, postGoogleAuthVerify, value, verifySuccess]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -87,10 +122,11 @@ export default function LoginScreen({navigation, signUp}) {
         text1: formatError(error),
       });
     }
-  }, [isSuccess, isError]);
+  }, [isSuccess, isError, navigation, dispatch, data, error]);
 
   const {values, handleChange, handleSubmit, errors} = formik;
   const {password, email} = values;
+
   return (
     <View style={styles.container}>
       <Image resizeMode="contain" style={styles.logo} source={Logo} />
@@ -143,8 +179,13 @@ export default function LoginScreen({navigation, signUp}) {
       <View style={styles.otherSign}>
         <Text style={{color: '#AAAAAA'}}>Other sign in options</Text>
 
-        <TouchableOpacity style={styles.option}>
-          <GoogleIcon />
+        <TouchableOpacity
+          onPress={async () => {
+            const data1 = await postGoogleAuth('');
+            Linking.openURL(data1.error.data);
+          }}
+          style={styles.option}>
+          {googleLoading ? <ActivityIndicator color="#000" /> : <GoogleIcon />}
         </TouchableOpacity>
         <TouchableOpacity style={styles.option}>
           <AppleLogo />
