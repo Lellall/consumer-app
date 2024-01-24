@@ -15,7 +15,8 @@ const AllCarts = () => {
   const cart = useSelector((state: Product[]) => state.cart);
 
   const total = cart?.reduce(
-    (acc, currVal) => acc + currVal.price * currVal.quantity,
+    (acc: number, currVal: {price: number; quantity: number}) =>
+      acc + currVal.price * currVal.quantity,
     0,
   );
 
@@ -32,8 +33,8 @@ const AllCarts = () => {
             <Text style={{fontWeight: 'bold'}}>Product ({cart.length})</Text>
           </View>
           {/* <CartItem /> */}
-          {cart?.map(item => {
-            return <CartItem {...item} />;
+          {cart?.map((item: React.JSX.IntrinsicAttributes & Product) => {
+            return <CartItem key={item.id} {...item} />;
           })}
 
           <View style={styles.lable}>

@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/react-in-jsx-scope */
+import React from 'react';
 import {ReactElement} from 'react';
 import {
   KeyboardType,
@@ -85,7 +86,7 @@ function Input({
         style={[styles.inputContainer, reanimtedBorderStyle, inputStyle]}>
         {IconLeft && IconLeft}
         <TextInput
-          placeholderTextColor="#000"
+          placeholderTextColor="#BFC0C0"
           editable={!disabled}
           id={id}
           value={`${value || ''}`}
