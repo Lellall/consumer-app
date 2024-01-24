@@ -59,8 +59,8 @@ export const shopApi = createApi({
       }),
     }),
     getProduct: builder.query<Product, any>({
-      query: id => ({
-        url: `products/${id}`,
+      query: data => ({
+        url: `shops/${data.shopId}/products/${data.productId}`,
       }),
     }),
   }),

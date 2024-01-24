@@ -14,12 +14,16 @@ import {useDispatch, useSelector} from 'react-redux';
 
 const Product = ({route, navigation}) => {
   const productId = route?.params?.id;
-
-  const {data, isError, error, isLoading} = useGetProductQuery(productId);
-
+  const shopId = route?.params?.shopId;
+  let params = {productId, shopId};
+  const {data, isError, error, isLoading} = useGetProductQuery(params);
+  console.log('shop id------', shopId);
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart);
   const shopName = cart[0]?.shop?.name;
+  console.log(data);
+  console.log('cart shop name', shopName?.toLowerCase());
+  console.log('datashopname', data?.shop?.name.toLocaleLowerCase());
 
   useEffect(() => {
     if (isError) {
@@ -124,7 +128,7 @@ const Product = ({route, navigation}) => {
               label="Add to cart "
               style={{width: '70%', borderRadius: 50}}
               onPress={() => {
-                if (shopName === undefined || shopName === data?.shop.name) {
+                if (shopName === undefined || shopName === data?.shop?.name) {
                   dispatch(addToCart(data));
                   Toast.show({
                     type: 'success',

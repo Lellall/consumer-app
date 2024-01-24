@@ -6,15 +6,13 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import { HeaderImage } from '../../../../assets/Images';
-import {
-  ArrowLeftIcon2,
-  Cancel,
-  CancelIcon,
-} from '../../../../assets/Svg/Index';
+import {HeaderImage} from '../../../../assets/Images';
+import {Cancel} from '../../../../assets/Svg/Index';
 import Text from '../../../../components/Text/Text';
+import {useNavigation} from '@react-navigation/native';
 
-const CheckoutHeader = ({ icon = true, title = 'Checkout' }) => {
+const CheckoutHeader = ({icon = true, title = 'Checkout'}) => {
+  const navigate = useNavigation();
   return (
     <ImageBackground source={HeaderImage} style={styles.container}>
       <StatusBar
@@ -23,11 +21,13 @@ const CheckoutHeader = ({ icon = true, title = 'Checkout' }) => {
         barStyle="dark-content"
       />
       <View style={styles.header}>
-        <Text style={{ marginLeft: icon ? 'auto' : 0 }} h2>
+        <Text style={{marginLeft: icon ? 'auto' : 0}} h2>
           {title}
         </Text>
         {icon && (
-          <TouchableOpacity style={{ marginLeft: 'auto' }}>
+          <TouchableOpacity
+            onPress={() => navigate.goBack()}
+            style={{marginLeft: 'auto'}}>
             <Cancel color="#000" />
           </TouchableOpacity>
         )}

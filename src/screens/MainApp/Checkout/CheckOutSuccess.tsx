@@ -1,37 +1,38 @@
-import { Image, StyleSheet, View } from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import {Image, StyleSheet, View} from 'react-native';
 import React from 'react';
 import CheckoutHeader from './Components/CheckoutHeader';
 import Text from '../../../components/Text/Text';
 import LocationSelector from './Components/LocationSelector';
 import Previous from './Components/Previous';
 import Button from '../../../components/Buttons/Button';
-import { useNavigation } from '@react-navigation/native';
-import { AchieveImage } from '../../../assets/Images';
-import { CheckoutSuccessProps } from '../../../navigation/Stack/HomeScreenStack';
+import {useNavigation} from '@react-navigation/native';
+import {AchieveImage} from '../../../assets/Images';
+import {CheckoutSuccessProps} from '../../../navigation/Stack/HomeScreenStack';
 
-const CheckOutSuccess = ({ route }: CheckoutSuccessProps) => {
-  const { tansaction_id } = route.params;
+const CheckOutSuccess = ({route}: CheckoutSuccessProps) => {
+  const {tansaction_id} = route.params;
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <CheckoutHeader title="Order Complete" icon={false} />
       <Image resizeMode="contain" source={AchieveImage} style={styles.image} />
-      <Text style={{ textAlign: 'center' }} h2>
+      <Text style={{textAlign: 'center'}} h2>
         Thank you for your purchase!
       </Text>
       <View style={styles.order}>
         <Text>Your transaction id is</Text>
         <Text h3> {tansaction_id}</Text>
       </View>
-      <Text style={{ textAlign: 'center' }}>
+      <Text style={{textAlign: 'center'}}>
         Check your order history for more details.
       </Text>
       <View style={styles.order}>
         <Text>Estimated delivery time by </Text>
         <Text h3>02:00:00</Text>
       </View>
-      <Text style={{ textAlign: 'center' }}>You will receive an email at </Text>
-      <Text style={{ textAlign: 'center' }} h3>
+      <Text style={{textAlign: 'center'}}>You will receive an email at </Text>
+      <Text style={{textAlign: 'center'}} h3>
         jondoe@mymail.com
       </Text>
 
