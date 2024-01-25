@@ -83,7 +83,7 @@ export default function SignUpScreen({navigation, signIn}) {
         text1: 'Registered successfully 👋',
       });
     }
-  }, [isSuccess]);
+  }, [isSuccess, signIn]);
 
   useEffect(() => {
     if (isError) {
@@ -138,7 +138,7 @@ export default function SignUpScreen({navigation, signIn}) {
         value={password}
         onChange={handleChange('password')}
         placeholder="Password"
-        Icon={<EyeClosed />}
+        secureEntry={true}
       />
       <Input
         label=""
@@ -150,7 +150,7 @@ export default function SignUpScreen({navigation, signIn}) {
         value={confirm_password}
         onChange={handleChange('confirm_password')}
         placeholder="Confirm Password"
-        Icon={<EyeClosed />}
+        secureEntry={true}
       />
       <Button
         // onPress={() => navigation.navigate('Otp')}
