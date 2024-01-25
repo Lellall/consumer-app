@@ -66,9 +66,9 @@ const Product = ({route, navigation}) => {
               </View>
               <TouchableOpacity style={{padding: 10}}>
                 {/* <ShareIcon2 /> */}
-                {data?.height && <Text>Height: {data?.height}</Text>}
-                {data?.width && <Text>Width: {data?.width}</Text>}
-                {data?.weight && <Text>Weigth: {data?.weight}</Text>}
+                <Text>Height:{data?.height && data?.height}</Text>
+                <Text>Width: {data?.width && data?.width}</Text>
+                <Text>Weigth: {data?.weight && data?.weight}</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.mainBody}>
