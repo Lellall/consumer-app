@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {StyleSheet, View} from 'react-native';
+import {Dimensions, StyleSheet, View} from 'react-native';
 import React from 'react';
 import CheckoutHeader from './Components/CheckoutHeader';
 import Text from '../../../components/Text/Text';
@@ -12,6 +12,7 @@ import {clearCart} from '../../../redux/cart/cartSlice';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {MapImage} from '../../../assets/Images';
 import Button from '../../../components/Buttons/Button';
+import {ScrollView} from 'react-native-gesture-handler';
 interface RedirectParams {
   status: 'successful' | 'cancelled';
   transaction_id?: string;
@@ -79,80 +80,83 @@ const CheckoutScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <CheckoutHeader />
-      <View style={styles.location}>
-        <Text style={{fontWeight: 'bold'}}>Confirm your location</Text>
-        <View style={styles.decoContainer}>
-          <View style={styles.deco} />
-          <View style={styles.deco2} />
-          <View style={styles.deco2} />
+      <ScrollView style={{flex: 1}}>
+        <View style={styles.location}>
+          <Text style={{fontWeight: 'bold'}}>Confirm your location</Text>
+          <View style={styles.decoContainer}>
+            <View style={styles.deco} />
+            <View style={styles.deco2} />
+            <View style={styles.deco2} />
+          </View>
         </View>
-      </View>
-      <View style={styles.remain}>
-        {/* <LocationSelector /> */}
-        <View style={{flex: 1}}>
-          <GooglePlacesAutocomplete
-            placeholder="Search location..."
-            onPress={(data, details = null) => {
-              // 'details' is provided when fetchDetails = true
-              console.log(data, details);
-            }}
-            query={{
-              key: 'AIzaSyDBqbRu9jjh3kBFSXTH6bgp7cAt2_2M2x4',
-              language: 'en',
-            }}
-            nearbyPlacesAPI="GooglePlacesSearch"
-            debounce={400}
-            minLength={2}
-            enablePoweredByContainer={false}
-            styles={{
-              textInput: {
-                height: 44,
-                borderRadius: 5,
-                paddingVertical: 5,
-                paddingHorizontal: 10,
-                fontSize: 15,
-                borderWidth: 1,
-                borderColor: '#F1EFEF',
-                backgroundColor: '#000000a1',
-                color: '#000',
-              },
+        <View style={styles.remain}>
+          {/* <LocationSelector /> */}
+          <>
+            <GooglePlacesAutocomplete
+              placeholder="Search location..."
+              onPress={(data, details = null) => {
+                // 'details' is provided when fetchDetails = true
+                console.log(data, details);
+              }}
+              query={{
+                key: 'AIzaSyDBqbRu9jjh3kBFSXTH6bgp7cAt2_2M2x4',
+                language: 'en',
+              }}
+              nearbyPlacesAPI="GooglePlacesSearch"
+              debounce={400}
+              minLength={2}
+              enablePoweredByContainer={false}
+              styles={{
+                textInput: {
+                  height: 44,
+                  borderRadius: 5,
+                  paddingVertical: 5,
+                  paddingHorizontal: 10,
+                  fontSize: 15,
+                  borderWidth: 1,
+                  borderColor: '#F1EFEF',
+                  backgroundColor: '#000000a1',
+                  color: '#000',
+                },
 
-              description: {
-                color: 'black',
-                backgroundColor: 'transparent',
-              },
-            }}
-          />
-        </View>
+                description: {
+                  color: 'black',
+                  backgroundColor: 'transparent',
+                },
+              }}
+            />
+          </>
 
-        {/* <View style={styles.divider} />
-        <Previous />
-        <Previous />
-        <Button
-          onPress={() => navigation.navigate('CheckoutSuccess')}
-          style={{
-            width: '80%',
-            marginTop: 'auto',
-            borderRadius: 40,
-          }}
-          label="Next"
-        /> */}
-        <View>
-          <PayWithFlutterwave
-            onRedirect={handleOnRedirect}
-            options={{
-              tx_ref: generateTransactionRef(10),
-              authorization: 'FLWPUBK_TEST-e007e0538282acb39f0899d9c96fb3c2-X',
-              customer: {
-                email: 'mujtabadamu@gmail.com',
-              },
-              amount: 2000,
-              currency: 'NGN',
-              payment_options: 'card',
+          <View style={styles.divider} />
+          <Previous />
+          <Previous />
+          {/* <Button
+            onPress={() => navigation.navigate('CheckoutSuccess')}
+            style={{
+              width: '80%',
+              marginTop: 'auto',
+              borderRadius: 40,
             }}
-          />
+            label="Next"
+          /> */}
+          <View>
+            <PayWithFlutterwave
+              onRedirect={handleOnRedirect}
+              options={{
+                tx_ref: generateTransactionRef(10),
+                authorization:
+                  'FLWPUBK_TEST-e007e0538282acb39f0899d9c96fb3c2-X',
+                customer: {
+                  email: 'mujtabadamu@gmail.com',
+                },
+                amount: 2000,
+                currency: 'NGN',
+                payment_options: 'card',
+              }}
+            />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -163,7 +167,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FCFCFC',
-    position: 'relative',
   },
   location: {
     flexDirection: 'row',
@@ -191,11 +194,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     paddingTop: 10,
-    // height: '50%',
-    // top: 180,
-    // left: 0,
-    // right: 0,
-    // position: 'absolute',
+    // height: Dimensions.get('window').height,
   },
   divider: {
     width: '100%',

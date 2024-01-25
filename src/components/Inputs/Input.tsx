@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/react-in-jsx-scope */
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import {ReactElement} from 'react';
 import {
   KeyboardType,
@@ -17,6 +17,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import {EyeClosed, EyeIcon} from '../../assets/Svg/Index';
 const AnimatedTouchableOpacity =
   Animated.createAnimatedComponent(TouchableOpacity);
 export interface InputProps {
@@ -74,7 +75,8 @@ function Input({
       backgroundColor: bgColor,
     };
   });
-
+  const [secured, setSecured] = useState(true);
+  const ref = useRef<any>();
   return (
     <View style={[styles.mainContainer, style]}>
       <View style={styles.labelContainer}>
@@ -83,18 +85,25 @@ function Input({
       </View>
       <AnimatedTouchableOpacity
         disabled={disabled}
+        onPress={() => {
+          ref?.current?.focus();
+        }}
         style={[styles.inputContainer, reanimtedBorderStyle, inputStyle]}>
         {IconLeft && IconLeft}
         <TextInput
+          ref={ref}
+          secureTextEntry={secureEntry ? secured : false}
           placeholderTextColor="#BFC0C0"
           editable={!disabled}
           id={id}
           value={`${value || ''}`}
           keyboardType={type}
           onChangeText={onChange}
-          secureTextEntry={secureEntry}
+          // secureTextEntry={secureEntry}
           onFocus={() => {
-            if (disabled) return;
+            if (disabled) {
+              return;
+            }
             borderWidthValue.value = withTiming(2);
             onFocus?.();
           }}
@@ -106,6 +115,11 @@ function Input({
           style={styles.textInput}
         />
         {Icon && Icon}
+        {secureEntry && (
+          <TouchableOpacity onPress={() => setSecured(prev => !prev)}>
+            {secured ? <EyeIcon color="#a3a3a3" /> : <EyeClosed />}
+          </TouchableOpacity>
+        )}
       </AnimatedTouchableOpacity>
       {error && <Text style={{color: 'red'}}>{error}</Text>}
     </View>
@@ -127,7 +141,6 @@ const styles = StyleSheet.create({
     height: 48,
     width: '100%',
     marginTop: 10,
-
     borderRadius: 3,
     paddingHorizontal: 15,
     paddingVertical: 10,
