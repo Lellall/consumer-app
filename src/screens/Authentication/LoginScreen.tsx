@@ -35,7 +35,7 @@ export default function LoginScreen({navigation, signUp}) {
     role: '',
   };
   const dispatch = useDispatch();
-  const [postLogin, {isError, isLoading, isSuccess, error, data}] =
+  const [postLogin, {isError, isLoading, isSuccess, error, data: loginData}] =
     usePostLoginMutation();
 
   const validationSchema = Yup.object({
@@ -55,6 +55,7 @@ export default function LoginScreen({navigation, signUp}) {
     initialValues,
     validationSchema: validationSchema,
     onSubmit: async values => {
+      console.log(values);
       const {email, password} = values;
       postLogin({
         email: email.toLowerCase(),
@@ -82,7 +83,7 @@ export default function LoginScreen({navigation, signUp}) {
       isLoading: googleLoading,
       isSuccess: googleSucess,
       isError: googleError,
-      // data,
+      data,
     },
   ] = usePostGoogleAuthMutation();
   const [
@@ -105,11 +106,11 @@ export default function LoginScreen({navigation, signUp}) {
       navigation.navigate('MainApp');
     }
   }, [navigation, postGoogleAuthVerify, value, verifySuccess]);
-
+  console.log(loginData);
   useEffect(() => {
     if (isSuccess) {
       navigation.navigate('MainApp');
-      dispatch(setUser(data));
+      dispatch(setUser(loginData));
     }
     if (isError) {
       Toast.show({
@@ -117,7 +118,19 @@ export default function LoginScreen({navigation, signUp}) {
         text1: formatError(error),
       });
     }
-  }, [isSuccess, isError, navigation, dispatch, data, error]);
+  }, [isSuccess, isError, navigation, dispatch, loginData, error]);
+
+  useEffect(() => {
+    if (value) {
+      postGoogleAuthVerify({
+        code: value,
+      });
+    }
+
+    if (verifySuccess) {
+      navigation.navigate('MainApp');
+    }
+  }, [navigation, postGoogleAuthVerify, value, verifySuccess]);
 
   const {values, handleChange, handleSubmit, errors} = formik;
   const {password, email} = values;
@@ -179,6 +192,7 @@ export default function LoginScreen({navigation, signUp}) {
         <TouchableOpacity
           onPress={async () => {
             const data1 = await postGoogleAuth('');
+
             Linking.openURL(data1.error.data);
           }}
           style={styles.option}>

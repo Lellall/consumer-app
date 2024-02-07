@@ -12,7 +12,7 @@ import {HeartIcon} from '../../../../assets/Svg/Index';
 import {useNavigation} from '@react-navigation/native';
 import {Shop} from '../../Shop/shop-api';
 
-export default function CategoriesCard(props: Shop) {
+export default function ShopCard(props: Shop) {
   const {id, logoUrl, status, name, category} = props;
   const navigation = useNavigation();
 

@@ -4,11 +4,13 @@ import React from 'react';
 import LoadingState from '../../../../components/LoadingState';
 import Text from '../../../../components/Text/Text';
 import {CloseIcon} from '../../../../assets/Svg/Index';
+import LottieView from 'lottie-react-native';
+import {Category} from '../api/categories-api';
 
 interface CategoryModalProps {
   modal: boolean;
   setModal: Function;
-  categories: any;
+  categories: Category[] | undefined;
   loadingCategories: boolean;
   setCategoryId: Function;
 }
@@ -30,13 +32,15 @@ const CategoryModal = ({
         <View
           style={{
             backgroundColor: '#ffffff',
+            borderRadius: 8,
+            width: '90%',
           }}>
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              width: '90%',
+              width: '95%',
               margin: 'auto',
             }}>
             <Text style={{margin: 20}} h2>
@@ -44,41 +48,58 @@ const CategoryModal = ({
             </Text>
             <TouchableOpacity
               onPress={() => setModal(false)}
-              style={{padding: 10}}>
+              style={{padding: 20}}>
               <CloseIcon />
             </TouchableOpacity>
           </View>
 
           {loadingCategories ? (
-            <LoadingState />
+            <View
+              style={{
+                flex: 0.5,
+                width: '100%',
+                justifyContent: 'center',
+                alignSelf: 'center',
+              }}>
+              <LottieView
+                source={require('../../../../assets/Lottie/loading.json')}
+                style={{width: 100, height: 100}}
+                autoPlay
+                loop
+              />
+            </View>
+          ) : !categories?.length ? (
+            <Text>No category</Text>
           ) : (
             <View
               style={{
                 flexDirection: 'row',
                 flexWrap: 'wrap',
-                height: '35%',
+                // minHeight: '35%',
               }}>
-              {categories?.map(item => {
-                return (
-                  <TouchableOpacity
-                    key={item.id}
-                    style={{
-                      width: 100,
-                      alignItems: 'center',
-                      margin: 10,
-                    }}
-                    onPress={() => {
-                      setModal(false);
-                      setCategoryId(item.id);
-                    }}>
-                    <Image
-                      source={{uri: item.imageUrl}}
-                      style={{width: 50, height: 50, borderRadius: 50}}
-                    />
-                    <Text>{item.name}</Text>
-                  </TouchableOpacity>
-                );
-              })}
+              {categories?.map(
+                (item: {id: string; imageUrl: string; name: string}) => {
+                  return (
+                    <TouchableOpacity
+                      key={item.id}
+                      style={{
+                        width: 100,
+                        alignItems: 'center',
+                        margin: 10,
+                      }}
+                      onPress={() => {
+                        setModal(false);
+                        setCategoryId(item.id);
+                      }}>
+                      <Image
+                        source={{uri: item.imageUrl}}
+                        style={{width: 50, height: 50, borderRadius: 50}}
+                      />
+                      <Text>{item.name}</Text>
+                    </TouchableOpacity>
+                  );
+                },
+              )}
             </View>
           )}
         </View>

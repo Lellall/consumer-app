@@ -1,5 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  Linking,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import * as Yup from 'yup';
 import React, {useEffect} from 'react';
 import Input from '../../components/Inputs/Input';
@@ -16,8 +23,13 @@ import Colors from '../../constants/Colors';
 import {useFormik} from 'formik';
 // import useAlert from '../../hooks/useAlert';
 // import {useDispatch} from 'react-redux';
-import {usePostSignupMutation} from './auth-api';
+import {
+  usePostGoogleAuthMutation,
+  usePostGoogleAuthVerifyMutation,
+  usePostSignupMutation,
+} from './auth-api';
 import Toast from 'react-native-toast-message';
+import useDeepLink from '../../utils/useDeepLink';
 
 export default function SignUpScreen({navigation, signIn}) {
   const initialValues = {
@@ -31,6 +43,21 @@ export default function SignUpScreen({navigation, signIn}) {
 
   const [postSignup, {data, isLoading, isSuccess, isError, error}] =
     usePostSignupMutation();
+
+  const {value} = useDeepLink();
+  const [
+    postGoogleAuth,
+    {
+      isLoading: googleLoading,
+      isSuccess: googleSucess,
+      isError: googleError,
+      data: myData,
+    },
+  ] = usePostGoogleAuthMutation();
+  const [
+    postGoogleAuthVerify,
+    {isLoading: verifyLoading, isError: verifyError, isSuccess: verifySuccess},
+  ] = usePostGoogleAuthVerifyMutation();
 
   const validationSchema = Yup.object({
     first_name: Yup.string().required('First name is required'),
@@ -52,7 +79,7 @@ export default function SignUpScreen({navigation, signIn}) {
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
-    onSubmit: async values => {
+    onSubmit: async (values, {resetForm}) => {
       const {password, last_name, first_name, email} = values;
       postSignup({
         firstName: first_name,
@@ -62,6 +89,7 @@ export default function SignUpScreen({navigation, signIn}) {
         platformType: 'ANDROID',
         role: 'CONSUMER',
       });
+      resetForm();
     },
   });
 
@@ -74,6 +102,18 @@ export default function SignUpScreen({navigation, signIn}) {
       return message;
     }
   };
+
+  useEffect(() => {
+    if (value) {
+      postGoogleAuthVerify({
+        code: value,
+      });
+    }
+
+    if (verifySuccess) {
+      navigation.navigate('MainApp');
+    }
+  }, [navigation, postGoogleAuthVerify, value, verifySuccess]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -166,8 +206,14 @@ export default function SignUpScreen({navigation, signIn}) {
       <View style={styles.otherSign}>
         <Text style={{color: '#AAAAAA'}}>Other sign in options</Text>
 
-        <TouchableOpacity style={styles.option}>
-          <GoogleIcon />
+        <TouchableOpacity
+          onPress={async () => {
+            const data1 = await postGoogleAuth('');
+            console.log(data1, 'lll');
+            Linking.openURL(data1.error.data);
+          }}
+          style={styles.option}>
+          {googleLoading ? <ActivityIndicator color="#000" /> : <GoogleIcon />}
         </TouchableOpacity>
         <TouchableOpacity style={styles.option}>
           <AppleLogo />

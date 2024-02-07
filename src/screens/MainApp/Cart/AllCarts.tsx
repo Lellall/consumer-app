@@ -65,7 +65,7 @@ const AllCarts = () => {
               marginTop: 20,
               borderRadius: 40,
             }}
-            label="Proceed to checkout"
+            label="Next"
           />
           {/* <Text style={{marginVertical: 20}} h2>
             You may also like

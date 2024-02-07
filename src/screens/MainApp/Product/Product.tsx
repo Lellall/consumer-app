@@ -21,7 +21,7 @@ const Product = ({route, navigation}) => {
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart);
   const shopName = cart[0]?.shop?.name;
-  console.log(data);
+  console.log('PRODUCT ID:', productId);
   console.log('cart shop name', shopName?.toLowerCase());
   console.log('datashopname', data?.shop?.name.toLocaleLowerCase());
 
