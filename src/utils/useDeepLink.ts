@@ -8,11 +8,11 @@ const useDeepLink = () => {
   useEffect(() => {
     const handleDeepLink = (event: {url: any}) => {
       const url = event.url || event;
+
       if (url) {
         const parsedUrl: any = queryString.parseUrl(url);
         const queryParams = parsedUrl.query;
         const data = queryParams.transfer_code;
-
         setValue(data);
       }
     };
@@ -21,7 +21,7 @@ const useDeepLink = () => {
     return () => {
       Linking?.removeSubscription?.(sub);
     };
-  }, []);
+  }, [value]);
 
   return {value};
 };

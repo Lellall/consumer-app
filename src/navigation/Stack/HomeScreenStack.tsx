@@ -7,6 +7,7 @@ import AllCarts from '../../screens/MainApp/Cart/AllCarts';
 import CheckoutScreen from '../../screens/MainApp/Checkout/CheckoutScreen';
 import CheckOutSuccess from '../../screens/MainApp/Checkout/CheckOutSuccess';
 import Product from '../../screens/MainApp/Product/Product';
+import TrackOrderScreen from '../../screens/MainApp/Settings/Orders/TrackOrderScreen';
 
 type HomeStackParamList = {
   HomeScreenIndex: undefined;
@@ -31,6 +32,7 @@ export default function HomeScreenStack() {
       <HomeStack.Screen name="Product" component={Product} />
       <HomeStack.Screen name="Carts" component={AllCarts} />
       <HomeStack.Screen name="Checkout" component={CheckoutScreen} />
+      <HomeStack.Screen name="preview" component={TrackOrderScreen} />
       <HomeStack.Screen name="CheckoutSuccess" component={CheckOutSuccess} />
     </HomeStack.Navigator>
   );

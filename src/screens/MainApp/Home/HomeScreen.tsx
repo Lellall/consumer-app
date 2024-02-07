@@ -14,23 +14,21 @@ import {HeaderImage} from '../../../assets/Images';
 import HomeCarousel from './components/HomeCarousel';
 import Text from '../../../components/Text/Text';
 import Colors from '../../../constants/Colors';
-import CategoriesCard from './components/CategoriesCard';
-import {
-  useCategoryQuery,
-  useProductsQuery,
-  useShopQuery,
-} from '../Shop/shop-api';
+import {useProductsQuery, useShopQuery} from '../Shop/shop-api';
 import LoadingState from '../../../components/LoadingState';
 import {EmptyState} from '../../../components/EmptyState';
 import ProductCard from './components/ProductCard';
 import CategoryModal from './components/CategoryModal';
 import {CloseIcon} from '../../../assets/Svg/Index';
-
+import {useDebounce} from '../../../hooks/useDebounce';
+import {useCategoriesQuery} from './api/categories-api';
+import ShopCard from './components/ShopCard';
 export default function HomeScreen() {
   const {data, isLoading} = useShopQuery();
   const [search, setSearch] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [modal, setModal] = useState(false);
+  const debounceSearch = useDebounce(search);
 
   const {
     data: products,
@@ -38,13 +36,13 @@ export default function HomeScreen() {
     refetch,
     isFetching,
   } = useProductsQuery({
-    filter: search.toLocaleLowerCase(),
+    filter: debounceSearch.toLocaleLowerCase(),
     page: 0,
     size: 10,
     categoryId: categoryId,
   });
 
-  const {data: categories, isLoading: loadingCategories} = useCategoryQuery();
+  const {data: categories, isLoading: loadingCategories} = useCategoriesQuery();
 
   const handleCategoryChange = (newCategoryId: string) => {
     setCategoryId(newCategoryId);
@@ -75,7 +73,6 @@ export default function HomeScreen() {
         </TouchableOpacity>
         <View style={styles.label}>
           <Text style={{fontSize: 16, fontWeight: 'bold'}}>Products</Text>
-
           {categoryId && (
             <TouchableOpacity
               style={{padding: 20}}
@@ -88,15 +85,15 @@ export default function HomeScreen() {
         </View>
 
         {loadingProducts || isFetching ? (
-          <View style={{height: 250, width: Dimensions.get('window').width}}>
+          <View style={{height: 250, width: '100%'}}>
             <LoadingState />
           </View>
-        ) : !products?.data.length ? (
+        ) : !products?.data?.length ? (
           <View style={{width: '100%'}}>
             <EmptyState title={'No Products available'} />
           </View>
         ) : (
-          products.data.map(data => {
+          products?.data?.map(data => {
             return <ProductCard key={data?.id} {...data} />;
           })
         )}
@@ -113,13 +110,13 @@ export default function HomeScreen() {
             <LoadingState />
           </View>
         ) : !data?.data.length ? (
-          <View>
+          <View style={{width: '100%'}}>
             <EmptyState title={'popular shops'} />
           </View>
         ) : (
           data?.data?.map(({id, logoUrl, status, name, category}) => {
             return (
-              <CategoriesCard
+              <ShopCard
                 id={id}
                 logoUrl={logoUrl}
                 name={name}

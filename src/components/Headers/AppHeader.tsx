@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Text from '../Text/Text';
@@ -15,9 +16,9 @@ interface Props {
 
 export default function AppHeader({search, setSearch}: Props) {
   const {user} = useSelector((state: User) => state.user);
-
+  const cart = useSelector((state: User) => state.cart);
   const navigation = useNavigation();
-
+  console.log(cart.length);
   return (
     <View style={styles.header}>
       <View style={styles.icon}>
@@ -29,8 +30,29 @@ export default function AppHeader({search, setSearch}: Props) {
           value={search}
           onChange={setSearch}
         />
-        <TouchableOpacity onPress={() => navigation.navigate('Carts')}>
+        <TouchableOpacity
+          style={{}}
+          onPress={() => navigation.navigate('Carts')}>
           <CartIcon />
+          {cart.length > 0 && (
+            <Text
+              style={{
+                position: 'absolute',
+                top: -10,
+                left: 15,
+                backgroundColor: '#0E5D37',
+                borderRadius: 10,
+                color: '#fff',
+                padding: 1,
+                fontSize: 10,
+                height: 20,
+                width: 20,
+                textAlign: 'center',
+                lineHeight: 17,
+              }}>
+              {cart.length}
+            </Text>
+          )}
         </TouchableOpacity>
       </View>
       <TouchableOpacity onPress={() => navigation.navigate('Settings')}>

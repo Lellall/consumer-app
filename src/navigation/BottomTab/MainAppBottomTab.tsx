@@ -52,6 +52,10 @@ const MainAppBottomTab = () => {
       /> */}
       <Tab.Screen
         options={{
+          tabBarBadge: 4,
+          tabBarBadgeStyle: {
+            backgroundColor: 'green',
+          },
           tabBarIcon: props => <CartIcon {...props} />,
           tabBarLabel: 'Cart',
         }}

@@ -7,6 +7,14 @@ export const authApi = createApi({
   tagTypes: ['auth'],
   baseQuery: fetchBaseQuery({
     baseUrl: baseUrl,
+    prepareHeaders: (headers, {getState}) => {
+      const token = getState().user.token;
+      // If we have a token set in state, let's assume that we should be passing it.
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
   endpoints: builder => ({
     login: builder.query({
@@ -39,18 +47,17 @@ export const authApi = createApi({
     }),
     postGoogleAuth: builder.mutation({
       query: () => ({
-        url: `http://api.dev.lellall.com/auth/oauth2/google/authorize?role=CONSUMER&platform_type=ANDROID&callback_url=lellal://open`,
+        url: `https://api.dev.lellall.com/auth/oauth2/google/authorize?role=CONSUMER&platform_type=ANDROID&callback_url=lellal://open`,
         method: 'GET',
       }),
       onQueryStarted: async data => {
         console.log(data);
       },
-
       //   invalidatesTags: ['student'],
     }),
     postGoogleAuthVerify: builder.mutation({
       query: data => ({
-        url: `http://api.dev.lellall.com/auth/transfer`,
+        url: `https://api.dev.lellall.com/auth/transfer`,
         method: 'POST',
         body: data,
       }),

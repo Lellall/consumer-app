@@ -1,10 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import LottieView from 'lottie-react-native';
 
 const LoadingState = () => {
   return (
     <View style={styles.Container}>
-      <Text style={{ color: '#000' }}>Loading....</Text>
+      <LottieView
+        source={require('../assets/Lottie/loading.json')}
+        style={{width: 100, height: 100}}
+        autoPlay
+        loop
+      />
     </View>
   );
 };
