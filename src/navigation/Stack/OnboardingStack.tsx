@@ -1,8 +1,11 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import OnboardingHomeScreen from '../../screens/Onboarding/OnboardingHomeScreen';
 
-const Onboarding = createStackNavigator();
+export type onboardingParam = {
+  OnboardingHome: undefined;
+};
+const Onboarding = createStackNavigator<onboardingParam>();
 
 export default function OnboardingStack() {
   return (

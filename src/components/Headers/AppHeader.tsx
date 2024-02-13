@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Text from '../Text/Text';
@@ -15,7 +16,7 @@ interface Props {
 
 export default function AppHeader({search, setSearch}: Props) {
   const {user} = useSelector((state: User) => state.user);
-
+  const cart = useSelector((state: User) => state.cart);
   const navigation = useNavigation();
 
   return (
@@ -29,13 +30,39 @@ export default function AppHeader({search, setSearch}: Props) {
           value={search}
           onChange={setSearch}
         />
-        <TouchableOpacity onPress={() => navigation.navigate('Carts')}>
+        <TouchableOpacity
+          style={{}}
+          onPress={() => navigation.navigate('Carts')}>
           <CartIcon />
+          {cart.length > 0 && (
+            <Text
+              style={{
+                position: 'absolute',
+                top: -10,
+                left: 15,
+                backgroundColor: '#0E5D37',
+                borderRadius: 10,
+                color: '#fff',
+                padding: 1,
+                fontSize: 10,
+                height: 20,
+                width: 20,
+                textAlign: 'center',
+                lineHeight: 17,
+              }}>
+              {cart.length}
+            </Text>
+          )}
         </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+      <TouchableOpacity
+        onPress={() => {
+          user.trial
+            ? navigation.navigate('Authentication')
+            : navigation.navigate('Settings');
+        }}>
         <View style={[styles.image, {backgroundColor: 'lightblue'}]}>
-          <Text style={{fontSize: 24, fontWeight: '800'}}>
+          <Text style={{fontSize: 17, fontWeight: '800'}}>
             {user?.firstName[0]}
             {user?.lastName[0]}
           </Text>
@@ -48,7 +75,6 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-
     paddingHorizontal: 20,
     justifyContent: 'space-between',
     paddingVertical: 10,

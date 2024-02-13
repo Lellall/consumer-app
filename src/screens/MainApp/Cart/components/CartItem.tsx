@@ -14,7 +14,7 @@ import {
 import {useDispatch} from 'react-redux';
 
 const CartItem = (props: Product) => {
-  const {id, price, name, imageUrl, category, quantity} = props;
+  const {price, name, imageUrl, category, quantity} = props;
 
   const dispatch = useDispatch();
   return (

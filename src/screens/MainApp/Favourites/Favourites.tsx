@@ -11,7 +11,7 @@ import {SettingsHeader} from '../Settings/Components/SettingsHeader';
 import {EmptyImage} from '../../../assets/Images';
 import Text from '../../../components/Text/Text';
 import CartItem from '../Cart/components/CartItem';
-import CategoriesCard from '../Home/components/CategoriesCard';
+import ShopCard from '../Home/components/ShopCard';
 
 export default function Favourites({navigation}) {
   const [activeTab, setActiveTab] = useState(0);
@@ -61,14 +61,14 @@ export default function Favourites({navigation}) {
             flexWrap: 'wrap',
           }}
           style={styles.others}>
-          <CategoriesCard />
-          <CategoriesCard />
-          <CategoriesCard />
-          <CategoriesCard />
-          <CategoriesCard />
-          <CategoriesCard />
-          <CategoriesCard />
-          <CategoriesCard />
+          <ShopCard />
+          <ShopCard />
+          <ShopCard />
+          <ShopCard />
+          <ShopCard />
+          <ShopCard />
+          <ShopCard />
+          <ShopCard />
         </ScrollView>
       )}
       {/* <View

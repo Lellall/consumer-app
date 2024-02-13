@@ -1,21 +1,25 @@
-import { StyleSheet, View } from "react-native";
-import React from "react";
-import Text from "../../../../components/Text/Text";
-import { ClockIcon, ClockIcon2 } from "../../../../assets/Svg/Index";
+/* eslint-disable react-native/no-inline-styles */
+import {Dimensions, StyleSheet, View} from 'react-native';
+import React from 'react';
+import Text from '../../../../components/Text/Text';
+import {ClockIcon} from '../../../../assets/Svg/Index';
 
-export default function Previous() {
+const {width} = Dimensions.get('window');
+interface locationProps {
+  title: string;
+  subtitle: string;
+}
+export default function Previous({title, subtitle}: locationProps) {
   return (
     <View style={styles.container}>
       <View>
         <ClockIcon color="#000" />
       </View>
-      <View style={{ marginLeft: 20 }}>
-        <Text style={{ fontSize: 16 }} h2>
-          Summer Hall
+      <View style={{marginLeft: 10, width: '80%'}}>
+        <Text style={{fontSize: 15}} h2>
+          {title}
         </Text>
-        <Text style={{ color: "#AAAAAA" }}>
-          12 King’s Landing Street, Westeros
-        </Text>
+        <Text style={{color: '#AAAAAA'}}>{subtitle}</Text>
       </View>
     </View>
   );
@@ -23,10 +27,11 @@ export default function Previous() {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 70,
-    alignItems: "center",
-    backgroundColor: "transparent",
+    alignItems: 'center',
+    backgroundColor: 'transparent',
     marginBottom: 10,
+    width,
   },
 });

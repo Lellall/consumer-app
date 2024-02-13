@@ -1,21 +1,18 @@
 import {
-  View,
   ImageBackground,
   StyleSheet,
   StatusBar,
   Image,
   ScrollView,
-  TouchableOpacity,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {AuthBg, Logo} from '../../assets/Images';
 import SignUpScreen from './SignUpScreen';
-import Colors from '../../constants/Colors';
 import LoginScreen from './LoginScreen';
 import Text from '../../components/Text/Text';
 
 export default function MainAuthScreen({navigation}) {
-  const [active, setActive] = useState(0);
+  // const [active, setActive] = useState(0);
   const scrollRef = useRef();
   const SignUp = () => {
     scrollRef.current?.scrollTo({x: 0, y: 0, animated: true});

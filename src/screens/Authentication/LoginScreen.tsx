@@ -35,7 +35,7 @@ export default function LoginScreen({navigation, signUp}) {
     role: '',
   };
   const dispatch = useDispatch();
-  const [postLogin, {isError, isLoading, isSuccess, error, data}] =
+  const [postLogin, {isError, isLoading, isSuccess, error, data: loginData}] =
     usePostLoginMutation();
 
   const validationSchema = Yup.object({
@@ -82,7 +82,7 @@ export default function LoginScreen({navigation, signUp}) {
       isLoading: googleLoading,
       isSuccess: googleSucess,
       isError: googleError,
-      // data,
+      data,
     },
   ] = usePostGoogleAuthMutation();
   const [
@@ -109,7 +109,7 @@ export default function LoginScreen({navigation, signUp}) {
   useEffect(() => {
     if (isSuccess) {
       navigation.navigate('MainApp');
-      dispatch(setUser(data));
+      dispatch(setUser(loginData));
     }
     if (isError) {
       Toast.show({
@@ -117,7 +117,19 @@ export default function LoginScreen({navigation, signUp}) {
         text1: formatError(error),
       });
     }
-  }, [isSuccess, isError, navigation, dispatch, data, error]);
+  }, [isSuccess, isError, navigation, dispatch, loginData, error]);
+
+  useEffect(() => {
+    if (value) {
+      postGoogleAuthVerify({
+        code: value,
+      });
+    }
+
+    if (verifySuccess) {
+      navigation.navigate('MainApp');
+    }
+  }, [navigation, postGoogleAuthVerify, value, verifySuccess]);
 
   const {values, handleChange, handleSubmit, errors} = formik;
   const {password, email} = values;
@@ -134,6 +146,7 @@ export default function LoginScreen({navigation, signUp}) {
         label=""
         error={formik.touched.email && errors.email ? errors.email : ''}
         value={email}
+        autoCompleteKeyWord="email"
         onChange={handleChange('email')}
         placeholder="Email"
         Icon={<EmailIcon />}
@@ -203,6 +216,31 @@ export default function LoginScreen({navigation, signUp}) {
             borderLeftWidth: 1,
             borderLeftColor: Colors.general.border,
             paddingHorizontal: 10,
+          }}
+          onPress={() => {
+            navigation.navigate('MainApp');
+            dispatch(
+              setUser({
+                refresh_token: '',
+                access_token: '',
+                token_type: '',
+                user: {
+                  id: 'string',
+                  username: 'Anonymous',
+                  firstName: 'Anonymous',
+                  lastName: 'Anonymous',
+                  role: 'Consumer',
+                  isEmailVerified: false,
+                  registrationSource: '',
+                  streetName: '',
+                  houseNumber: '',
+                  apartmentName: '',
+                  estate: '',
+                  poBox: '',
+                  trial: true,
+                },
+              }),
+            );
           }}>
           <Text style={{fontSize: 12, color: Colors.general.border}}>
             Skip for now
@@ -212,6 +250,7 @@ export default function LoginScreen({navigation, signUp}) {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

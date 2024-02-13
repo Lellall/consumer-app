@@ -1,11 +1,11 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import {baseApi} from '../../../redux/base-api';
+// import {baseApi} from '../../../redux/base-api';
 import {baseUrl} from '../../../utils/utils';
 // import { baseUrl } from '../../services/controller';
 
 export const shopApi = createApi({
   reducerPath: 'shopApi',
-  tagTypes: ['auth'],
+  tagTypes: ['shop'],
   baseQuery: fetchBaseQuery({
     baseUrl: baseUrl,
   }),
@@ -52,12 +52,6 @@ export const shopApi = createApi({
         params,
       }),
     }),
-    category: builder.query<Category[], void>({
-      query: () => ({
-        url: `shops/categories`,
-        method: 'get',
-      }),
-    }),
     getProduct: builder.query<Product, any>({
       query: data => ({
         url: `shops/${data.shopId}/products/${data.productId}`,
@@ -75,7 +69,6 @@ export const {
   useUpdateShopMutation,
   useGetShopProductsQuery,
   useProductsQuery,
-  useCategoryQuery,
   useGetProductQuery,
 } = shopApi;
 
@@ -128,6 +121,7 @@ export interface Category {
   name: string;
   imageUrl: string;
   description: string;
+  type: string;
 }
 export interface CompleteShop {
   id: string;

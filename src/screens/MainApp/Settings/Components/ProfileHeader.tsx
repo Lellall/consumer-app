@@ -1,4 +1,5 @@
-import {StatusBar, StyleSheet, View, Image} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import {StatusBar, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {User} from '../../../Authentication/auth-api';
@@ -10,7 +11,7 @@ export const ProfileHeader = () => {
   return (
     <View style={styles.container}>
       <View style={[styles.image, {backgroundColor: 'lightblue'}]}>
-        <Text style={{fontSize: 30, fontWeight: '800'}}>
+        <Text style={{fontSize: 23, fontWeight: '800'}}>
           {user?.firstName[0]}
           {user?.lastName[0]}
         </Text>
