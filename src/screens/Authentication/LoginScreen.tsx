@@ -55,7 +55,6 @@ export default function LoginScreen({navigation, signUp}) {
     initialValues,
     validationSchema: validationSchema,
     onSubmit: async values => {
-      console.log(values);
       const {email, password} = values;
       postLogin({
         email: email.toLowerCase(),
@@ -106,7 +105,7 @@ export default function LoginScreen({navigation, signUp}) {
       navigation.navigate('MainApp');
     }
   }, [navigation, postGoogleAuthVerify, value, verifySuccess]);
-  console.log(loginData);
+
   useEffect(() => {
     if (isSuccess) {
       navigation.navigate('MainApp');
@@ -147,6 +146,7 @@ export default function LoginScreen({navigation, signUp}) {
         label=""
         error={formik.touched.email && errors.email ? errors.email : ''}
         value={email}
+        autoCompleteKeyWord="email"
         onChange={handleChange('email')}
         placeholder="Email"
         Icon={<EmailIcon />}
@@ -192,7 +192,6 @@ export default function LoginScreen({navigation, signUp}) {
         <TouchableOpacity
           onPress={async () => {
             const data1 = await postGoogleAuth('');
-
             Linking.openURL(data1.error.data);
           }}
           style={styles.option}>
@@ -217,6 +216,31 @@ export default function LoginScreen({navigation, signUp}) {
             borderLeftWidth: 1,
             borderLeftColor: Colors.general.border,
             paddingHorizontal: 10,
+          }}
+          onPress={() => {
+            navigation.navigate('MainApp');
+            dispatch(
+              setUser({
+                refresh_token: '',
+                access_token: '',
+                token_type: '',
+                user: {
+                  id: 'string',
+                  username: 'Anonymous',
+                  firstName: 'Anonymous',
+                  lastName: 'Anonymous',
+                  role: 'Consumer',
+                  isEmailVerified: false,
+                  registrationSource: '',
+                  streetName: '',
+                  houseNumber: '',
+                  apartmentName: '',
+                  estate: '',
+                  poBox: '',
+                  trial: true,
+                },
+              }),
+            );
           }}>
           <Text style={{fontSize: 12, color: Colors.general.border}}>
             Skip for now
@@ -226,6 +250,7 @@ export default function LoginScreen({navigation, signUp}) {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

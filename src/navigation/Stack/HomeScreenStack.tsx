@@ -13,11 +13,18 @@ type HomeStackParamList = {
   HomeScreenIndex: undefined;
   CheckoutSuccess: {tansaction_id: number | string};
   Product: {id: string};
+  Shop: undefined;
+  Carts: undefined;
+  Checkout: {total: number; navigation: any};
+  Preview: undefined;
 };
 const HomeStack = createStackNavigator<HomeStackParamList>();
 
 export type CheckoutSuccessProps = {
   route: RouteProp<HomeStackParamList, 'CheckoutSuccess'>;
+};
+export type CheckoutScreenProps = {
+  route: RouteProp<HomeStackParamList, 'Checkout'>;
 };
 
 export default function HomeScreenStack() {
@@ -32,7 +39,7 @@ export default function HomeScreenStack() {
       <HomeStack.Screen name="Product" component={Product} />
       <HomeStack.Screen name="Carts" component={AllCarts} />
       <HomeStack.Screen name="Checkout" component={CheckoutScreen} />
-      <HomeStack.Screen name="preview" component={TrackOrderScreen} />
+      <HomeStack.Screen name="Preview" component={TrackOrderScreen} />
       <HomeStack.Screen name="CheckoutSuccess" component={CheckOutSuccess} />
     </HomeStack.Navigator>
   );

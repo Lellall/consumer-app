@@ -1,17 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
-import {
-  NavigationProp,
-  useNavigation,
-  useTheme,
-} from '@react-navigation/native';
-import {useRef, useState} from 'react';
+import {useRef} from 'react';
 import {
   Dimensions,
   Image,
   ImageBackground,
   StatusBar,
   StyleSheet,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import Animated, {
@@ -21,61 +15,55 @@ import Animated, {
   useAnimatedScrollHandler,
   useDerivedValue,
   useSharedValue,
-  withTiming,
 } from 'react-native-reanimated';
-import {useDispatch} from 'react-redux';
-import SlideDetail from './components/SlideDetail';
 import SlideIndicator from './components/SlideIndicator';
 import Button from '../../components/Buttons/Button';
 import Text from '../../components/Text/Text';
-import {GetStartedIcon} from '../../assets/Svg/Index';
 import {AuthBg} from '../../assets/Images';
 import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
 // import SlideDetail from './components/SlideDetail';
 // import SlideIndicator from './components/SlideIndicator';
-const {height, width} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
-export default function OnboardingHomeScreen({navigation}) {
+export default function OnboardingHomeScreen() {
   const scrollViewRef = useRef<Animated.ScrollView>(null);
-  const scrollRef = useRef();
-  const [step, setStep] = useState(1);
+  // const scrollRef = useRef();
   const sharedValue = useSharedValue(0);
   const manualScrolling = useSharedValue(false);
   const aref = useAnimatedRef();
-  // const navigate=useNavigation()
+  const navigation = useNavigation();
   const animatedProps = useAnimatedProps(() => {
     return {
       contentOffset: {x: sharedValue.value, y: 0},
     };
   });
 
-  const handleSwipe = (val: number) => {
-    if (val === 0) setStep(1);
-    if (val === width) setStep(2);
-  };
-
   const scrollHandler = useAnimatedScrollHandler(
     {
       onScroll: event => {
-        if (manualScrolling.value) return;
+        if (manualScrolling.value) {
+          return;
+        }
         sharedValue.value = event.contentOffset.x;
       },
     },
     [manualScrolling],
   );
 
-  const incrementScroll = (x: number) => {
-    sharedValue.value = withTiming(x);
-    scrollViewRef.current?.scrollTo({
-      x: sharedValue.value + width,
-      y: 0,
-      animated: true,
-    });
-  };
+  // const incrementScroll = (x: number) => {
+  //   sharedValue.value = withTiming(x);
+  //   scrollViewRef.current?.scrollTo({
+  //     x: sharedValue.value + width,
+  //     y: 0,
+  //     animated: true,
+  //   });
+  // };
 
-  const text = useDerivedValue(() => {
-    return sharedValue.value === width * 2 ? 'Finish' : 'Next';
-  });
+  // const text = useDerivedValue(() => {
+  //   return sharedValue.value === width * 2 ? 'Finish' : 'Next';
+  // });
 
   useDerivedValue(() => {
     manualScrolling.value = true;
@@ -83,14 +71,14 @@ export default function OnboardingHomeScreen({navigation}) {
     manualScrolling.value = false;
   });
 
-  const decrementScroll = (x: number) => {
-    sharedValue.value = withTiming(x);
-    scrollViewRef.current?.scrollTo({
-      x: sharedValue.value - width,
-      y: 0,
-      animated: true,
-    });
-  };
+  // const decrementScroll = (x: number) => {
+  //   sharedValue.value = withTiming(x);
+  //   scrollViewRef.current?.scrollTo({
+  //     x: sharedValue.value - width,
+  //     y: 0,
+  //     animated: true,
+  //   });
+  // };
   //   const { colors } = useTheme();
   const slides = [
     {
@@ -118,7 +106,7 @@ export default function OnboardingHomeScreen({navigation}) {
           ref={scrollViewRef}
           animatedProps={animatedProps}
           onScroll={scrollHandler}
-          onMomentumScrollEnd={e => handleSwipe(e.nativeEvent.contentOffset.x)}
+          // onMomentumScrollEnd={e => handleSwipe(e.nativeEvent.contentOffset.x)}
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
@@ -171,7 +159,14 @@ export default function OnboardingHomeScreen({navigation}) {
       <Animated.View style={styles.buttons}>
         <Button
           // IconRight={<GetStartedIcon />}
-          onPress={() => navigation.navigate('Authentication')}
+          onPress={async () => {
+            try {
+              await AsyncStorage.setItem('@viewedOnboarding', 'true');
+              navigation.navigate('Authentication');
+            } catch (error) {
+              console.log(error);
+            }
+          }}
           fontStyle={{
             color: '#fff',
             textTransform: 'uppercase',

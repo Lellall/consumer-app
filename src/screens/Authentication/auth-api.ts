@@ -102,6 +102,7 @@ export interface User {
   apartmentName: string;
   estate: string;
   poBox: string;
+  trail: boolean;
 }
 
 export interface LoginResponse {

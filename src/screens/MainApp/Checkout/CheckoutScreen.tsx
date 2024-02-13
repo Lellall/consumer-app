@@ -1,63 +1,43 @@
 /* eslint-disable react-native/no-inline-styles */
-import {
-  StyleSheet,
-  View,
-  Animated,
-  Dimensions,
-  Linking,
-  Modal,
-} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import CheckoutHeader from './Components/CheckoutHeader';
 import Text from '../../../components/Text/Text';
-import LocationSelector from './Components/LocationSelector';
+// import LocationSelector from './Components/LocationSelector';
 import Previous from './Components/Previous';
-import {PayWithFlutterwave, FlutterwaveInit} from 'flutterwave-react-native';
+import {PayWithFlutterwave} from 'flutterwave-react-native';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import {clearCart} from '../../../redux/cart/cartSlice';
 // import {MapImage} from '../../../assets/Images';
 import Button from '../../../components/Buttons/Button';
 import {Product} from '../Shop/shop-api';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import useCheckoutController from './useCheckoutController';
-import useFlutterLink from '../../../utils/useFlutterLink';
-import {CloseIcon} from '../../../assets/Svg/Index';
 import Input from '../../../components/Inputs/Input';
 import LocationModal from './Components/LocationModal';
 import {useFormik} from 'formik';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import {CheckoutScreenProps} from '../../../navigation/Stack/HomeScreenStack';
+import {User} from '../../Authentication/auth-api';
 
 interface RedirectParams {
   status: 'successful' | 'cancelled';
   transaction_id?: string;
   tx_ref: string;
 }
-const {width} = Dimensions.get('window');
 
-const CheckoutScreen = ({navigation}) => {
+const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
   const dispatch = useDispatch();
-  const cart = useSelector((state: Product[]) => state.cart);
-  const {user} = useSelector(state => state.user);
+  const {total} = route.params;
+  const cart = useSelector(state => state.cart);
+  const {user} = useSelector((state: User) => state.user);
   const [address, setAddress] = useState<null | any>(null);
-  const {status, transactionId, transactionRef} = useFlutterLink();
   const [isModal, setIsModal] = useState(false);
 
-  console.log('status', status);
-  console.log('transactionId', transactionId);
-  console.log('transactionRef', transactionRef);
-  const rollInValue = useState(new Animated.Value(0))[0];
-
-  const rollOutFun = useCallback(() => {
-    Animated.timing(rollInValue, {
-      toValue: -width,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start();
-  }, [rollInValue]);
-
   const handleOnRedirect = (data: RedirectParams) => {
-    if (data.status === 'completed') {
+    console.log('FLUTTER WAVE DATA', data);
+    if (data.status === 'successful') {
       navigation.navigate('CheckoutSuccess', {
         orderNumber: data.transaction_id,
       });
@@ -75,28 +55,30 @@ const CheckoutScreen = ({navigation}) => {
       });
     }
   };
-  // const paymentWithFultter = async => {
+  // const paymentWithFultter = async () => {
   //   try {
   //     // initialize payment
   //     const paymentLink = await FlutterwaveInit({
-  //       tx_ref: generateTransactionRef(),
+  //       tx_ref: checkoutData.transactionReference,
   //       authorization: '[your merchant public Key]',
   //       amount: 100,
-  //       currency: 'USD',
+  //       currency: 'NGN',
   //       customer: {
-  //         email: 'customer-email@example.com',
+  //         email: user.username,
   //       },
   //       payment_options: 'card',
+  //       redirect_url: '',
   //     });
   //     // use payment link
-  //     usePaymentLink(paymentLink);
+  //     // usePaymentLink(paymentLink);
   //   } catch (error) {
   //     // handle payment error
-  //     displayError(error.message);
+  //     // displayError(error.message);
+  //     console.log(error);
   //   }
   // };
 
-  const paymentItems = cart.map(product => ({
+  const paymentItems = cart.map((product: Product) => ({
     productId: product.id,
     productName: product.name,
     count: product.quantity,
@@ -111,7 +93,7 @@ const CheckoutScreen = ({navigation}) => {
   } = useCheckoutController();
   const {checkoutError, orderError} = checkoutErrors;
   const {OrderData, checkoutData, initialValues, validationSchema} = data;
-  const {handleCheckout, postOrder} = actions;
+  const {postCheckout, postOrder} = actions;
   const {
     isChecking,
     isCheckoutError,
@@ -120,20 +102,34 @@ const CheckoutScreen = ({navigation}) => {
     isOrderSuccess,
     isOrderLoading,
   } = loading;
+
+  const handleCheckout = useCallback(() => {
+    if (OrderData && OrderData.orderId) {
+      postCheckout({
+        userId: user?.id,
+        shippingAddress: 'Abuja road cbn',
+        orderId: OrderData.orderId,
+        type: 'INLINE',
+      });
+    }
+  }, [OrderData, postCheckout, user?.id]);
+
   useEffect(() => {
     if (isOrderError) {
       Toast.show({
         type: 'error',
         text1: orderError?.data?.message,
       });
+      return;
     }
     if (isOrderSuccess) {
+      handleCheckout();
       Toast.show({
         type: 'success',
         text1: 'Your order has been registered successfully',
       });
     }
-  }, [isOrderError, isOrderSuccess, orderError, rollOutFun]);
+  }, [handleCheckout, isOrderError, isOrderSuccess, orderError]);
 
   useEffect(() => {
     if (isCheckoutError) {
@@ -141,26 +137,39 @@ const CheckoutScreen = ({navigation}) => {
         type: 'error',
         text1: checkoutError?.data?.message,
       });
+      return;
     }
+
     if (isCheckoutSuccess) {
       Toast.show({
         type: 'success',
         text1: 'Your order has been checkout successfully',
       });
     }
-  }, [checkoutError?.data?.message, isCheckoutError, isCheckoutSuccess]);
+  }, [isCheckoutSuccess, isCheckoutError, checkoutError]);
 
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
     onSubmit: values => {
-      console.log('-----------------Submit formik');
-      console.log(values);
-      navigation.navigate('preview');
+      // navigation.navigate('Preview');
+      // handleOrder(values);
+      postOrder({
+        paymentItems,
+        address: {
+          streetName: address?.structured_formatting?.main_text,
+          houseNumber: values.houseNumber,
+          apartmentName: values.apartmentFloor,
+          estate: values.estate,
+          poBox: '38101',
+        },
+      });
     },
   });
   const {values, handleChange, handleSubmit, errors} = formik;
-
+  console.log('ORDE-DATA', OrderData);
+  console.log('-------------');
+  console.log('CHECKOUT-DATA', checkoutData);
   return (
     <View style={styles.container}>
       <CheckoutHeader />
@@ -196,9 +205,6 @@ const CheckoutScreen = ({navigation}) => {
               // 'details' is provided when fetchDetails = true
               setAddress(data);
               // rollInFun();
-              console.log(data);
-              console.log('-------');
-              console.log(details);
               //   setIsModal(true);
             }}
             query={{
@@ -282,15 +288,16 @@ const CheckoutScreen = ({navigation}) => {
                 marginBottom: 15,
               }}
               label="Proceed to checkout"
-              isLoading={isOrderLoading}
+              isLoading={isOrderLoading || isChecking}
             />
 
-            <Button
+            {/* <Button
               onPress={() => {
                 handleCheckout({
                   userId: user?.id,
                   shippingAddress: 'Abuja road cbn',
                   orderId: OrderData?.orderId,
+                  type: 'INLINE',
                 });
               }}
               isLoading={isChecking}
@@ -301,23 +308,25 @@ const CheckoutScreen = ({navigation}) => {
               }}
               label="Checkokut"
               disabled={!isOrderSuccess}
-            />
-
-            {/* <PayWithFlutterwave
-              onRedirect={handleOnRedirect}
-              options={{
-                tx_ref: '452342343+6243532_35353x000-09',
-                authorization:
-                  'FLWPUBK_TEST-e007e0538282acb39f0899d9c96fb3c2-X',
-                customer: {
-                  email: 'mujtabadamu@gmail.com',
-                },
-                amount: 2000,
-                currency: 'NGN',
-                payment_options: 'card',
-              }}
-              currency="NGN"
             /> */}
+            {checkoutData?.transactionReference && (
+              <PayWithFlutterwave
+                onRedirect={handleOnRedirect}
+                options={{
+                  tx_ref: checkoutData?.transactionReference,
+                  authorization:
+                    'FLWPUBK_TEST-e007e0538282acb39f0899d9c96fb3c2-X',
+                  customer: {
+                    email: user.username,
+                  },
+                  amount: total,
+                  currency: 'NGN',
+                  payment_options: 'card',
+                }}
+                currency="NGN"
+              />
+            )}
+
             <View>
               {address && (
                 <>

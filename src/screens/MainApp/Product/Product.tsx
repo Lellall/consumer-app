@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Dimensions, StyleSheet, View} from 'react-native';
 import React, {useEffect} from 'react';
-import {ArrowLeftIcon2, CartIcon, ShareIcon2} from '../../../assets/Svg/Index';
+import {ArrowLeftIcon2, CartIcon} from '../../../assets/Svg/Index';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import ProductCarousel from './components/ProductCarousel';
 import Text from '../../../components/Text/Text';
@@ -10,20 +10,17 @@ import Toast from 'react-native-toast-message';
 import {useGetProductQuery} from '../Shop/shop-api';
 import LoadingState from '../../../components/LoadingState';
 import {addToCart} from '../../../redux/cart/cartSlice';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
-const Product = ({route, navigation}) => {
+const Product = ({route, navigation}: {route: any; navigation: any}) => {
   const productId = route?.params?.id;
   const shopId = route?.params?.shopId;
   let params = {productId, shopId};
   const {data, isError, error, isLoading} = useGetProductQuery(params);
   console.log('shop id------', shopId);
   const dispatch = useDispatch();
-  const cart = useSelector(state => state.cart);
-  const shopName = cart[0]?.shop?.name;
-  console.log('PRODUCT ID:', productId);
-  console.log('cart shop name', shopName?.toLowerCase());
-  console.log('datashopname', data?.shop?.name.toLocaleLowerCase());
+  // const cart = useSelector(state => state.cart);
+  // const shopName = cart[0]?.shop?.name;
 
   useEffect(() => {
     if (isError) {
@@ -128,18 +125,13 @@ const Product = ({route, navigation}) => {
               label="Add to cart "
               style={{width: '70%', borderRadius: 50}}
               onPress={() => {
-                if (shopName === undefined || shopName === data?.shop?.name) {
-                  dispatch(addToCart(data));
-                  Toast.show({
-                    type: 'success',
-                    text1: `${data?.name} has been added to cart`,
-                  });
-                } else {
-                  Toast.show({
-                    type: 'error',
-                    text1: `Sorry you can not add ${data?.name} is not on the same shop`,
-                  });
-                }
+                // if (shopName === undefined || shopName === data?.shop?.name) {
+                dispatch(addToCart(data));
+                Toast.show({
+                  type: 'success',
+                  text1: `${data?.name} has been added to cart`,
+                });
+
                 // navigate.navigate('Carts');
               }}
             />

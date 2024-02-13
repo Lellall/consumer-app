@@ -15,7 +15,6 @@ import Button from '../../components/Buttons/Button';
 import {
   AppleLogo,
   EmailIcon,
-  EyeClosed,
   GoogleIcon,
   UserIcon,
 } from '../../assets/Svg/Index';
@@ -30,8 +29,16 @@ import {
 } from './auth-api';
 import Toast from 'react-native-toast-message';
 import useDeepLink from '../../utils/useDeepLink';
+import {useDispatch} from 'react-redux';
+import {setUser} from '../../redux/user/userSlice';
 
-export default function SignUpScreen({navigation, signIn}) {
+export default function SignUpScreen({
+  navigation,
+  signIn,
+}: {
+  navigation: any;
+  signIn: void;
+}) {
   const initialValues = {
     first_name: '',
     last_name: '',
@@ -43,7 +50,7 @@ export default function SignUpScreen({navigation, signIn}) {
 
   const [postSignup, {data, isLoading, isSuccess, isError, error}] =
     usePostSignupMutation();
-
+  const dispatch = useDispatch();
   const {value} = useDeepLink();
   const [
     postGoogleAuth,
@@ -135,6 +142,7 @@ export default function SignUpScreen({navigation, signIn}) {
   }, [isError, error]);
   const {handleChange, handleSubmit, values, errors} = formik;
   const {password, email, first_name, last_name, confirm_password} = values;
+
   return (
     <View style={styles.container}>
       <Text style={{color: '#818391', textAlign: 'center'}}>
@@ -150,7 +158,7 @@ export default function SignUpScreen({navigation, signIn}) {
         value={first_name}
         onChange={handleChange('first_name')}
         placeholder="First Name"
-        Icon={<UserIcon height={17} width={17} color="#AAAAAA" />}
+        Icon={<UserIcon color="#818391" />}
       />
       <Input
         label=""
@@ -160,7 +168,7 @@ export default function SignUpScreen({navigation, signIn}) {
         value={last_name}
         onChange={handleChange('last_name')}
         placeholder="Last Name"
-        Icon={<UserIcon height={17} width={17} color="#AAAAAA" />}
+        Icon={<UserIcon color="#818391" />}
       />
       <Input
         label=""
@@ -234,6 +242,31 @@ export default function SignUpScreen({navigation, signIn}) {
             borderLeftWidth: 1,
             borderLeftColor: Colors.general.border,
             paddingHorizontal: 10,
+          }}
+          onPress={() => {
+            dispatch(
+              setUser({
+                refresh_token: '',
+                access_token: '',
+                token_type: '',
+                user: {
+                  id: 'string',
+                  username: 'Anonymous',
+                  firstName: 'Anonymous',
+                  lastName: 'Anonymous',
+                  role: 'Consumer',
+                  isEmailVerified: false,
+                  registrationSource: '',
+                  streetName: '',
+                  houseNumber: '',
+                  apartmentName: '',
+                  estate: '',
+                  poBox: '',
+                  trial: true,
+                },
+              }),
+            );
+            navigation.navigate('MainApp');
           }}>
           <Text style={{fontSize: 12, color: Colors.general.border}}>
             Skip for now
