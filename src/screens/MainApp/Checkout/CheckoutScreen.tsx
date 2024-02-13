@@ -20,7 +20,7 @@ import {useFormik} from 'formik';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {CheckoutScreenProps} from '../../../navigation/Stack/HomeScreenStack';
 import {User} from '../../Authentication/auth-api';
-
+import {flutterWaveAuthKey, googlePlaceKey} from '../../../utils/utils';
 interface RedirectParams {
   status: 'successful' | 'cancelled';
   transaction_id?: string;
@@ -167,9 +167,7 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
     },
   });
   const {values, handleChange, handleSubmit, errors} = formik;
-  console.log('ORDE-DATA', OrderData);
-  console.log('-------------');
-  console.log('CHECKOUT-DATA', checkoutData);
+
   return (
     <View style={styles.container}>
       <CheckoutHeader />
@@ -208,7 +206,7 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
               //   setIsModal(true);
             }}
             query={{
-              key: 'AIzaSyDBqbRu9jjh3kBFSXTH6bgp7cAt2_2M2x4',
+              key: {googlePlaceKey},
               language: 'en',
             }}
             nearbyPlacesAPI="GooglePlacesSearch"
@@ -314,8 +312,7 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
                 onRedirect={handleOnRedirect}
                 options={{
                   tx_ref: checkoutData?.transactionReference,
-                  authorization:
-                    'FLWPUBK_TEST-e007e0538282acb39f0899d9c96fb3c2-X',
+                  authorization: flutterWaveAuthKey,
                   customer: {
                     email: user.username,
                   },
