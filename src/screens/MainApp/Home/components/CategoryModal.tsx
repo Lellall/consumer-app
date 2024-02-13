@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Modal, StyleSheet, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
-import LoadingState from '../../../../components/LoadingState';
 import Text from '../../../../components/Text/Text';
 import {CloseIcon} from '../../../../assets/Svg/Index';
 import LottieView from 'lottie-react-native';
@@ -33,7 +32,7 @@ const CategoryModal = ({
           style={{
             backgroundColor: '#ffffff',
             borderRadius: 8,
-            width: '90%',
+            width: '100%',
           }}>
           <View
             style={{

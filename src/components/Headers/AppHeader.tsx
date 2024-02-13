@@ -18,7 +18,7 @@ export default function AppHeader({search, setSearch}: Props) {
   const {user} = useSelector((state: User) => state.user);
   const cart = useSelector((state: User) => state.cart);
   const navigation = useNavigation();
-  console.log(cart.length);
+
   return (
     <View style={styles.header}>
       <View style={styles.icon}>
@@ -55,9 +55,14 @@ export default function AppHeader({search, setSearch}: Props) {
           )}
         </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+      <TouchableOpacity
+        onPress={() => {
+          user.trial
+            ? navigation.navigate('Authentication')
+            : navigation.navigate('Settings');
+        }}>
         <View style={[styles.image, {backgroundColor: 'lightblue'}]}>
-          <Text style={{fontSize: 24, fontWeight: '800'}}>
+          <Text style={{fontSize: 17, fontWeight: '800'}}>
             {user?.firstName[0]}
             {user?.lastName[0]}
           </Text>
@@ -70,7 +75,6 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-
     paddingHorizontal: 20,
     justifyContent: 'space-between',
     paddingVertical: 10,

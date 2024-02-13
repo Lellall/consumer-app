@@ -1,16 +1,7 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import {userSlice} from './user/userSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  persistReducer,
-  persistStore,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from 'redux-persist';
+import {persistReducer, persistStore} from 'redux-persist';
 import {authApi} from '../screens/Authentication/auth-api';
 import {shopApi} from '../screens/MainApp/Shop/shop-api';
 import {cartSlice} from './cart/cartSlice';
@@ -41,10 +32,14 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware =>
+    // getDefaultMiddleware({
+    //   serializableCheck: {
+    //     ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    //   },
+    // }).concat(middleWares),
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      serializableCheck: false,
+      immutableCheck: false,
     }).concat(middleWares),
 });
 export const persistor = persistStore(store);

@@ -16,7 +16,7 @@ const useCheckoutController = () => {
   ] = usePostOrderMutation();
 
   const [
-    handleCheckout,
+    postCheckout,
     {
       isLoading: isChecking,
       isSuccess: isCheckoutSuccess,
@@ -39,7 +39,7 @@ const useCheckoutController = () => {
     estate: Yup.string().required(),
   });
 
-  const actions = {handleCheckout, postOrder};
+  const actions = {postCheckout, postOrder};
   const errors = {checkoutError, orderError};
   const data = {checkoutData, OrderData, initialValues, validationSchema};
   const loading = {

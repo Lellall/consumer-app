@@ -1,26 +1,27 @@
-import {StyleSheet, Text, View} from 'react-native';
+/* eslint-disable react/no-unstable-nested-components */
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 
 import {
   CartIcon,
-  HeartIcon,
-  HomeIcon,
   HomeIcon2,
   NotificationIcon,
-  SearchIcon,
   SettingsIcon,
+  UserIcon,
 } from '../../assets/Svg/Index';
 import Colors from '../../constants/Colors';
 import HomeScreenStack from '../Stack/HomeScreenStack';
-import HomeScreen from '../../screens/MainApp/Home/HomeScreen';
-import SettingsScreen from '../../screens/MainApp/Settings/SettingsScreen';
 import SettingsScreenStack from '../Stack/SettingsScreenStack';
 import Notifications from '../../screens/MainApp/Notifications/Notifications';
-import Favourites from '../../screens/MainApp/Favourites/Favourites';
 import AllCarts from '../../screens/MainApp/Cart/AllCarts';
+import {useSelector} from 'react-redux';
+import {User} from '../../screens/Authentication/auth-api';
+import AuthenticationStack from '../Stack/AuthenticationStack';
 const Tab = createBottomTabNavigator();
 const MainAppBottomTab = () => {
+  const cart = useSelector(state => state?.cart);
+  const {user} = useSelector((state: User) => state?.user);
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -52,9 +53,11 @@ const MainAppBottomTab = () => {
       /> */}
       <Tab.Screen
         options={{
-          tabBarBadge: 4,
+          tabBarBadge: cart.length > 0 && cart.length,
           tabBarBadgeStyle: {
-            backgroundColor: 'green',
+            backgroundColor: cart.length > 0 ? '#0E5D37' : 'transparent',
+            fontSize: 10,
+            padding: 1.5,
           },
           tabBarIcon: props => <CartIcon {...props} />,
           tabBarLabel: 'Cart',
@@ -64,24 +67,33 @@ const MainAppBottomTab = () => {
       />
       <Tab.Screen
         options={{
-          tabBarIcon: props => <NotificationIcon {...props} />,
+          tabBarIcon: () => <NotificationIcon />,
           tabBarLabel: 'Notifications',
         }}
         name="Notifications"
         component={Notifications}
       />
-      <Tab.Screen
-        options={{
-          tabBarIcon: props => <SettingsIcon {...props} />,
-          tabBarLabel: 'Settings',
-        }}
-        name="Settings"
-        component={SettingsScreenStack}
-      />
+      {user?.trial ? (
+        <Tab.Screen
+          options={{
+            tabBarIcon: () => <UserIcon />,
+            tabBarLabel: 'Login',
+          }}
+          name={'Authentication'}
+          component={AuthenticationStack}
+        />
+      ) : (
+        <Tab.Screen
+          options={{
+            tabBarIcon: props => <SettingsIcon {...props} />,
+            tabBarLabel: 'Settings',
+          }}
+          name={'Settings'}
+          component={SettingsScreenStack}
+        />
+      )}
     </Tab.Navigator>
   );
 };
 
 export default MainAppBottomTab;
-
-const styles = StyleSheet.create({});

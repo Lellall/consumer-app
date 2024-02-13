@@ -9,16 +9,16 @@ import React from 'react';
 import Text from '../../../../components/Text/Text';
 import {CartIcon} from '../../../../assets/Svg/Index';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {addToCart} from '../../../../redux/cart/cartSlice';
 import Toast from 'react-native-toast-message';
 import {ProductMini} from '../../Shop/shop-api';
 
 const ProductCard = (props: ProductMini) => {
-  const {imageUrl, name, price, shop} = props;
+  const {imageUrl, name, price} = props;
   const navigate = useNavigation();
-  const cart = useSelector(state => state.cart);
-  const shopName = cart[0]?.shop?.name;
+  // const cart = useSelector(state => state.cart);
+  // const shopName = cart[0]?.shop?.name;
 
   const dispatch = useDispatch();
 
@@ -35,18 +35,19 @@ const ProductCard = (props: ProductMini) => {
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <TouchableOpacity
             onPress={() => {
-              if (shopName === undefined || shopName === shop.name) {
-                dispatch(addToCart(props));
-                Toast.show({
-                  type: 'success',
-                  text1: `${name} has been added to cart`,
-                });
-              } else {
-                Toast.show({
-                  type: 'error',
-                  text1: `Sorry you can not add ${name} is not on the same shop`,
-                });
-              }
+              // if (shopName === undefined || shopName === shop.name) {
+              dispatch(addToCart(props));
+              Toast.show({
+                type: 'success',
+                text1: `${name} has been added to cart`,
+              });
+              // }
+              //  else {
+              //   Toast.show({
+              //     type: 'error',
+              //     text1: `Sorry you can not add ${name} is not on the same shop`,
+              //   });
+              // }
 
               // navigate.navigate('Carts');
             }}
@@ -76,7 +77,7 @@ export default ProductCard;
 const styles = StyleSheet.create({
   container: {
     height: 170,
-    width: '45%',
+    width: '100%',
     marginBottom: 20,
     borderRadius: 10,
     backgroundColor: '#fff',

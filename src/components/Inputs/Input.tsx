@@ -36,6 +36,7 @@ export interface InputProps {
   id?: string;
   error?: string;
   disabled?: boolean;
+  autoCompleteKeyWord?: string;
   inputStyle?: ViewStyle;
 }
 function Input({
@@ -55,6 +56,7 @@ function Input({
   error = '',
   disabled = false,
   inputStyle,
+  autoCompleteKeyWord = 'off',
 }: InputProps) {
   const borderWidthValue = useSharedValue(1);
 
@@ -95,6 +97,7 @@ function Input({
           secureTextEntry={secureEntry ? secured : false}
           placeholderTextColor="#BFC0C0"
           editable={!disabled}
+          autoComplete={autoCompleteKeyWord}
           id={id}
           value={`${value || ''}`}
           keyboardType={type}
