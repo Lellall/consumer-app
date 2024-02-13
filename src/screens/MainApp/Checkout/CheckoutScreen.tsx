@@ -1,64 +1,43 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Dimensions, StyleSheet, View} from 'react-native';
-import React from 'react';
+import {StyleSheet, View} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
 import CheckoutHeader from './Components/CheckoutHeader';
 import Text from '../../../components/Text/Text';
-import LocationSelector from './Components/LocationSelector';
+// import LocationSelector from './Components/LocationSelector';
 import Previous from './Components/Previous';
 import {PayWithFlutterwave} from 'flutterwave-react-native';
 import Toast from 'react-native-toast-message';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {clearCart} from '../../../redux/cart/cartSlice';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-import {MapImage} from '../../../assets/Images';
+// import {MapImage} from '../../../assets/Images';
 import Button from '../../../components/Buttons/Button';
-import {ScrollView} from 'react-native-gesture-handler';
+import {Product} from '../Shop/shop-api';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import useCheckoutController from './useCheckoutController';
+import Input from '../../../components/Inputs/Input';
+import LocationModal from './Components/LocationModal';
+import {useFormik} from 'formik';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import {CheckoutScreenProps} from '../../../navigation/Stack/HomeScreenStack';
+import {User} from '../../Authentication/auth-api';
+import {flutterWaveAuthKey, googlePlaceKey} from '../../../utils/utils';
 interface RedirectParams {
   status: 'successful' | 'cancelled';
   transaction_id?: string;
   tx_ref: string;
 }
 
-/* An example function called when transaction is completed successfully or canceled */
-
-/* An example function to generate a random transaction reference */
-const generateTransactionRef = (length: number) => {
-  var result = '';
-  var characters =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return `flw_tx_ref_${result}`;
-};
-// const handlePaymentRequest = async () => {
-//   try {
-//     // initialize payment
-//     const paymentLink = await FlutterwaveInit({
-//       tx_ref: generateTransactionRef(7),
-//       authorization: 'FLWPUBK_TEST-e007e0538282acb39f0899d9c96fb3c2-X',
-//       amount: 100,
-//       currency: 'USD',
-//       customer: {
-//         email: 'mujtabadamu@gmail.com',
-//       },
-//       payment_options: 'card',
-//       redirect_url: '',
-//     });
-//     // use payment link
-//     // usePaymentLink(paymentLink);
-//   } catch (error) {
-//     // handle payment error
-//     // displayError(error.message);
-//     console.log(error);
-//   }
-// };
-
-const CheckoutScreen = ({navigation}) => {
+const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
   const dispatch = useDispatch();
+  const {total} = route.params;
+  const cart = useSelector(state => state.cart);
+  const {user} = useSelector((state: User) => state.user);
+  const [address, setAddress] = useState<null | any>(null);
+  const [isModal, setIsModal] = useState(false);
+
   const handleOnRedirect = (data: RedirectParams) => {
-    if (data.status === 'completed') {
+    console.log('FLUTTER WAVE DATA', data);
+    if (data.status === 'successful') {
       navigation.navigate('CheckoutSuccess', {
         orderNumber: data.transaction_id,
       });
@@ -76,87 +55,292 @@ const CheckoutScreen = ({navigation}) => {
       });
     }
   };
+  // const paymentWithFultter = async () => {
+  //   try {
+  //     // initialize payment
+  //     const paymentLink = await FlutterwaveInit({
+  //       tx_ref: checkoutData.transactionReference,
+  //       authorization: '[your merchant public Key]',
+  //       amount: 100,
+  //       currency: 'NGN',
+  //       customer: {
+  //         email: user.username,
+  //       },
+  //       payment_options: 'card',
+  //       redirect_url: '',
+  //     });
+  //     // use payment link
+  //     // usePaymentLink(paymentLink);
+  //   } catch (error) {
+  //     // handle payment error
+  //     // displayError(error.message);
+  //     console.log(error);
+  //   }
+  // };
+
+  const paymentItems = cart.map((product: Product) => ({
+    productId: product.id,
+    productName: product.name,
+    count: product.quantity,
+    price: product.price,
+  }));
+
+  const {
+    errors: checkoutErrors,
+    actions,
+    loading,
+    data,
+  } = useCheckoutController();
+  const {checkoutError, orderError} = checkoutErrors;
+  const {OrderData, checkoutData, initialValues, validationSchema} = data;
+  const {postCheckout, postOrder} = actions;
+  const {
+    isChecking,
+    isCheckoutError,
+    isCheckoutSuccess,
+    isOrderError,
+    isOrderSuccess,
+    isOrderLoading,
+  } = loading;
+
+  const handleCheckout = useCallback(() => {
+    if (OrderData && OrderData.orderId) {
+      postCheckout({
+        userId: user?.id,
+        shippingAddress: 'Abuja road cbn',
+        orderId: OrderData.orderId,
+        type: 'INLINE',
+      });
+    }
+  }, [OrderData, postCheckout, user?.id]);
+
+  useEffect(() => {
+    if (isOrderError) {
+      Toast.show({
+        type: 'error',
+        text1: orderError?.data?.message,
+      });
+      return;
+    }
+    if (isOrderSuccess) {
+      handleCheckout();
+      Toast.show({
+        type: 'success',
+        text1: 'Your order has been registered successfully',
+      });
+    }
+  }, [handleCheckout, isOrderError, isOrderSuccess, orderError]);
+
+  useEffect(() => {
+    if (isCheckoutError) {
+      Toast.show({
+        type: 'error',
+        text1: checkoutError?.data?.message,
+      });
+      return;
+    }
+
+    if (isCheckoutSuccess) {
+      Toast.show({
+        type: 'success',
+        text1: 'Your order has been checkout successfully',
+      });
+    }
+  }, [isCheckoutSuccess, isCheckoutError, checkoutError]);
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: validationSchema,
+    onSubmit: values => {
+      // navigation.navigate('Preview');
+      // handleOrder(values);
+      postOrder({
+        paymentItems,
+        address: {
+          streetName: address?.structured_formatting?.main_text,
+          houseNumber: values.houseNumber,
+          apartmentName: values.apartmentFloor,
+          estate: values.estate,
+          poBox: '38101',
+        },
+      });
+    },
+  });
+  const {values, handleChange, handleSubmit, errors} = formik;
 
   return (
     <View style={styles.container}>
       <CheckoutHeader />
-      <ScrollView style={{flex: 1}}>
-        <View style={styles.location}>
-          <Text style={{fontWeight: 'bold'}}>Confirm your location</Text>
-          <View style={styles.decoContainer}>
-            <View style={styles.deco} />
-            <View style={styles.deco2} />
-            <View style={styles.deco2} />
-          </View>
+      <View style={styles.location}>
+        <Text style={{fontWeight: 'bold'}}>Confirm your location</Text>
+        <View style={styles.decoContainer}>
+          <View style={styles.deco} />
+          <View style={styles.deco2} />
+          <View style={styles.deco2} />
         </View>
-        <View style={styles.remain}>
+      </View>
+
+      <View style={styles.remain}>
+        <TouchableOpacity onPress={() => setIsModal(true)}>
           {/* <LocationSelector /> */}
-          <>
-            <GooglePlacesAutocomplete
-              placeholder="Search location..."
-              onPress={(data, details = null) => {
-                // 'details' is provided when fetchDetails = true
-                console.log(data, details);
-              }}
-              query={{
-                key: 'AIzaSyDBqbRu9jjh3kBFSXTH6bgp7cAt2_2M2x4',
-                language: 'en',
-              }}
-              nearbyPlacesAPI="GooglePlacesSearch"
-              debounce={400}
-              minLength={2}
-              enablePoweredByContainer={false}
-              styles={{
-                textInput: {
-                  height: 44,
-                  borderRadius: 5,
-                  paddingVertical: 5,
-                  paddingHorizontal: 10,
-                  fontSize: 15,
-                  borderWidth: 1,
-                  borderColor: '#F1EFEF',
-                  backgroundColor: '#000000a1',
-                  color: '#000',
-                },
+        </TouchableOpacity>
 
-                description: {
-                  color: 'black',
-                  backgroundColor: 'transparent',
-                },
-              }}
-            />
-          </>
+        <View
+          style={{
+            flex: 1,
+            zIndex: 999,
+            backgroundColor: 'transparent',
+            position: 'absolute',
+            top: 0,
+            left: 20,
+            right: 0,
 
-          <View style={styles.divider} />
-          <Previous />
-          <Previous />
-          {/* <Button
-            onPress={() => navigation.navigate('CheckoutSuccess')}
-            style={{
-              width: '80%',
-              marginTop: 'auto',
-              borderRadius: 40,
+            width: '100%',
+          }}>
+          <GooglePlacesAutocomplete
+            placeholder="Search location..."
+            onPress={(data, details = null) => {
+              // 'details' is provided when fetchDetails = true
+              setAddress(data);
+              // rollInFun();
+              //   setIsModal(true);
             }}
-            label="Next"
-          /> */}
-          <View>
-            <PayWithFlutterwave
-              onRedirect={handleOnRedirect}
-              options={{
-                tx_ref: generateTransactionRef(10),
-                authorization:
-                  'FLWPUBK_TEST-e007e0538282acb39f0899d9c96fb3c2-X',
-                customer: {
-                  email: 'mujtabadamu@gmail.com',
-                },
-                amount: 2000,
-                currency: 'NGN',
-                payment_options: 'card',
-              }}
-            />
-          </View>
+            query={{
+              key: {googlePlaceKey},
+              language: 'en',
+            }}
+            nearbyPlacesAPI="GooglePlacesSearch"
+            debounce={400}
+            minLength={2}
+            enablePoweredByContainer={false}
+            styles={{
+              textInput: {
+                height: 44,
+                borderRadius: 5,
+                paddingVertical: 5,
+                paddingHorizontal: 10,
+                fontSize: 15,
+                borderWidth: 1,
+                borderColor: '#F1EFEF',
+                backgroundColor: '#9694949f',
+                color: '#000',
+              },
+              description: {
+                color: 'black',
+                backgroundColor: 'transparent',
+              },
+            }}
+          />
         </View>
-      </ScrollView>
+
+        <View>
+          <View style={{marginTop: 35}} />
+
+          <Input
+            label=""
+            onChange={handleChange('landMark')}
+            value={values.landMark}
+            placeholder="Land Mark (Optional)"
+          />
+          <Input
+            label=""
+            onChange={handleChange('apartmentFloor')}
+            value={values.apartmentFloor}
+            placeholder="Apartment Number / Floor Number"
+            error={
+              formik.touched.apartmentFloor && errors.apartmentFloor
+                ? errors.apartmentFloor
+                : ''
+            }
+          />
+          <Input
+            label=""
+            value={values.houseNumber}
+            onChange={handleChange('houseNumber')}
+            placeholder="House Number"
+            error={
+              formik.touched.houseNumber && errors.houseNumber
+                ? errors.houseNumber
+                : ''
+            }
+          />
+
+          <Input
+            label=""
+            onChange={handleChange('estate')}
+            value={values.estate}
+            placeholder="Estate"
+            error={formik.touched.estate && errors.estate ? errors.estate : ''}
+          />
+        </View>
+
+        <>
+          <View style={{width: '100%', marginVertical: 20}}>
+            <Button
+              // onPress={() => navigation.navigate('CheckoutSuccess')}
+              onPress={handleSubmit}
+              style={{
+                width: '80%',
+                marginTop: 'auto',
+                borderRadius: 40,
+                marginBottom: 15,
+              }}
+              label="Proceed to checkout"
+              isLoading={isOrderLoading || isChecking}
+            />
+
+            {/* <Button
+              onPress={() => {
+                handleCheckout({
+                  userId: user?.id,
+                  shippingAddress: 'Abuja road cbn',
+                  orderId: OrderData?.orderId,
+                  type: 'INLINE',
+                });
+              }}
+              isLoading={isChecking}
+              style={{
+                width: '80%',
+                marginTop: 'auto',
+                borderRadius: 40,
+              }}
+              label="Checkokut"
+              disabled={!isOrderSuccess}
+            /> */}
+            {checkoutData?.transactionReference && (
+              <PayWithFlutterwave
+                onRedirect={handleOnRedirect}
+                options={{
+                  tx_ref: checkoutData?.transactionReference,
+                  authorization: flutterWaveAuthKey,
+                  customer: {
+                    email: user.username,
+                  },
+                  amount: total,
+                  currency: 'NGN',
+                  payment_options: 'card',
+                }}
+                currency="NGN"
+              />
+            )}
+
+            <View>
+              {address && (
+                <>
+                  <View style={styles.divider} />
+                  <Previous
+                    title={address?.description}
+                    subtitle={address?.structured_formatting?.main_text}
+                  />
+                </>
+              )}
+            </View>
+          </View>
+        </>
+      </View>
+      <>
+        <LocationModal modal={isModal} setModal={setIsModal} />
+      </>
     </View>
   );
 };

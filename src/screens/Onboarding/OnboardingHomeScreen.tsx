@@ -1,18 +1,13 @@
-import {
-  NavigationProp,
-  useNavigation,
-  useTheme,
-} from "@react-navigation/native";
-import { useRef, useState } from "react";
+/* eslint-disable react-native/no-inline-styles */
+import {useRef} from 'react';
 import {
   Dimensions,
   Image,
   ImageBackground,
   StatusBar,
   StyleSheet,
-  TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 import Animated, {
   scrollTo,
   useAnimatedProps,
@@ -20,60 +15,55 @@ import Animated, {
   useAnimatedScrollHandler,
   useDerivedValue,
   useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
-import { useDispatch } from "react-redux";
-import SlideDetail from "./components/SlideDetail";
-import SlideIndicator from "./components/SlideIndicator";
-import Button from "../../components/Buttons/Button";
-import Text from "../../components/Text/Text";
-import { GetStartedIcon } from "../../assets/Svg/Index";
-import { AuthBg } from "../../assets/Images";
+} from 'react-native-reanimated';
+import SlideIndicator from './components/SlideIndicator';
+import Button from '../../components/Buttons/Button';
+import Text from '../../components/Text/Text';
+import {AuthBg} from '../../assets/Images';
+import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
 // import SlideDetail from './components/SlideDetail';
 // import SlideIndicator from './components/SlideIndicator';
-const { height, width } = Dimensions.get("window");
+const {width} = Dimensions.get('window');
 
-export default function OnboardingHomeScreen({ navigation }) {
+export default function OnboardingHomeScreen() {
   const scrollViewRef = useRef<Animated.ScrollView>(null);
-  const scrollRef = useRef();
-  const [step, setStep] = useState(1);
+  // const scrollRef = useRef();
   const sharedValue = useSharedValue(0);
   const manualScrolling = useSharedValue(false);
   const aref = useAnimatedRef();
-  // const navigate=useNavigation()
+  const navigation = useNavigation();
   const animatedProps = useAnimatedProps(() => {
     return {
-      contentOffset: { x: sharedValue.value, y: 0 },
+      contentOffset: {x: sharedValue.value, y: 0},
     };
   });
 
-  const handleSwipe = (val: number) => {
-    if (val === 0) setStep(1);
-    if (val === width) setStep(2);
-  };
-
   const scrollHandler = useAnimatedScrollHandler(
     {
-      onScroll: (event) => {
-        if (manualScrolling.value) return;
+      onScroll: event => {
+        if (manualScrolling.value) {
+          return;
+        }
         sharedValue.value = event.contentOffset.x;
       },
     },
-    [manualScrolling]
+    [manualScrolling],
   );
 
-  const incrementScroll = (x: number) => {
-    sharedValue.value = withTiming(x);
-    scrollViewRef.current?.scrollTo({
-      x: sharedValue.value + width,
-      y: 0,
-      animated: true,
-    });
-  };
+  // const incrementScroll = (x: number) => {
+  //   sharedValue.value = withTiming(x);
+  //   scrollViewRef.current?.scrollTo({
+  //     x: sharedValue.value + width,
+  //     y: 0,
+  //     animated: true,
+  //   });
+  // };
 
-  const text = useDerivedValue(() => {
-    return sharedValue.value === width * 2 ? "Finish" : "Next";
-  });
+  // const text = useDerivedValue(() => {
+  //   return sharedValue.value === width * 2 ? 'Finish' : 'Next';
+  // });
 
   useDerivedValue(() => {
     manualScrolling.value = true;
@@ -81,30 +71,30 @@ export default function OnboardingHomeScreen({ navigation }) {
     manualScrolling.value = false;
   });
 
-  const decrementScroll = (x: number) => {
-    sharedValue.value = withTiming(x);
-    scrollViewRef.current?.scrollTo({
-      x: sharedValue.value - width,
-      y: 0,
-      animated: true,
-    });
-  };
+  // const decrementScroll = (x: number) => {
+  //   sharedValue.value = withTiming(x);
+  //   scrollViewRef.current?.scrollTo({
+  //     x: sharedValue.value - width,
+  //     y: 0,
+  //     animated: true,
+  //   });
+  // };
   //   const { colors } = useTheme();
   const slides = [
     {
-      title: "easy Shopping anytime and anywhere",
+      title: 'easy Shopping anytime and anywhere',
       body: `No more rush-hour traffic, crowded stores, or long checkout lines. Shop smarter, not harder.`,
-      image: require("../../assets/Images/0.png"),
+      image: require('../../assets/Images/0.png'),
     },
     {
-      title: "Prompt and secure delivery services",
+      title: 'Prompt and secure delivery services',
       body: `Done with shopping? Great. Now leave your delivery to us, and we won't disappoint.`,
-      image: require("../../assets/Images/1.png"),
+      image: require('../../assets/Images/1.png'),
     },
     {
-      title: "You Product is finally Here, Enjoy",
+      title: 'You Product is finally Here, Enjoy',
       body: `Now you have your product, you can enjoy it with smiles and satisfaction.`,
-      image: require("../../assets/Images/2.png"),
+      image: require('../../assets/Images/2.png'),
     },
   ];
 
@@ -116,16 +106,13 @@ export default function OnboardingHomeScreen({ navigation }) {
           ref={scrollViewRef}
           animatedProps={animatedProps}
           onScroll={scrollHandler}
-          onMomentumScrollEnd={(e) =>
-            handleSwipe(e.nativeEvent.contentOffset.x)
-          }
+          // onMomentumScrollEnd={e => handleSwipe(e.nativeEvent.contentOffset.x)}
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
           scrollEventThrottle={16}
           decelerationRate="fast"
-          style={[styles.scrollImages]}
-        >
+          style={[styles.scrollImages]}>
           {slides.map((slide, index) => (
             <View key={index.toString()} style={styles.imageSlide}>
               <Image
@@ -133,27 +120,25 @@ export default function OnboardingHomeScreen({ navigation }) {
                 resizeMode="contain"
                 source={slide.image}
               />
-              <View style={{ paddingHorizontal: 20 }}>
+              <View style={{paddingHorizontal: 20}}>
                 <Text
                   style={{
                     marginBottom: 20,
                     fontSize: 20,
-                    fontWeight: "bold",
-                    color: "#000",
-                    textAlign: "center",
+                    fontWeight: 'bold',
+                    color: '#000',
+                    textAlign: 'center',
                     marginTop: 20,
-                    textTransform: "uppercase",
-                  }}
-                >
+                    textTransform: 'uppercase',
+                  }}>
                   {slide.title}
                 </Text>
                 <Text
                   style={{
-                    color: "#000",
-                    textAlign: "center",
-                    fontWeight: "100",
-                  }}
-                >
+                    color: '#000',
+                    textAlign: 'center',
+                    fontWeight: '100',
+                  }}>
                   {slide.body}
                 </Text>
               </View>
@@ -174,14 +159,21 @@ export default function OnboardingHomeScreen({ navigation }) {
       <Animated.View style={styles.buttons}>
         <Button
           // IconRight={<GetStartedIcon />}
-          onPress={() => navigation.navigate("Authentication")}
+          onPress={async () => {
+            try {
+              await AsyncStorage.setItem('@viewedOnboarding', 'true');
+              navigation.navigate('Authentication');
+            } catch (error) {
+              console.log(error);
+            }
+          }}
           fontStyle={{
-            color: "#fff",
-            textTransform: "uppercase",
+            color: '#fff',
+            textTransform: 'uppercase',
           }}
           style={{
-            width: "90%",
-            backgroundColor: "#0E5D37",
+            width: '90%',
+            backgroundColor: '#0E5D37',
             borderRadius: 25,
           }}
           label="Get Started"
@@ -198,59 +190,59 @@ const styles = StyleSheet.create({
   },
   imagesContainer: {
     flex: 1,
-    backgroundColor: "transparent",
-    justifyContent: "center",
-    alignItems: "center",
-    position: "relative",
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
     width: width,
   },
   detailsContainer: {
     flex: 1,
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
   },
   image: {
     height: 250,
-    width: "100%",
+    width: '100%',
   },
   scrollImages: {
     flex: 1,
-    width: "100%",
-    backgroundColor: "transparent",
+    width: '100%',
+    backgroundColor: 'transparent',
   },
   imageSlide: {
     width: width,
-    height: "auto",
-    backgroundColor: "transparent",
-    justifyContent: "center",
-    position: "relative",
+    height: 'auto',
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    position: 'relative',
   },
   svg: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     right: 0,
   },
   detailSlide: {
     minWidth: width,
-    height: "50%",
-    backgroundColor: "transparent",
+    height: '50%',
+    backgroundColor: 'transparent',
   },
   buttons: {
     height: 120,
-    width: "100%",
-    backgroundColor: "transparent",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    width: '100%',
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
 
     paddingBottom: 30,
     marginTop: 20,
   },
   indicatorContainer: {
-    width: "100%",
-    backgroundColor: "transparent",
+    width: '100%',
+    backgroundColor: 'transparent',
     height: 40,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   button: {
     width: 90,

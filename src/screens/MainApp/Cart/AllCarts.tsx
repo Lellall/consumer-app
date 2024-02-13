@@ -5,20 +5,33 @@ import CartHeader from './components/CartHeader';
 import Text from '../../../components/Text/Text';
 import CartItem from './components/CartItem';
 import Button from '../../../components/Buttons/Button';
-import {useNavigation} from '@react-navigation/native';
+// import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {Product} from '../Shop/shop-api';
 import {EmptyState} from '../../../components/EmptyState';
+import Toast from 'react-native-toast-message';
 
-const AllCarts = () => {
-  const navigation = useNavigation();
+const AllCarts = ({navigation}) => {
+  // const navigation = useNavigation();
   const cart = useSelector((state: Product[]) => state.cart);
+  const {user} = useSelector(state => state.user);
 
   const total = cart?.reduce(
     (acc: number, currVal: {price: number; quantity: number}) =>
       acc + currVal.price * currVal.quantity,
     0,
   );
+  const handlePress = () => {
+    if (user.trial) {
+      Toast.show({
+        type: 'error',
+        text1: 'Trial users need to register for checkout',
+      });
+      navigation.navigate('Signup');
+    } else {
+      navigation.navigate('Checkout', {total: total});
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -58,15 +71,17 @@ const AllCarts = () => {
             <Text h2>Grand Total</Text>
             <Text h2>₦ {total.toLocaleString('en-US')}</Text>
           </View>
+
           <Button
-            onPress={() => navigation.navigate('Checkout')}
+            onPress={handlePress}
             style={{
               width: '80%',
               marginTop: 20,
               borderRadius: 40,
             }}
-            label="Proceed to checkout"
+            label="Next"
           />
+
           {/* <Text style={{marginVertical: 20}} h2>
             You may also like
           </Text> */}

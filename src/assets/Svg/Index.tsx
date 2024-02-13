@@ -20,12 +20,7 @@ type SvgIconProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const LightOnboardingStroke = ({
-  height,
-  width,
-  color = 'blue',
-  style,
-}: SvgIconProps) => (
+export const LightOnboardingStroke = () => (
   <Svg viewBox="0 0 1440 320">
     <Path
       fill="#0099ff"
@@ -54,14 +49,69 @@ export const DarkOnboardingtroke = ({
     />
   </Svg>
 );
-
+export const NotificationIcon = () => {
+  return (
+    <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <Path
+        d="M10.0167 2.42383C7.25841 2.42383 5.01674 4.66549 5.01674 7.42383V9.83216C5.01674 10.3405 4.80007 11.1155 4.54174 11.5488L3.58341 13.1405C2.99174 14.1238 3.40007 15.2155 4.48341 15.5822C8.07507 16.7822 11.9501 16.7822 15.5417 15.5822C16.5501 15.2488 16.9917 14.0572 16.4417 13.1405L15.4834 11.5488C15.2334 11.1155 15.0167 10.3405 15.0167 9.83216V7.42383C15.0167 4.67383 12.7667 2.42383 10.0167 2.42383Z"
+        stroke="#2F313F"
+        stroke-width="1.5"
+        stroke-miterlimit="10"
+        stroke-linecap="round"
+      />
+      <Path
+        d="M11.5584 2.66572C11.3001 2.59072 11.0334 2.53239 10.7584 2.49906C9.95843 2.39906 9.19176 2.45739 8.4751 2.66572C8.71676 2.04906 9.31676 1.61572 10.0168 1.61572C10.7168 1.61572 11.3168 2.04906 11.5584 2.66572Z"
+        stroke="#2F313F"
+        stroke-width="1.5"
+        stroke-miterlimit="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <Path
+        d="M12.5166 15.8823C12.5166 17.2573 11.3916 18.3823 10.0166 18.3823C9.33327 18.3823 8.69993 18.099 8.24993 17.649C7.79993 17.199 7.5166 16.5657 7.5166 15.8823"
+        stroke="#2F313F"
+        stroke-width="1.5"
+        stroke-miterlimit="10"
+      />
+    </Svg>
+  );
+};
+export const TicketIcon = () => {
+  return (
+    <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <Path
+        d="M16.2501 10.4159C16.2501 9.26585 17.1834 8.33252 18.3334 8.33252V7.49919C18.3334 4.16585 17.5001 3.33252 14.1667 3.33252H5.83341C2.50008 3.33252 1.66675 4.16585 1.66675 7.49919V7.91585C2.81675 7.91585 3.75008 8.84919 3.75008 9.99919C3.75008 11.1492 2.81675 12.0825 1.66675 12.0825V12.4992C1.66675 15.8325 2.50008 16.6659 5.83341 16.6659H14.1667C17.5001 16.6659 18.3334 15.8325 18.3334 12.4992C17.1834 12.4992 16.2501 11.5659 16.2501 10.4159Z"
+        stroke="#2F313F"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <Path
+        d="M7.5 12.2905L12.5 7.29053"
+        stroke="#2F313F"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <Path
+        d="M12.4953 12.2907H12.5028"
+        stroke="#2F313F"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <Path
+        d="M7.49534 7.70719H7.50283"
+        stroke="#2F313F"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </Svg>
+  );
+};
 export const MiniDot = ({color}: {color?: string}) => (
-  <Svg
-    width="9"
-    height="9"
-    viewBox="0 0 9 9"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+  <Svg width="9" height="9" viewBox="0 0 9 9" fill="none">
     <Rect
       x="0.571289"
       y="0.95459"
@@ -110,36 +160,25 @@ export const CallDelivery = () => (
   </Svg>
 );
 
-export const UserIcon = ({
-  height,
-  width,
-  color = 'blue',
-  style,
-}: SvgIconProps) => (
-  <Svg
-    width={width}
-    height={height}
-    style={style}
-    viewBox="0 0 20 20"
-    fill="none">
+export const UserIcon = ({color = '#000'}: {color: string}) => (
+  <Svg width="17" height="18" viewBox="0 0 17 18" fill="none">
     <Path
-      d="M10 10.625C7.35837 10.625 5.20837 8.475 5.20837 5.83333C5.20837 3.19166 7.35837 1.04166 10 1.04166C12.6417 1.04166 14.7917 3.19166 14.7917 5.83333C14.7917 8.475 12.6417 10.625 10 10.625ZM10 2.29166C8.05004 2.29166 6.45837 3.88333 6.45837 5.83333C6.45837 7.78333 8.05004 9.375 10 9.375C11.95 9.375 13.5417 7.78333 13.5417 5.83333C13.5417 3.88333 11.95 2.29166 10 2.29166Z"
-      fill={color}
+      d="M8.50016 9.00033C10.4562 9.00033 12.0418 7.41467 12.0418 5.45866C12.0418 3.50265 10.4562 1.91699 8.50016 1.91699C6.54415 1.91699 4.9585 3.50265 4.9585 5.45866C4.9585 7.41467 6.54415 9.00033 8.50016 9.00033Z"
+      stroke={color}
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
     <Path
-      d="M17.1585 18.9583C16.8168 18.9583 16.5335 18.675 16.5335 18.3333C16.5335 15.4583 13.6001 13.125 10.0001 13.125C6.40013 13.125 3.4668 15.4583 3.4668 18.3333C3.4668 18.675 3.18346 18.9583 2.8418 18.9583C2.50013 18.9583 2.2168 18.675 2.2168 18.3333C2.2168 14.775 5.70846 11.875 10.0001 11.875C14.2918 11.875 17.7835 14.775 17.7835 18.3333C17.7835 18.675 17.5001 18.9583 17.1585 18.9583Z"
-      fill={color}
+      d="M14.5847 16.0833C14.5847 13.3421 11.8576 11.125 8.50011 11.125C5.14261 11.125 2.41553 13.3421 2.41553 16.0833"
+      stroke={color}
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
   </Svg>
 );
-export const DocumentIcon = ({color}: {color?: string}) => {
+export const DocumentIcon = () => {
   return (
-    <Svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg">
+    <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <Path
         d="M7.50008 18.3322H12.5001C16.6667 18.3322 18.3334 16.6655 18.3334 12.4989V7.49886C18.3334 3.33219 16.6667 1.66553 12.5001 1.66553H7.50008C3.33341 1.66553 1.66675 3.33219 1.66675 7.49886V12.4989C1.66675 16.6655 3.33341 18.3322 7.50008 18.3322Z"
         stroke="#2F313F"
@@ -164,84 +203,9 @@ export const DocumentIcon = ({color}: {color?: string}) => {
     </Svg>
   );
 };
-export const TicketIcon = ({color}: {color?: string}) => {
-  return (
-    <Svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg">
-      <Path
-        d="M16.2501 10.4159C16.2501 9.26585 17.1834 8.33252 18.3334 8.33252V7.49919C18.3334 4.16585 17.5001 3.33252 14.1667 3.33252H5.83341C2.50008 3.33252 1.66675 4.16585 1.66675 7.49919V7.91585C2.81675 7.91585 3.75008 8.84919 3.75008 9.99919C3.75008 11.1492 2.81675 12.0825 1.66675 12.0825V12.4992C1.66675 15.8325 2.50008 16.6659 5.83341 16.6659H14.1667C17.5001 16.6659 18.3334 15.8325 18.3334 12.4992C17.1834 12.4992 16.2501 11.5659 16.2501 10.4159Z"
-        stroke="#2F313F"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <Path
-        d="M7.5 12.2905L12.5 7.29053"
-        stroke="#2F313F"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <Path
-        d="M12.4953 12.2907H12.5028"
-        stroke="#2F313F"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <Path
-        d="M7.49534 7.70719H7.50283"
-        stroke="#2F313F"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </Svg>
-  );
-};
-export const NotificationIcon = ({color}: {color?: string}) => {
-  return (
-    <Svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg">
-      <Path
-        d="M10.0167 2.42383C7.25841 2.42383 5.01674 4.66549 5.01674 7.42383V9.83216C5.01674 10.3405 4.80007 11.1155 4.54174 11.5488L3.58341 13.1405C2.99174 14.1238 3.40007 15.2155 4.48341 15.5822C8.07507 16.7822 11.9501 16.7822 15.5417 15.5822C16.5501 15.2488 16.9917 14.0572 16.4417 13.1405L15.4834 11.5488C15.2334 11.1155 15.0167 10.3405 15.0167 9.83216V7.42383C15.0167 4.67383 12.7667 2.42383 10.0167 2.42383Z"
-        stroke="#2F313F"
-        stroke-width="1.5"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-      />
-      <Path
-        d="M11.5584 2.66572C11.3001 2.59072 11.0334 2.53239 10.7584 2.49906C9.95843 2.39906 9.19176 2.45739 8.4751 2.66572C8.71676 2.04906 9.31676 1.61572 10.0168 1.61572C10.7168 1.61572 11.3168 2.04906 11.5584 2.66572Z"
-        stroke="#2F313F"
-        stroke-width="1.5"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <Path
-        d="M12.5166 15.8823C12.5166 17.2573 11.3916 18.3823 10.0166 18.3823C9.33327 18.3823 8.69993 18.099 8.24993 17.649C7.79993 17.199 7.5166 16.5657 7.5166 15.8823"
-        stroke="#2F313F"
-        stroke-width="1.5"
-        stroke-miterlimit="10"
-      />
-    </Svg>
-  );
-};
+
 export const ProfileCircleIcon = () => (
-  <Svg
-    width="20"
-    height="20"
-    viewBox="0 0 20 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+  <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <Path
       d="M10.0999 10.6488C10.0416 10.6404 9.9666 10.6404 9.89993 10.6488C8.43327 10.5988 7.2666 9.39876 7.2666 7.92376C7.2666 6.41543 8.48327 5.19043 9.99993 5.19043C11.5083 5.19043 12.7333 6.41543 12.7333 7.92376C12.7249 9.39876 11.5666 10.5988 10.0999 10.6488Z"
       stroke="#2F313F"
@@ -266,12 +230,7 @@ export const ProfileCircleIcon = () => (
   </Svg>
 );
 export const BookIcon = () => (
-  <Svg
-    width="20"
-    height="20"
-    viewBox="0 0 20 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+  <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <Path
       d="M18.3334 3.89077V13.9491C18.3334 14.7491 17.6834 15.4991 16.8834 15.5991L16.6084 15.6325C14.7917 15.8741 11.9917 16.7991 10.3917 17.6824C10.1751 17.8074 9.81676 17.8074 9.59176 17.6824L9.55839 17.6658C7.95839 16.7908 5.16677 15.8741 3.35844 15.6325L3.11674 15.5991C2.31674 15.4991 1.66675 14.7491 1.66675 13.9491V3.88242C1.66675 2.89076 2.47506 2.14077 3.46673 2.2241C5.21673 2.36577 7.86672 3.24912 9.35006 4.17412L9.55839 4.29909C9.80006 4.44909 10.2001 4.44909 10.4418 4.29909L10.5834 4.20744C11.1084 3.88244 11.7751 3.55743 12.5001 3.26577V6.66578L14.1667 5.55743L15.8334 6.66578V2.3158C16.0584 2.27414 16.2751 2.24911 16.4751 2.23244H16.5251C17.5168 2.14911 18.3334 2.89077 18.3334 3.89077Z"
       stroke="#2F313F"
@@ -376,7 +335,6 @@ export const EyeClosed = ({
     height={height}
     viewBox="0 0 17 18"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     style={style}>
     <Path
       d="M10.2923 7.20786L6.70811 10.792C6.24769 10.3316 5.96436 9.70119 5.96436 8.99994C5.96436 7.59744 7.09769 6.46411 8.50019 6.46411C9.20144 6.46411 9.83186 6.74744 10.2923 7.20786Z"
@@ -984,104 +942,6 @@ export const CloseIcon = () => {
   );
 };
 
-export const ChurchIcon = ({color}: {color: string}) => {
-  return (
-    <Svg width={24} height={25} fill="none">
-      <Path
-        fill="#000"
-        d="m23.552 15.862-4.167-2.5v-2.247a.923.923 0 0 0-.462-.807l-6-3.42V4.654h1.846a.923.923 0 0 0 0-1.846h-1.846V.962a.923.923 0 0 0-1.846 0v1.846H9.23a.923.923 0 1 0 0 1.846h1.846v2.234l-6 3.425a.923.923 0 0 0-.462.808v2.247L.448 15.862a.923.923 0 0 0-.448.792v7.384a.923.923 0 0 0 .923.924h9.23a.923.923 0 0 0 .924-.924V18.5a.923.923 0 0 1 1.846 0v5.538a.923.923 0 0 0 .923.924h9.23a.923.923 0 0 0 .924-.924v-7.384a.924.924 0 0 0-.448-.792ZM1.846 17.177l2.77-1.662v7.6h-2.77v-5.938ZM12 15.73A2.769 2.769 0 0 0 9.23 18.5v4.615H6.463V11.651L12 8.486l5.538 3.165v11.464H14.77V18.5A2.769 2.769 0 0 0 12 15.73Zm10.154 7.384h-2.77v-7.6l2.77 1.662v5.938Z"
-      />
-    </Svg>
-  );
-};
-
-export const SpeakerIcon = ({color}: {color: string}) => {
-  return (
-    <Svg width={21} height={18} fill="none">
-      <Path
-        fill="#fff"
-        d="M6.108 5.355 3.902 9.358l-2.974.75 1.024 4.339 2.974-.75L8.668 16.2 6.108 5.355Zm1.815.535-.005.626c1.724.066 3.22 1.38 3.652 3.208.431 1.827-.311 3.705-1.813 4.585l.284.553c1.726-1.011 2.582-3.179 2.087-5.279-.496-2.1-2.223-3.616-4.205-3.693ZM7.91 7.56l-.005.625c1.03.04 1.922.823 2.179 1.913.258 1.091-.185 2.21-1.081 2.736l.283.553c1.12-.657 1.678-2.065 1.356-3.43-.322-1.363-1.444-2.348-2.732-2.398Zm-.014 1.668-.005.625c.335.013.622.266.706.62.084.355-.06.716-.35.886l.283.553c.516-.302.773-.952.625-1.58-.148-.627-.666-1.082-1.259-1.104Z"
-      />
-      <Path
-        fill="url(#a)"
-        d="M14.324 12.612h4.652v6.867h-4.652z"
-        transform="rotate(-114.87 14.324 12.612)"
-      />
-      <Path
-        fill="url(#b)"
-        d="M16.78 8.232h4.652v6.867H16.78z"
-        transform="rotate(-165 16.78 8.232)"
-      />
-      <Path
-        fill="url(#c)"
-        d="M10.471 14.055h4.652v6.867h-4.652z"
-        transform="rotate(-58.965 10.471 14.055)"
-      />
-    </Svg>
-  );
-};
-export const CarIcon = ({color}) => (
-  <Svg width="26" height="26" viewBox="0 0 22 21" fill="none">
-    <Path
-      d="M14.5433 1H7.51662C5.03662 1 4.47663 2.24002 4.16996 3.77336L3.03662 9.17334H19.0366L17.9033 3.77336C17.57 2.24002 17.0233 1 14.5433 1Z"
-      stroke={color}
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <Path
-      d="M21.0103 17.9867C21.1169 19.16 20.1836 20.1733 18.9836 20.1733H17.1036C16.0236 20.1733 15.8769 19.7066 15.6769 19.1466L15.4769 18.5467C15.1969 17.7334 15.0103 17.1733 13.5703 17.1733H8.45028C7.01028 17.1733 6.79693 17.8 6.5436 18.5467L6.34361 19.1466C6.15694 19.72 6.01026 20.1733 4.91693 20.1733H3.03693C1.83693 20.1733 0.890275 19.16 1.01027 17.9867L1.57027 11.8933C1.71694 10.3866 1.99693 9.16 4.6236 9.16H17.3836C20.0103 9.16 20.2903 10.3866 20.4369 11.8933L21.0103 17.9867Z"
-      stroke={color}
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <Path
-      d="M3.02344 6.17334H2.02344"
-      stroke={color}
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <Path
-      d="M20.0234 6.17334H19.0234"
-      stroke={color}
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <Path
-      d="M5.02344 13.1733H8.02344"
-      stroke={color}
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <Path
-      d="M14.0234 13.1733H17.0234"
-      stroke={color}
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </Svg>
-);
-
-export const EditIcon = ({color = '#fff'}) => {
-  return (
-    <Svg width={19} height={19} fill="none">
-      <Path
-        fill={color}
-        d="m15.988 0 3 3-2.287 2.288-3-3L15.988 0ZM5 13.988h3l7.287-7.287-3-3L5 10.988v3Z"
-      />
-      <Path
-        fill={color}
-        d="M16 16.988H5.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H2v-14h6.847l2-2H2c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2V8.32l-2 2v6.668Z"
-      />
-    </Svg>
-  );
-};
-
 export const DrawerIcon = ({color = '#fff'}) => (
   <Svg width={20} height={20} viewBox="0 0 20 15" fill="none">
     <Rect width="15" height="2.5" rx="1.25" fill={color} />
@@ -1135,32 +995,13 @@ export const WarnIcon = () => (
   </Svg>
 );
 
-export const Cancel = ({color}) => (
+export const Cancel = ({color}: {color: string}) => (
   <Svg width="14" height="14" viewBox="0 0 14 14" fill="none">
     <Path
       d="M1 13L7 7L13 13M13 1L6.99886 7L1 1"
       stroke={color}
       stroke-opacity="0.5"
       stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </Svg>
-);
-
-export const HistoryIcon = ({color}) => (
-  <Svg width="28" height="27" viewBox="0 0 28 27" fill="none">
-    <Path
-      d="M14 25.6667C20.6274 25.6667 26 20.2942 26 13.6667C26 7.03933 20.6274 1.66675 14 1.66675C7.37258 1.66675 2 7.03933 2 13.6667C2 20.2942 7.37258 25.6667 14 25.6667Z"
-      stroke="white"
-      stroke-width="2.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <Path
-      d="M13 7.4668V14.6668L17.8 17.0668"
-      stroke="white"
-      stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
@@ -1582,7 +1423,7 @@ export const MenuIcon = () => {
   );
 };
 
-export const SearchIcon = ({color}) => {
+export const SearchIcon = ({color}: {color: string}) => {
   return (
     <Svg width="18" height="18" viewBox="0 0 24 24" fill="none">
       <Path
@@ -1649,27 +1490,6 @@ export const KekeIcon = () => {
   );
 };
 
-export const CarIcon2 = () => {
-  return (
-    <Svg width={23} height={22} fill="none">
-      <Path
-        stroke="#111"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.5}
-        d="M15.187 1.16H8.16c-2.48 0-3.04 1.24-3.347 2.773l-1.133 5.4h16l-1.133-5.4c-.334-1.533-.88-2.773-3.36-2.773Z"
-      />
-      <Path
-        stroke="#111"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.5}
-        d="M21.654 18.147c.106 1.173-.827 2.186-2.027 2.186h-1.88c-1.08 0-1.227-.466-1.427-1.026l-.2-.6c-.28-.814-.466-1.374-1.906-1.374h-5.12c-1.44 0-1.654.627-1.907 1.374l-.2.6c-.187.573-.333 1.026-1.427 1.026H3.68c-1.2 0-2.146-1.013-2.026-2.186l.56-6.094c.146-1.506.426-2.733 3.053-2.733h12.76c2.627 0 2.907 1.227 3.053 2.733l.574 6.094ZM3.667 6.333h-1M20.667 6.333h-1M5.667 13.333h3M14.667 13.333h3"
-      />
-    </Svg>
-  );
-};
-
 export const CardIcon = () => {
   return (
     <Svg width={24} height={24} fill="none">
@@ -1702,21 +1522,6 @@ export const ArrowLeftIcon2 = () => {
         strokeMiterlimit={10}
         strokeWidth={2}
         d="M8.056 14.856 3.2 10l4.856-4.856M16.8 10H3.336"
-      />
-    </Svg>
-  );
-};
-
-export const EditIcon2 = () => {
-  return (
-    <Svg width={16} height={17} fill="none">
-      <Path
-        fill="#fff"
-        d="m13.59.69 2.4 2.492-1.829 1.9-2.4-2.491 1.83-1.9ZM4.8 12.308h2.4l5.83-6.051-2.4-2.492L4.8 9.816v2.491Z"
-      />
-      <Path
-        fill="#fff"
-        d="M13.6 14.799H4.927c-.021 0-.043.008-.064.008-.026 0-.052-.007-.08-.008H2.4V3.172h5.478l1.6-1.66H2.4c-.882 0-1.6.743-1.6 1.66V14.8c0 .917.718 1.661 1.6 1.661h11.2c.425 0 .832-.175 1.132-.487.3-.311.468-.733.468-1.174V7.6l-1.6 1.661V14.8Z"
       />
     </Svg>
   );
@@ -1853,43 +1658,6 @@ export const CloseIcon2 = () => {
   );
 };
 
-export const ChurchIcon2 = ({color}: {color: string}) => {
-  return (
-    <Svg width={24} height={25} fill="none">
-      <Path
-        fill="#000"
-        d="m23.552 15.862-4.167-2.5v-2.247a.923.923 0 0 0-.462-.807l-6-3.42V4.654h1.846a.923.923 0 0 0 0-1.846h-1.846V.962a.923.923 0 0 0-1.846 0v1.846H9.23a.923.923 0 1 0 0 1.846h1.846v2.234l-6 3.425a.923.923 0 0 0-.462.808v2.247L.448 15.862a.923.923 0 0 0-.448.792v7.384a.923.923 0 0 0 .923.924h9.23a.923.923 0 0 0 .924-.924V18.5a.923.923 0 0 1 1.846 0v5.538a.923.923 0 0 0 .923.924h9.23a.923.923 0 0 0 .924-.924v-7.384a.924.924 0 0 0-.448-.792ZM1.846 17.177l2.77-1.662v7.6h-2.77v-5.938ZM12 15.73A2.769 2.769 0 0 0 9.23 18.5v4.615H6.463V11.651L12 8.486l5.538 3.165v11.464H14.77V18.5A2.769 2.769 0 0 0 12 15.73Zm10.154 7.384h-2.77v-7.6l2.77 1.662v5.938Z"
-      />
-    </Svg>
-  );
-};
-
-export const SpeakerIcon2 = ({color}: {color: string}) => {
-  return (
-    <Svg width={21} height={18} fill="none">
-      <Path
-        fill="#fff"
-        d="M6.108 5.355 3.902 9.358l-2.974.75 1.024 4.339 2.974-.75L8.668 16.2 6.108 5.355Zm1.815.535-.005.626c1.724.066 3.22 1.38 3.652 3.208.431 1.827-.311 3.705-1.813 4.585l.284.553c1.726-1.011 2.582-3.179 2.087-5.279-.496-2.1-2.223-3.616-4.205-3.693ZM7.91 7.56l-.005.625c1.03.04 1.922.823 2.179 1.913.258 1.091-.185 2.21-1.081 2.736l.283.553c1.12-.657 1.678-2.065 1.356-3.43-.322-1.363-1.444-2.348-2.732-2.398Zm-.014 1.668-.005.625c.335.013.622.266.706.62.084.355-.06.716-.35.886l.283.553c.516-.302.773-.952.625-1.58-.148-.627-.666-1.082-1.259-1.104Z"
-      />
-      <Path
-        fill="url(#a)"
-        d="M14.324 12.612h4.652v6.867h-4.652z"
-        transform="rotate(-114.87 14.324 12.612)"
-      />
-      <Path
-        fill="url(#b)"
-        d="M16.78 8.232h4.652v6.867H16.78z"
-        transform="rotate(-165 16.78 8.232)"
-      />
-      <Path
-        fill="url(#c)"
-        d="M10.471 14.055h4.652v6.867h-4.652z"
-        transform="rotate(-58.965 10.471 14.055)"
-      />
-    </Svg>
-  );
-};
-
 export const EyeIcon = ({color}: {color: string}) => {
   return (
     <Svg width={20} height={14} fill="none">
@@ -1967,134 +1735,12 @@ export const PenIcon2 = () => {
   );
 };
 
-export const UploadIcon = () => {
-  return (
-    <Svg width={16} height={19} fill="none">
-      <Path
-        stroke="#fff"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2.5}
-        d="m13 9.5-5-5m0 0-5 5m5-5v13m6-16H2"
-      />
-    </Svg>
-  );
-};
-
 export const DeleteIcon = () => {
   return (
     <Svg width={13} height={15} fill="none">
       <Path
         fill="#8B0000"
         d="M10.25 14.25c.412 0 .765-.147 1.059-.44.294-.294.441-.648.441-1.06V3h.75V1.5H8.75V.75h-4.5v.75H.5V3h.75v9.75c0 .412.147.766.44 1.06.294.293.647.44 1.06.44h7.5Zm-1.5-3h-1.5V4.5h1.5v6.75Zm-3 0h-1.5V4.5h1.5v6.75Z"
-      />
-    </Svg>
-  );
-};
-
-export const SuccessStatusIcon = () => {
-  return (
-    <Svg width={80} height={79} fill="none">
-      <Circle cx={40} cy={39.5} r={39.5} fill="#03045E" />
-      <Path
-        fill="#fff"
-        d="M60.647 27.18 32.432 55.394 19.502 42.463l3.315-3.316 9.616 9.593 24.9-24.875 3.315 3.315Z"
-      />
-    </Svg>
-  );
-};
-
-export const GpsMarkerIcon = ({color}: {color?: string}) => {
-  return (
-    <Svg width={14} height={21} fill="none">
-      <Path
-        fill={color ? color : '#111'}
-        fillOpacity={0.5}
-        d="M7 20.682S0 11.386 0 7.446c0-.936.181-1.863.533-2.728A7.137 7.137 0 0 1 2.05 2.406 6.993 6.993 0 0 1 4.321.86a6.892 6.892 0 0 1 5.358 0c.85.358 1.62.883 2.27 1.545a7.136 7.136 0 0 1 1.518 2.312c.352.865.533 1.792.533 2.728 0 3.94-7 13.236-7 13.236Zm0-11.2c.53 0 1.04-.215 1.414-.597.375-.381.586-.9.586-1.44 0-.54-.21-1.058-.586-1.44A1.982 1.982 0 0 0 7 5.41c-.53 0-1.04.215-1.414.597-.375.381-.586.9-.586 1.44 0 .54.21 1.058.586 1.44.375.381.884.596 1.414.596Z"
-      />
-    </Svg>
-  );
-};
-
-export const DashedLineIcon = () => {
-  return (
-    <Svg width={2} height={'100%'} fill="none">
-      <Path
-        stroke="#000"
-        strokeDasharray="5 5"
-        strokeLinecap="round"
-        d="M1 1v62"
-      />
-    </Svg>
-  );
-};
-
-export const ChevronIcon = ({color}: {color?: string}) => {
-  return (
-    <Svg width={18} height={11} fill="none">
-      <Path
-        stroke={color ? color : '#03045E'}
-        strokeLinecap="round"
-        strokeWidth={3}
-        d="m2 1.5 7 7 7-7"
-      />
-    </Svg>
-  );
-};
-
-export const CancelIcon = ({color}: {color?: string}) => {
-  return (
-    <Svg width={20} height={20} fill="none">
-      <Path
-        stroke={color ? color : '#000'}
-        strokeLinecap="round"
-        strokeWidth={2}
-        d="M3.636 3.636a9 9 0 1 1 12.728 12.728A9 9 0 0 1 3.636 3.636ZM4 4l12 12"
-      />
-    </Svg>
-  );
-};
-
-export const AddIcon = ({color}: {color?: string}) => {
-  return (
-    <Svg width={14} height={14} fill="none">
-      <Path
-        fill={color}
-        fillRule="evenodd"
-        d="M7.778.778a.778.778 0 1 0-1.556 0v5.444H.778a.778.778 0 0 0 0 1.556h5.444v5.444a.778.778 0 1 0 1.556 0V7.778h5.444a.778.778 0 1 0 0-1.556H7.778V.778Z"
-        clipRule="evenodd"
-      />
-    </Svg>
-  );
-};
-
-export const WithdrawIcon = ({color}: {color?: string}) => {
-  return (
-    <Svg width={13} height={14} fill="none">
-      <Path
-        fill={color}
-        d="M11.9 11.2a.7.7 0 1 0 0-1.4H2.39l1.605-1.605a.7.7 0 1 0-.99-.99l-2.8 2.8a.697.697 0 0 0 .008.998l2.792 2.792a.7.7 0 0 0 .99-.99L2.39 11.2h9.51ZM.7 4.2h9.51L8.605 5.805a.7.7 0 1 0 .99.99l2.8-2.8a.7.7 0 0 0 0-.99l-2.8-2.8a.7.7 0 0 0-.99.99L10.21 2.8H.7a.7.7 0 1 0 0 1.4Z"
-      />
-    </Svg>
-  );
-};
-export const ArrowUpIcon = ({color}: {color?: string}) => {
-  return (
-    <Svg width={11} height={15} fill="none">
-      <Path
-        fill={color}
-        d="M6.148.268a.917.917 0 0 0-1.296 0L.268 4.852a.917.917 0 1 0 1.297 1.296L4.583 3.13v10.62a.917.917 0 1 0 1.834 0V3.13l3.018 3.018a.917.917 0 1 0 1.296-1.296L6.149.268Z"
-      />
-    </Svg>
-  );
-};
-
-export const ArrowDownIcon2 = ({color}: {color?: string}) => {
-  return (
-    <Svg width={11} height={14} fill="none">
-      <Path
-        fill={color}
-        d="M5.032 13.303a.833.833 0 0 0 1.178 0l4.167-4.167a.833.833 0 0 0-1.179-1.178l-2.744 2.744V1.047a.833.833 0 1 0-1.666 0v9.655L2.043 7.958A.833.833 0 1 0 .865 9.136l4.167 4.167Z"
       />
     </Svg>
   );
@@ -2125,17 +1771,6 @@ export const ShareIcon = ({color}: {color?: string}) => {
       <Path
         fill={color}
         d="M11.2.8A2.8 2.8 0 0 0 8.428 4L4.514 6.286a2.8 2.8 0 1 0 0 4.429l3.915 2.282a2.8 2.8 0 1 0 1.06-1.813L5.572 8.9a2.823 2.823 0 0 0 0-.8l3.915-2.286A2.8 2.8 0 1 0 11.2.8Z"
-      />
-    </Svg>
-  );
-};
-
-export const CreditCardIcon = ({color}: {color?: string}) => {
-  return (
-    <Svg width={18} height={13} fill="none">
-      <Path
-        fill={color}
-        d="M1.852.06C.865.06.065.86.065 1.847v1.787h17.87V1.847c0-.987-.8-1.787-1.787-1.787H1.852ZM17.935 6.314H.065v4.467c0 .987.8 1.787 1.787 1.787h14.296c.987 0 1.787-.8 1.787-1.787V6.314Z"
       />
     </Svg>
   );
@@ -2182,12 +1817,7 @@ export const GoogleIcon = () => (
 );
 
 export const EmailIcon = () => (
-  <Svg
-    width="18"
-    height="18"
-    viewBox="0 0 18 18"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+  <Svg width="18" height="18" viewBox="0 0 18 18" fill="none">
     <Path
       d="M1.9165 6.52091C1.9165 4.04175 3.33317 2.97925 5.45817 2.97925H12.5415C14.6665 2.97925 16.0832 4.04175 16.0832 6.52091V11.4792C16.0832 13.9584 14.6665 15.0209 12.5415 15.0209H5.45817"
       stroke="#AAAAAA"
@@ -2219,12 +1849,7 @@ export const EmailIcon = () => (
   </Svg>
 );
 export const AppleLogo = () => (
-  <Svg
-    fill="#000000"
-    height={24}
-    width={24}
-    viewBox="0 0 22.773 22.773"
-    xmlSpace="preserve">
+  <Svg fill="#000000" height={24} width={24} viewBox="0 0 22.773 22.773">
     <G>
       <G>
         <Path
@@ -2334,33 +1959,8 @@ export const LeaveRating = () => (
     />
   </Svg>
 );
-// export const NotificationIcon = ({ color }) => (
-//   <Svg width="23" height="23" viewBox="0 0 25 25" fill="none">
-//     <Path
-//       d="M12.1038 3.44824C8.79383 3.44824 6.10383 6.13824 6.10383 9.44824V12.3382C6.10383 12.9482 5.84383 13.8782 5.53383 14.3982L4.38383 16.3082C3.67383 17.4882 4.16383 18.7982 5.46383 19.2382C9.77383 20.6782 14.4238 20.6782 18.7338 19.2382C19.9438 18.8382 20.4738 17.4082 19.8138 16.3082L18.6638 14.3982C18.3638 13.8782 18.1038 12.9482 18.1038 12.3382V9.44824C18.1038 6.14824 15.4038 3.44824 12.1038 3.44824Z"
-//       stroke={color}
-//       stroke-width="1.5"
-//       stroke-miterlimit="10"
-//       stroke-linecap="round"
-//     />
-//     <Path
-//       d="M13.9537 3.73803C13.6437 3.64803 13.3237 3.57803 12.9937 3.53803C12.0337 3.41803 11.1137 3.48803 10.2537 3.73803C10.5437 2.99803 11.2637 2.47803 12.1037 2.47803C12.9437 2.47803 13.6637 2.99803 13.9537 3.73803Z"
-//       stroke={color}
-//       strokeWidth="1.5"
-//       strokeMiterlimit="10"
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//     />
-//     <Path
-//       d="M15.1038 19.5981C15.1038 21.2481 13.7538 22.5981 12.1038 22.5981C11.2838 22.5981 10.5238 22.2581 9.98376 21.7181C9.44376 21.1781 9.10376 20.4181 9.10376 19.5981"
-//       stroke={color}
-//       strokeWidth="1.5"
-//       strokeMiterlimit="10"
-//     />
-//   </Svg>
-// );
 
-export const SettingsIcon = ({color}) => (
+export const SettingsIcon = ({color}: {color: string}) => (
   <Svg width="23" height="23" viewBox="0 0 24 23" fill="none">
     <G clipPath="url(#clip0_1773_10385)">
       <Path
@@ -2431,13 +2031,8 @@ export const ShareIcon2 = () => (
     />
   </Svg>
 );
-// export const ClockIcon=()=>(
-//   <Svg width="19" height="20" viewBox="0 0 19 20" fill="none">
-// <Path d="M17.2551 10.0004C17.2551 14.3298 13.7414 17.8435 9.41199 17.8435C5.08257 17.8435 1.56885 14.3298 1.56885 10.0004C1.56885 5.67095 5.08257 2.15723 9.41199 2.15723C13.7414 2.15723 17.2551 5.67095 17.2551 10.0004Z" stroke="#2F313F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-// <Path d="M12.3216 12.4942L9.89021 11.0432C9.46668 10.7922 9.12158 10.1883 9.12158 9.6942V6.47852" stroke="#2F313F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-// </Svg>
-// )
-export const HeartIcon = ({color}) => (
+
+export const HeartIcon = ({color}: {color: string}) => (
   <Svg width="25" height="25" viewBox="0 0 25 25" fill="none">
     <Path
       d="M7.33545 3.41113C4.57445 3.41113 2.33545 5.62713 2.33545 8.36113C2.33545 10.5681 3.21045 15.8061 11.8234 21.1011C11.9777 21.195 12.1549 21.2447 12.3354 21.2447C12.516 21.2447 12.6932 21.195 12.8474 21.1011C21.4604 15.8061 22.3354 10.5681 22.3354 8.36113C22.3354 5.62713 20.0964 3.41113 17.3354 3.41113C14.5744 3.41113 12.3354 6.41113 12.3354 6.41113C12.3354 6.41113 10.0964 3.41113 7.33545 3.41113Z"

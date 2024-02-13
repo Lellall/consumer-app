@@ -1,5 +1,8 @@
-import { useTheme } from "@react-navigation/native";
-import { memo, ReactElement, useEffect } from "react";
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/react-in-jsx-scope */
+import {useTheme} from '@react-navigation/native';
+import React from 'react';
+import {memo, ReactElement, useEffect} from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -7,13 +10,13 @@ import {
   TextStyle,
   TouchableOpacity,
   ViewStyle,
-} from "react-native";
+} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withTiming,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
 interface ButtonProps {
   IconRight?: ReactElement;
@@ -41,34 +44,30 @@ function Button({
   pale,
   ...props
 }: ButtonProps) {
-  const { width } = Dimensions.get("window");
+  const {width} = Dimensions.get('window');
   const sharedValue = useSharedValue(-width);
-  const { colors } = useTheme();
+  const {colors} = useTheme();
 
   const background = pale
-    ? "transparent"
-    : backgroundColor || style?.backgroundColor || "#0E5D37";
+    ? 'transparent'
+    : backgroundColor || style?.backgroundColor || '#0E5D37';
   const paleStyle = pale
     ? {
         borderWidth: 1,
-        borderColor: "#fff",
+        borderColor: '#fff',
       }
     : {};
 
   const reanimatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: sharedValue.value }],
+      transform: [{translateX: sharedValue.value}],
     };
   });
   const startLoading = () => {
-    sharedValue.value = withRepeat(
-      withTiming(0.5, { duration: 1000 }),
-      -1,
-      true
-    );
+    sharedValue.value = withRepeat(withTiming(0.5, {duration: 1000}), -1, true);
   };
   const stopLoading = () => {
-    sharedValue.value = withTiming(-width, { duration: 1000 });
+    sharedValue.value = withTiming(-width, {duration: 1000});
   };
 
   useEffect(() => {
@@ -87,14 +86,13 @@ function Button({
         styles.buttonContainer,
         style,
         paleStyle,
-        { backgroundColor: disabled ? "#F3F3F8" : background },
+        {backgroundColor: disabled ? '#F3F3F8' : background},
       ]}
-      {...props}
-    >
+      {...props}>
       <Animated.View
         style={[
           styles.animatedView,
-          { backgroundColor: "#0E5D37" },
+          {backgroundColor: '#0E5D37'},
           reanimatedStyle,
         ]}
       />
@@ -103,11 +101,10 @@ function Button({
         style={[
           styles.text,
           {
-            color: disabled ? "#AAAAAA" : "#fff",
+            color: disabled ? '#AAAAAA' : '#fff',
           },
           fontStyle,
-        ]}
-      >
+        ]}>
         {label}
       </Animated.Text>
       {IconRight && !isLoading && IconRight}
@@ -118,7 +115,7 @@ function Button({
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    width: "100%",
+    width: '100%',
     // backgroundColor: lightTheme.colors.PrimaryColor,
     height: 46,
     // shadowColor: '#000',
@@ -129,28 +126,28 @@ const styles = StyleSheet.create({
     // shadowOpacity: 0.25,
     // shadowRadius: 3.84,
 
-    marginLeft: "auto",
-    marginRight: "auto",
+    marginLeft: 'auto',
+    marginRight: 'auto',
     borderRadius: 3,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
     paddingHorizontal: 10,
-    position: "relative",
-    overflow: "hidden",
+    position: 'relative',
+    overflow: 'hidden',
   },
   text: {
     fontSize: 12,
-    marginLeft: "auto",
-    marginRight: "auto",
-    fontWeight: "bold",
-    color: "#fff",
-    fontFamily: "Poppins-Regular",
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    fontWeight: 'bold',
+    color: '#fff',
+    fontFamily: 'Poppins-Regular',
   },
   animatedView: {
-    position: "absolute",
+    position: 'absolute',
     zIndex: 10,
-    backgroundColor: "#ffff",
+    backgroundColor: '#ffff',
     opacity: 0.3,
     top: 0,
     bottom: 0,

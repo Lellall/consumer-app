@@ -33,7 +33,7 @@ import Toast from 'react-native-toast-message';
   },
 */
 
-export default function ProfileScreen({navigation}) {
+export default function ProfileScreen() {
   const {user} = useSelector((state: User) => state.user);
   const {
     firstName,
@@ -176,7 +176,7 @@ export default function ProfileScreen({navigation}) {
         <SettingsHeader
           title="Profile"
           iconRight
-          // navigation={navigation}
+          //
           iconLeft={undefined}
           navigateLeftTo={undefined}
         />

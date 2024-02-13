@@ -1,5 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  Linking,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import * as Yup from 'yup';
 import React, {useEffect} from 'react';
 import Input from '../../components/Inputs/Input';
@@ -8,7 +15,6 @@ import Button from '../../components/Buttons/Button';
 import {
   AppleLogo,
   EmailIcon,
-  EyeClosed,
   GoogleIcon,
   UserIcon,
 } from '../../assets/Svg/Index';
@@ -16,10 +22,23 @@ import Colors from '../../constants/Colors';
 import {useFormik} from 'formik';
 // import useAlert from '../../hooks/useAlert';
 // import {useDispatch} from 'react-redux';
-import {usePostSignupMutation} from './auth-api';
+import {
+  usePostGoogleAuthMutation,
+  usePostGoogleAuthVerifyMutation,
+  usePostSignupMutation,
+} from './auth-api';
 import Toast from 'react-native-toast-message';
+import useDeepLink from '../../utils/useDeepLink';
+import {useDispatch} from 'react-redux';
+import {setUser} from '../../redux/user/userSlice';
 
-export default function SignUpScreen({navigation, signIn}) {
+export default function SignUpScreen({
+  navigation,
+  signIn,
+}: {
+  navigation: any;
+  signIn: void;
+}) {
   const initialValues = {
     first_name: '',
     last_name: '',
@@ -31,6 +50,21 @@ export default function SignUpScreen({navigation, signIn}) {
 
   const [postSignup, {data, isLoading, isSuccess, isError, error}] =
     usePostSignupMutation();
+  const dispatch = useDispatch();
+  const {value} = useDeepLink();
+  const [
+    postGoogleAuth,
+    {
+      isLoading: googleLoading,
+      isSuccess: googleSucess,
+      isError: googleError,
+      data: myData,
+    },
+  ] = usePostGoogleAuthMutation();
+  const [
+    postGoogleAuthVerify,
+    {isLoading: verifyLoading, isError: verifyError, isSuccess: verifySuccess},
+  ] = usePostGoogleAuthVerifyMutation();
 
   const validationSchema = Yup.object({
     first_name: Yup.string().required('First name is required'),
@@ -52,7 +86,7 @@ export default function SignUpScreen({navigation, signIn}) {
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
-    onSubmit: async values => {
+    onSubmit: async (values, {resetForm}) => {
       const {password, last_name, first_name, email} = values;
       postSignup({
         firstName: first_name,
@@ -62,6 +96,7 @@ export default function SignUpScreen({navigation, signIn}) {
         platformType: 'ANDROID',
         role: 'CONSUMER',
       });
+      resetForm();
     },
   });
 
@@ -74,6 +109,18 @@ export default function SignUpScreen({navigation, signIn}) {
       return message;
     }
   };
+
+  useEffect(() => {
+    if (value) {
+      postGoogleAuthVerify({
+        code: value,
+      });
+    }
+
+    if (verifySuccess) {
+      navigation.navigate('MainApp');
+    }
+  }, [navigation, postGoogleAuthVerify, value, verifySuccess]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -95,6 +142,7 @@ export default function SignUpScreen({navigation, signIn}) {
   }, [isError, error]);
   const {handleChange, handleSubmit, values, errors} = formik;
   const {password, email, first_name, last_name, confirm_password} = values;
+
   return (
     <View style={styles.container}>
       <Text style={{color: '#818391', textAlign: 'center'}}>
@@ -110,7 +158,7 @@ export default function SignUpScreen({navigation, signIn}) {
         value={first_name}
         onChange={handleChange('first_name')}
         placeholder="First Name"
-        Icon={<UserIcon height={17} width={17} color="#AAAAAA" />}
+        Icon={<UserIcon color="#818391" />}
       />
       <Input
         label=""
@@ -120,7 +168,7 @@ export default function SignUpScreen({navigation, signIn}) {
         value={last_name}
         onChange={handleChange('last_name')}
         placeholder="Last Name"
-        Icon={<UserIcon height={17} width={17} color="#AAAAAA" />}
+        Icon={<UserIcon color="#818391" />}
       />
       <Input
         label=""
@@ -166,8 +214,14 @@ export default function SignUpScreen({navigation, signIn}) {
       <View style={styles.otherSign}>
         <Text style={{color: '#AAAAAA'}}>Other sign in options</Text>
 
-        <TouchableOpacity style={styles.option}>
-          <GoogleIcon />
+        <TouchableOpacity
+          onPress={async () => {
+            const data1 = await postGoogleAuth('');
+            console.log(data1, 'lll');
+            Linking.openURL(data1.error.data);
+          }}
+          style={styles.option}>
+          {googleLoading ? <ActivityIndicator color="#000" /> : <GoogleIcon />}
         </TouchableOpacity>
         <TouchableOpacity style={styles.option}>
           <AppleLogo />
@@ -188,6 +242,31 @@ export default function SignUpScreen({navigation, signIn}) {
             borderLeftWidth: 1,
             borderLeftColor: Colors.general.border,
             paddingHorizontal: 10,
+          }}
+          onPress={() => {
+            dispatch(
+              setUser({
+                refresh_token: '',
+                access_token: '',
+                token_type: '',
+                user: {
+                  id: 'string',
+                  username: 'Anonymous',
+                  firstName: 'Anonymous',
+                  lastName: 'Anonymous',
+                  role: 'Consumer',
+                  isEmailVerified: false,
+                  registrationSource: '',
+                  streetName: '',
+                  houseNumber: '',
+                  apartmentName: '',
+                  estate: '',
+                  poBox: '',
+                  trial: true,
+                },
+              }),
+            );
+            navigation.navigate('MainApp');
           }}>
           <Text style={{fontSize: 12, color: Colors.general.border}}>
             Skip for now

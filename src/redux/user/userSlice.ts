@@ -7,7 +7,7 @@ const initialState: LoginResponse = {
   token_type: '',
   user: undefined,
 };
-const setAuthHandler = (state, {payload: auth}) => {
+const setAuthHandler = (state: LoginResponse, {payload: auth}) => {
   state = auth;
   return state;
 };

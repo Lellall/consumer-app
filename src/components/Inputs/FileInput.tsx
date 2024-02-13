@@ -102,7 +102,7 @@ export default function FileInput({
                     .then(response => {
                       // Handle the response data
                       setFileLoading(false);
-                      console.log(response, 'lll');
+
                       if (response.status == 200) {
                         showAlert({text: 'Succesful Uploaded'});
                         onSuccess?.();
