@@ -63,8 +63,8 @@ export default function AppHeader({search, setSearch}: Props) {
         }}>
         <View style={[styles.image, {backgroundColor: 'lightblue'}]}>
           <Text style={{fontSize: 17, fontWeight: '800'}}>
-            {user?.firstName[0]}
-            {user?.lastName[0]}
+            {user?.firstName[0].toUpperCase()}
+            {user?.lastName[0].toUpperCase()}
           </Text>
         </View>
       </TouchableOpacity>
