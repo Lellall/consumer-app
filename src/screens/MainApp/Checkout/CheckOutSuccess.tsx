@@ -9,10 +9,14 @@ import Button from '../../../components/Buttons/Button';
 import {useNavigation} from '@react-navigation/native';
 import {AchieveImage} from '../../../assets/Images';
 import {CheckoutSuccessProps} from '../../../navigation/Stack/HomeScreenStack';
+import {useSelector} from 'react-redux';
+import {User} from '../../Authentication/auth-api';
 
 const CheckOutSuccess = ({route}: CheckoutSuccessProps) => {
   const {tansaction_id} = route.params;
   const navigation = useNavigation();
+  const {user} = useSelector((state: User) => state.user);
+
   return (
     <View style={styles.container}>
       <CheckoutHeader title="Order Complete" icon={false} />
@@ -22,7 +26,7 @@ const CheckOutSuccess = ({route}: CheckoutSuccessProps) => {
       </Text>
       <View style={styles.order}>
         <Text>Your transaction id is</Text>
-        <Text h3> {tansaction_id}</Text>
+        <Text h2> {tansaction_id}</Text>
       </View>
       <Text style={{textAlign: 'center'}}>
         Check your order history for more details.
@@ -33,7 +37,7 @@ const CheckOutSuccess = ({route}: CheckoutSuccessProps) => {
       </View>
       <Text style={{textAlign: 'center'}}>You will receive an email at </Text>
       <Text style={{textAlign: 'center'}} h3>
-        jondoe@mymail.com
+        {user.username}
       </Text>
 
       <Button

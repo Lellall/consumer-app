@@ -21,6 +21,7 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import {CheckoutScreenProps} from '../../../navigation/Stack/HomeScreenStack';
 import {User} from '../../Authentication/auth-api';
 import {flutterWaveAuthKey, googlePlaceKey} from '../../../utils/utils';
+
 interface RedirectParams {
   status: 'successful' | 'cancelled';
   transaction_id?: string;
@@ -36,10 +37,9 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
   const [isModal, setIsModal] = useState(false);
 
   const handleOnRedirect = (data: RedirectParams) => {
-    console.log('FLUTTER WAVE DATA', data);
     if (data.status === 'successful') {
       navigation.navigate('CheckoutSuccess', {
-        orderNumber: data.transaction_id,
+        tansaction_id: data.transaction_id,
       });
       dispatch(clearCart());
       Toast.show({
@@ -154,6 +154,7 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
     onSubmit: values => {
       // navigation.navigate('Preview');
       // handleOrder(values);
+
       postOrder({
         paymentItems,
         address: {
@@ -235,7 +236,6 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
 
         <View>
           <View style={{marginTop: 35}} />
-
           <Input
             label=""
             onChange={handleChange('landMark')}
@@ -290,23 +290,23 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
             />
 
             {/* <Button
-              onPress={() => {
-                handleCheckout({
-                  userId: user?.id,
-                  shippingAddress: 'Abuja road cbn',
-                  orderId: OrderData?.orderId,
-                  type: 'INLINE',
-                });
-              }}
-              isLoading={isChecking}
-              style={{
-                width: '80%',
-                marginTop: 'auto',
-                borderRadius: 40,
-              }}
-              label="Checkokut"
-              disabled={!isOrderSuccess}
-            /> */}
+      onPress={() => {
+        handleCheckout({
+          userId: user?.id,
+          shippingAddress: 'Abuja road cbn',
+          orderId: OrderData?.orderId,
+          type: 'INLINE',
+        });
+      }}
+      isLoading={isChecking}
+      style={{
+        width: '80%',
+        marginTop: 'auto',
+        borderRadius: 40,
+      }}
+      label="Checkokut"
+      disabled={!isOrderSuccess}
+    /> */}
             {checkoutData?.transactionReference && (
               <PayWithFlutterwave
                 onRedirect={handleOnRedirect}
@@ -338,6 +338,7 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
           </View>
         </>
       </View>
+
       <>
         <LocationModal modal={isModal} setModal={setIsModal} />
       </>
