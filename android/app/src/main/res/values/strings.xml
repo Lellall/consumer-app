@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">lellall</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">Pio4cIdcNbyXPADO5og7F4TPm-gcb1EL2VtIj</string>
 </resources>
