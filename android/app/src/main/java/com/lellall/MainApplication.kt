@@ -1,5 +1,5 @@
-package com.awesomeproject
-
+package com.lellall
+import com.microsoft.codepush.react.CodePush
 import android.app.Application
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
@@ -23,7 +23,8 @@ class MainApplication : Application(), ReactApplication {
             }
 
         override fun getJSMainModuleName(): String = "index"
-
+        override fun getJSBundleFile(): String = CodePush.getJSBundleFile()
+       
         override fun getUseDeveloperSupport(): Boolean = BuildConfig.DEBUG
 
         override val isNewArchEnabled: Boolean = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED

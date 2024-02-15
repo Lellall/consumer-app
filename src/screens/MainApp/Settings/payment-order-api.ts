@@ -10,7 +10,7 @@ export const paymentOrder = createApi({
     prepareHeaders: (headers, {getState}) => {
       const {access_token} = getState().user;
       // If we have a token set in state, let's assume that we should be passing it.
-      console.log('TOKEN+++++++', access_token);
+
       if (access_token) {
         headers.set('authorization', `Bearer ${access_token}`);
       }
