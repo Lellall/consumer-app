@@ -61,7 +61,7 @@ export default function AppHeader({search, setSearch}: Props) {
             ? navigation.navigate('Authentication')
             : navigation.navigate('Settings');
         }}>
-        <View style={[styles.image, {backgroundColor: 'lightblue'}]}>
+        <View style={[styles.image, {backgroundColor: 'orange'}]}>
           <Text style={{fontSize: 17, fontWeight: '800'}}>
             {user?.firstName[0].toUpperCase()}
             {user?.lastName[0].toUpperCase()}

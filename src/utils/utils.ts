@@ -7,7 +7,7 @@ export const formatError = error => {
 };
 
 export const baseUrl = 'https://api.dev.lellall.com/';
-export const googlePlaceKey = 'AIzaSyDBqbRu9jjh3kBFSXTH6bgp7cAt2_2M2x4';
+export const googlePlaceKey = 'AIzaSyBrdpKCFrR1oMxYds0rkd80BWkhzREXmSY';
 export const flutterWaveAuthKey =
   'FLWPUBK_TEST-3f6eeabb830a9be512645153a5997d09-X';
 // 'http://api.dev.lellall.com/'
