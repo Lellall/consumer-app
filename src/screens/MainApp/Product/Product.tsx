@@ -63,9 +63,9 @@ const Product = ({route, navigation}: {route: any; navigation: any}) => {
               </View>
               <TouchableOpacity style={{padding: 10}}>
                 {/* <ShareIcon2 /> */}
-                <Text>Height:{data?.height && data?.height}</Text>
+                {/* <Text>Height:{data?.height && data?.height}</Text>
                 <Text>Width: {data?.width && data?.width}</Text>
-                <Text>Weigth: {data?.weight && data?.weight}</Text>
+                <Text>Weigth: {data?.weight && data?.weight}</Text> */}
               </TouchableOpacity>
             </View>
             <View style={styles.mainBody}>
@@ -126,7 +126,8 @@ const Product = ({route, navigation}: {route: any; navigation: any}) => {
               style={{width: '70%', borderRadius: 50}}
               onPress={() => {
                 // if (shopName === undefined || shopName === data?.shop?.name) {
-                dispatch(addToCart(data));
+                //@ts-expect-error
+                dispatch(addToCart({...data, id: data.productId}));
                 Toast.show({
                   type: 'success',
                   text1: `${data?.name} has been added to cart`,

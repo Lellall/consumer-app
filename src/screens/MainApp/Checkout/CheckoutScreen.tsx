@@ -207,7 +207,7 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
               //   setIsModal(true);
             }}
             query={{
-              key: {googlePlaceKey},
+              key: googlePlaceKey,
               language: 'en',
             }}
             nearbyPlacesAPI="GooglePlacesSearch"
