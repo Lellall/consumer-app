@@ -10,7 +10,7 @@ export const ProfileHeader = () => {
 
   return (
     <View style={styles.container}>
-      <View style={[styles.image, {backgroundColor: 'lightblue'}]}>
+      <View style={[styles.image, {backgroundColor: 'orange'}]}>
         <Text style={{fontSize: 23, fontWeight: '800'}}>
           {user?.firstName[0].toUpperCase()}
           {user?.lastName[0].toUpperCase()}

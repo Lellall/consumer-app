@@ -249,7 +249,7 @@ export default function ProfileScreen() {
             onChange={handleChange('poBox')}
             error={formik.touched.poBox && errors.poBox ? errors.poBox : ''}
           />
-          <Button
+          {/* <Button
             style={{
               borderRadius: 20,
               marginTop: 10,
@@ -258,7 +258,7 @@ export default function ProfileScreen() {
             label="Update Profile Information"
             onPress={handleSubmit}
             isLoading={isLoading}
-          />
+          /> */}
           {/* <Button
             style={{
               borderRadius: 20,

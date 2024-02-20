@@ -25,7 +25,7 @@ const AllCarts = ({navigation}) => {
     if (user.trial) {
       Toast.show({
         type: 'error',
-        text1: 'Trial users need to register for checkout',
+        text1: 'Registration is required before checkout',
       });
       navigation.navigate('Signup');
     } else {

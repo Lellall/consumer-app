@@ -8,10 +8,11 @@ export const authApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: baseUrl,
     prepareHeaders: (headers, {getState}) => {
-      const token = getState().user.token;
+      const {access_token} = getState().user;
+      console.log('TOKEN+++++++', access_token);
       // If we have a token set in state, let's assume that we should be passing it.
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`);
+      if (access_token) {
+        headers.set('authorization', `Bearer ${access_token}`);
       }
       return headers;
     },
@@ -103,13 +104,21 @@ export interface User {
   estate: string;
   poBox: string;
   trail: boolean;
+  address: {
+    streetName: string;
+    houseNumber: string;
+    apartmentName: string;
+    estate: string;
+    poBox: string;
+    region: string;
+  };
 }
 
 export interface LoginResponse {
   refresh_token: string;
   access_token: string;
   token_type: string;
-  user: User | undefined;
+  user: User;
 }
 
 export interface LoginRequest {

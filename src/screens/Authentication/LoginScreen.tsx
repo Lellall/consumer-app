@@ -18,16 +18,19 @@ import Colors from '../../constants/Colors';
 import {useFormik} from 'formik';
 import {Logo} from '../../assets/Images';
 import {
+  User,
   usePostGoogleAuthMutation,
   usePostGoogleAuthVerifyMutation,
   usePostLoginMutation,
 } from './auth-api';
 import Toast from 'react-native-toast-message';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setUser} from '../../redux/user/userSlice';
 import useDeepLink from '../../utils/useDeepLink';
 
 export default function LoginScreen({navigation, signUp}) {
+  const {access_token} = useSelector((state: User) => state.user);
+
   const {value} = useDeepLink();
   const initialValues = {
     password: '',
@@ -133,6 +136,12 @@ export default function LoginScreen({navigation, signUp}) {
 
   const {values, handleChange, handleSubmit, errors} = formik;
   const {password, email} = values;
+
+  useEffect(() => {
+    if (access_token) {
+      navigation.replace('MainApp');
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
