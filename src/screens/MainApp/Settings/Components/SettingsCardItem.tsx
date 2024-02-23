@@ -7,13 +7,15 @@ import {
   Text,
 } from 'react-native';
 import React from 'react';
-import { Rect } from 'react-native-svg';
+import {Rect} from 'react-native-svg';
 
 interface ItemsProps {
   title: string;
   iconAfter?: any;
   iconBefore?: any;
   onPress?: any;
+  style?: any;
+  disabled?: boolean;
 }
 
 export const SettingsCardItem = ({
@@ -21,9 +23,14 @@ export const SettingsCardItem = ({
   iconAfter,
   iconBefore,
   onPress,
+  style,
+  disabled,
 }: ItemsProps) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity
+      disabled={disabled}
+      style={(styles.container, style)}
+      onPress={onPress}>
       <View style={styles.card}>
         <View style={styles.row}>
           {iconBefore}

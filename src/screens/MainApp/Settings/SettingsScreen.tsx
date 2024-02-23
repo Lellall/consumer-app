@@ -45,15 +45,19 @@ export default function SettingsScreen({navigation}) {
       />
       <SettingsCardItem
         title={'Discount'}
-        onPress={() => navigation.navigate('profile')}
+        // onPress={() => navigation.navigate('profile')}
         iconBefore={<TicketIcon />}
         iconAfter={<ArrowRightIcon2 />}
+        style={{backgroundColor: '#E5E5E5'}}
+        disabled
       />
       <SettingsCardItem
         title={'Push notifications'}
-        onPress={() => navigation.navigate('profile')}
+        // onPress={() => navigation.navigate('profile')}
         iconBefore={<NotificationIcon />}
         // iconAfter={<ArrowRightIcon2 />}
+        style={{backgroundColor: '#E5E5E5'}}
+        disabled
       />
       <SettingsCardItem
         title={'About'}
@@ -72,7 +76,7 @@ export default function SettingsScreen({navigation}) {
         <TouchableOpacity
           onPress={() => {
             dispatch(logout());
-            navigation.navigate('Signup');
+            navigation.navigate('Authentication');
           }}
           style={styles.logout}>
           <Text style={styles.logoutText}>

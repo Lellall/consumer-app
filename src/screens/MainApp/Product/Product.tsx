@@ -17,7 +17,6 @@ const Product = ({route, navigation}: {route: any; navigation: any}) => {
   const shopId = route?.params?.shopId;
   let params = {productId, shopId};
   const {data, isError, error, isLoading} = useGetProductQuery(params);
-  console.log('shop id------', shopId);
   const dispatch = useDispatch();
   // const cart = useSelector(state => state.cart);
   // const shopName = cart[0]?.shop?.name;
@@ -58,7 +57,9 @@ const Product = ({route, navigation}: {route: any; navigation: any}) => {
                 <Text h1>{data?.name}</Text>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <Text h2>{data?.price}</Text>
-                  <Text style={styles.discountPrice}>{data?.discount}</Text>
+                  <Text style={styles.discountPrice}>
+                    {data?.discount ? data?.discount : ''}
+                  </Text>
                 </View>
               </View>
               <TouchableOpacity style={{padding: 10}}>
