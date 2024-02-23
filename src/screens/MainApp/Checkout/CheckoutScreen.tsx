@@ -21,12 +21,14 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import {CheckoutScreenProps} from '../../../navigation/Stack/HomeScreenStack';
 import {User} from '../../Authentication/auth-api';
 import {flutterWaveAuthKey, googlePlaceKey} from '../../../utils/utils';
+import Geocoder from 'react-native-geocoding';
 
 interface RedirectParams {
   status: 'successful' | 'cancelled';
   transaction_id?: string;
   tx_ref: string;
 }
+Geocoder.init(googlePlaceKey); // use a valid API key
 
 const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
   const dispatch = useDispatch();
@@ -35,6 +37,7 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
   const {user} = useSelector((state: User) => state.user);
   const [address, setAddress] = useState<null | any>(null);
   const [isModal, setIsModal] = useState(false);
+  const [longLatitude, setLongLatitude] = useState({});
 
   const handleOnRedirect = (data: RedirectParams) => {
     if (data.status === 'successful') {
@@ -107,18 +110,20 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
     if (OrderData && OrderData.orderId) {
       postCheckout({
         userId: user?.id,
-        shippingAddress: 'Abuja road cbn',
+        // shippingAddress: 'Abuja road cbn',
         orderId: OrderData.orderId,
         type: 'INLINE',
+        deliveryPoint: longLatitude,
+        distance: 0,
       });
     }
-  }, [OrderData, postCheckout, user?.id]);
+  }, [OrderData, longLatitude, postCheckout, user?.id]);
 
   useEffect(() => {
     if (isOrderError) {
       Toast.show({
         type: 'error',
-        text1: orderError?.data?.message,
+        text1: orderError?.data?.message || orderError.data[0],
       });
       return;
     }
@@ -130,7 +135,7 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
       });
     }
   }, [handleCheckout, isOrderError, isOrderSuccess, orderError]);
-
+  console.log(orderError);
   useEffect(() => {
     if (isCheckoutError) {
       Toast.show({
@@ -168,6 +173,26 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
     },
   });
   const {values, handleChange, handleSubmit, errors} = formik;
+
+  function Run(address: string) {
+    // Search by address
+    Geocoder.from(address)
+      .then(json => {
+        var location = json.results[0].geometry.location;
+        console.log('Location', location);
+        setLongLatitude({
+          longitude: location.lng,
+          latitude: location.lat,
+        });
+      })
+      .catch(error => console.warn(error));
+  }
+
+  useEffect(() => {
+    if (address) {
+      Run(address?.description);
+    }
+  }, [address]);
 
   return (
     <View style={styles.container}>
