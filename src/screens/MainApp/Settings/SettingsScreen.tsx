@@ -45,15 +45,19 @@ export default function SettingsScreen({navigation}) {
       />
       <SettingsCardItem
         title={'Discount'}
-        onPress={() => navigation.navigate('profile')}
+        // onPress={() => navigation.navigate('profile')}
         iconBefore={<TicketIcon />}
         iconAfter={<ArrowRightIcon2 />}
+        style={{backgroundColor: '#E5E5E5'}}
+        disabled
       />
       <SettingsCardItem
         title={'Push notifications'}
-        onPress={() => navigation.navigate('profile')}
+        // onPress={() => navigation.navigate('profile')}
         iconBefore={<NotificationIcon />}
         // iconAfter={<ArrowRightIcon2 />}
+        style={{backgroundColor: '#E5E5E5'}}
+        disabled
       />
       <SettingsCardItem
         title={'About'}

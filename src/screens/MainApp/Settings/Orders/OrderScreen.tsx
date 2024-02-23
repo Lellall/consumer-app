@@ -93,7 +93,10 @@ export default function OrderScreen({navigation}) {
         navigateLeftTo={'SettingsScreenIndex'}
         iconRight={false}
       />
-      {isLoading ? (
+      <>
+        <EmptyState title={'No orders yet'} />
+      </>
+      {/* {isLoading ? (
         <LoadingState />
       ) : error?.data?.status === 403 ? (
         <EmptyState title={'No orders yet'} />
@@ -151,7 +154,7 @@ export default function OrderScreen({navigation}) {
             </View>
           </ScrollView>
         </>
-      )}
+      )} */}
     </View>
   );
 }

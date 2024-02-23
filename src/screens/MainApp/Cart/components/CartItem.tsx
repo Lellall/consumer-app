@@ -29,14 +29,14 @@ const CartItem = (props: Product) => {
             flex: 1,
           }}>
           <Text style={{fontSize: 14}} h2>
-            {name}
+            Name: {name}
           </Text>
           <Text>{category?.name}</Text>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text style={{fontSize: 14}} h2>
-              N {price}
+              Price: ₦{price}
             </Text>
-            <Text
+            {/* <Text
               style={{
                 textDecorationLine: 'line-through',
                 fontSize: 14,
@@ -44,10 +44,10 @@ const CartItem = (props: Product) => {
               }}
               h2>
               N15,500
-            </Text>
+            </Text> */}
           </View>
 
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          {/* <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text>Color:</Text>
             <Text style={{fontSize: 14}} h2>
               Black
@@ -59,7 +59,7 @@ const CartItem = (props: Product) => {
             <Text style={{fontSize: 14}} h2>
               M
             </Text>
-          </View>
+          </View> */}
         </View>
       </View>
 
