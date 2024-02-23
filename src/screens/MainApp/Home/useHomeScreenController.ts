@@ -19,7 +19,7 @@ export const useHomeScreenController = ({
     filter: debounceSearch.toLocaleLowerCase(),
     page: currentPage,
     size: 16,
-    categoryId: categoryId,
+    // categoryId: categoryId,
   });
   const {data: categories, isLoading: loadingCategories} = useCategoriesQuery();
 

@@ -58,14 +58,15 @@ const AllCarts = ({navigation}) => {
             <Text>Discount</Text>
             <Text>₦0</Text>
           </View>
-          <View style={styles.lable}>
+          {/* <View style={styles.lable}>
             <Text>Delivery</Text>
             <Text>₦500</Text>
-          </View>
+          </View> */}
           <Button
             fontStyle={{color: '#000'}}
             style={styles.button}
             label="Add discount code"
+            disabled
           />
           <View style={styles.lable}>
             <Text h2>Grand Total</Text>
