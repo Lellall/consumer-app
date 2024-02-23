@@ -72,7 +72,7 @@ export default function SettingsScreen({navigation}) {
         <TouchableOpacity
           onPress={() => {
             dispatch(logout());
-            navigation.navigate('Signup');
+            navigation.navigate('Authentication');
           }}
           style={styles.logout}>
           <Text style={styles.logoutText}>
