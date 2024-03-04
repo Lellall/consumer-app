@@ -31,12 +31,17 @@ const useCheckoutController = () => {
     apartmentFloor: '',
     estate: '',
     houseNumber: '',
+    consumerPhoneNumber: '',
   };
   const validationSchema = Yup.object({
-    landMark: Yup.string().required(),
-    apartmentFloor: Yup.string().required('Apartment number or floor number'),
-    houseNumber: Yup.string().required(),
-    estate: Yup.string().required(),
+    landMark: Yup.string(),
+    apartmentFloor: Yup.string(),
+    houseNumber: Yup.string(),
+    estate: Yup.string(),
+    consumerPhoneNumber: Yup.string()
+      .required('Phone Number is required')
+      .min(8, 'must be at least 8 characters long')
+      .max(12, 'must be at least 12 characters'),
   });
 
   const actions = {postCheckout, postOrder};

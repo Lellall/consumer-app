@@ -7,7 +7,6 @@ import {ArrowLeftIcon2} from '../../../../assets/Svg/Index';
 import MenuItem from '../../Shop/components/MenuItem';
 import StatusCard from '../Components/StatusCard';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {useOrdersQuery} from '../payment-order-api';
 import {useSelector} from 'react-redux';
 import {User} from '../../../Authentication/auth-api';
 import {EmptyState} from '../../../../components/EmptyState';
@@ -82,8 +81,6 @@ export default function OrderScreen({navigation}) {
   const handlePress = ind => {
     setActiveMenu(ind);
   };
-  const {user} = useSelector((state: User) => state.user);
-  const {data, isLoading, isError, error} = useOrdersQuery(user.id);
 
   return (
     <View style={styles.container}>

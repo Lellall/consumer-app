@@ -18,7 +18,7 @@ export const paymentOrder = createApi({
     },
   }),
   endpoints: builder => ({
-    orders: builder.query<Order, string>({
+    checkOrderStatus: builder.query<Order, string>({
       query: id => `orders/consumer/${id}`,
     }),
     postOrder: builder.mutation({
@@ -38,8 +38,11 @@ export const paymentOrder = createApi({
   }),
 });
 
-export const {useOrdersQuery, usePostOrderMutation, useCheckoutMutation} =
-  paymentOrder;
+export const {
+  useCheckOrderStatusQuery,
+  usePostOrderMutation,
+  useCheckoutMutation,
+} = paymentOrder;
 
 export interface Order {
   orderId: string;

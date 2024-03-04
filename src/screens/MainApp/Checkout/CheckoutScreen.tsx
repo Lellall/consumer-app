@@ -1,14 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import {StyleSheet, View} from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import CheckoutHeader from './Components/CheckoutHeader';
 import Text from '../../../components/Text/Text';
 // import LocationSelector from './Components/LocationSelector';
 import Previous from './Components/Previous';
-import {PayWithFlutterwave} from 'flutterwave-react-native';
 import Toast from 'react-native-toast-message';
-import {useDispatch, useSelector} from 'react-redux';
-import {clearCart} from '../../../redux/cart/cartSlice';
+import {useSelector} from 'react-redux';
 // import {MapImage} from '../../../assets/Images';
 import Button from '../../../components/Buttons/Button';
 import {Product} from '../Shop/shop-api';
@@ -19,67 +17,17 @@ import LocationModal from './Components/LocationModal';
 import {useFormik} from 'formik';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {CheckoutScreenProps} from '../../../navigation/Stack/HomeScreenStack';
-import {User} from '../../Authentication/auth-api';
-import {flutterWaveAuthKey, googlePlaceKey} from '../../../utils/utils';
+import {googlePlaceKey} from '../../../utils/utils';
 import Geocoder from 'react-native-geocoding';
 
-interface RedirectParams {
-  status: 'successful' | 'cancelled';
-  transaction_id?: string;
-  tx_ref: string;
-}
 Geocoder.init(googlePlaceKey); // use a valid API key
 
 const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
-  const dispatch = useDispatch();
   const {total} = route.params;
   const cart = useSelector(state => state.cart);
-  const {user} = useSelector((state: User) => state.user);
   const [address, setAddress] = useState<null | any>(null);
   const [isModal, setIsModal] = useState(false);
   const [longLatitude, setLongLatitude] = useState({});
-
-  const handleOnRedirect = (data: RedirectParams) => {
-    if (data.status === 'successful') {
-      navigation.navigate('CheckoutSuccess', {
-        tansaction_id: data.transaction_id,
-      });
-      dispatch(clearCart());
-      Toast.show({
-        type: 'success',
-        text1: 'Your payment is success',
-      });
-    }
-
-    if (data.status === 'cancelled') {
-      Toast.show({
-        type: 'error',
-        text1: 'Your payment is cancelled',
-      });
-    }
-  };
-  // const paymentWithFultter = async () => {
-  //   try {
-  //     // initialize payment
-  //     const paymentLink = await FlutterwaveInit({
-  //       tx_ref: checkoutData.transactionReference,
-  //       authorization: '[your merchant public Key]',
-  //       amount: 100,
-  //       currency: 'NGN',
-  //       customer: {
-  //         email: user.username,
-  //       },
-  //       payment_options: 'card',
-  //       redirect_url: '',
-  //     });
-  //     // use payment link
-  //     // usePaymentLink(paymentLink);
-  //   } catch (error) {
-  //     // handle payment error
-  //     // displayError(error.message);
-  //     console.log(error);
-  //   }
-  // };
 
   const paymentItems = cart.map((product: Product) => ({
     productId: product.id,
@@ -94,30 +42,10 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
     loading,
     data,
   } = useCheckoutController();
-  const {checkoutError, orderError} = checkoutErrors;
-  const {OrderData, checkoutData, initialValues, validationSchema} = data;
-  const {postCheckout, postOrder} = actions;
-  const {
-    isChecking,
-    isCheckoutError,
-    isCheckoutSuccess,
-    isOrderError,
-    isOrderSuccess,
-    isOrderLoading,
-  } = loading;
-
-  const handleCheckout = useCallback(() => {
-    if (OrderData && OrderData.orderId) {
-      postCheckout({
-        userId: user?.id,
-        // shippingAddress: 'Abuja road cbn',
-        orderId: OrderData.orderId,
-        type: 'INLINE',
-        deliveryPoint: longLatitude,
-        distance: 0,
-      });
-    }
-  }, [OrderData, longLatitude, postCheckout, user?.id]);
+  const {orderError} = checkoutErrors;
+  const {OrderData, initialValues, validationSchema} = data;
+  const {postOrder} = actions;
+  const {isChecking, isOrderError, isOrderSuccess, isOrderLoading} = loading;
 
   useEffect(() => {
     if (isOrderError) {
@@ -128,30 +56,25 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
       return;
     }
     if (isOrderSuccess) {
-      handleCheckout();
+      // handleCheckout();
+      navigation.navigate('CheckRider', {
+        orderId: OrderData.orderId,
+        totalAmount: total,
+      });
       Toast.show({
         type: 'success',
         text1: 'Your order has been registered successfully',
       });
     }
-  }, [handleCheckout, isOrderError, isOrderSuccess, orderError]);
+  }, [
+    OrderData?.orderId,
+    isOrderError,
+    isOrderSuccess,
+    navigation,
+    orderError,
+    total,
+  ]);
   console.log(orderError);
-  useEffect(() => {
-    if (isCheckoutError) {
-      Toast.show({
-        type: 'error',
-        text1: checkoutError?.data?.message,
-      });
-      return;
-    }
-
-    if (isCheckoutSuccess) {
-      Toast.show({
-        type: 'success',
-        text1: 'Your order has been checkout successfully',
-      });
-    }
-  }, [isCheckoutSuccess, isCheckoutError, checkoutError]);
 
   const formik = useFormik({
     initialValues,
@@ -169,11 +92,13 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
           estate: values.estate,
           poBox: '38101',
         },
+        deliveryPoint: longLatitude,
+        distance: 1.3,
+        consumerPhoneNumber: values.consumerPhoneNumber,
       });
     },
   });
   const {values, handleChange, handleSubmit, errors} = formik;
-
   function Run(address: string) {
     // Search by address
     Geocoder.from(address)
@@ -215,13 +140,14 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
           style={{
             flex: 1,
             zIndex: 999,
-            backgroundColor: 'transparent',
+            // backgroundColor: 'transparent',
             position: 'absolute',
             top: 0,
             left: 20,
             right: 0,
-
             width: '100%',
+
+            borderRadius: 3,
           }}>
           <GooglePlacesAutocomplete
             placeholder="Search location..."
@@ -241,15 +167,20 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
             enablePoweredByContainer={false}
             styles={{
               textInput: {
-                height: 44,
-                borderRadius: 5,
+                // height: 50,
+                borderRadius: 3,
                 paddingVertical: 5,
-                paddingHorizontal: 10,
+                paddingHorizontal: 20,
                 fontSize: 15,
                 borderWidth: 1,
                 borderColor: '#F1EFEF',
-                backgroundColor: '#9694949f',
+                // backgroundColor: '#9694949f',
                 color: '#000',
+                width: '90%',
+                backgroundColor: 'transparent',
+                height: 48,
+                fontFamily: 'Poppins-Regular',
+                // elevation: 0.000093,
               },
               description: {
                 color: 'black',
@@ -260,13 +191,22 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
         </View>
 
         <View>
-          <View style={{marginTop: 35}} />
+          <View style={{marginTop: 45}} />
+          <Input
+            label=""
+            onChange={handleChange('consumerPhoneNumber')}
+            value={values.consumerPhoneNumber}
+            placeholder="Phone number"
+            type="number-pad"
+            error={errors.consumerPhoneNumber ? errors.consumerPhoneNumber : ''}
+          />
           <Input
             label=""
             onChange={handleChange('landMark')}
             value={values.landMark}
             placeholder="Land Mark (Optional)"
           />
+
           <Input
             label=""
             onChange={handleChange('apartmentFloor')}
@@ -302,7 +242,6 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
         <>
           <View style={{width: '100%', marginVertical: 20}}>
             <Button
-              // onPress={() => navigation.navigate('CheckoutSuccess')}
               onPress={handleSubmit}
               style={{
                 width: '80%',
@@ -312,42 +251,8 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
               }}
               label="Proceed to checkout"
               isLoading={isOrderLoading || isChecking}
+              disabled={!address}
             />
-
-            {/* <Button
-      onPress={() => {
-        handleCheckout({
-          userId: user?.id,
-          shippingAddress: 'Abuja road cbn',
-          orderId: OrderData?.orderId,
-          type: 'INLINE',
-        });
-      }}
-      isLoading={isChecking}
-      style={{
-        width: '80%',
-        marginTop: 'auto',
-        borderRadius: 40,
-      }}
-      label="Checkokut"
-      disabled={!isOrderSuccess}
-    /> */}
-            {checkoutData?.transactionReference && (
-              <PayWithFlutterwave
-                onRedirect={handleOnRedirect}
-                options={{
-                  tx_ref: checkoutData?.transactionReference,
-                  authorization: flutterWaveAuthKey,
-                  customer: {
-                    email: user.username,
-                  },
-                  amount: total,
-                  currency: 'NGN',
-                  payment_options: 'card',
-                }}
-                currency="NGN"
-              />
-            )}
 
             <View>
               {address && (
