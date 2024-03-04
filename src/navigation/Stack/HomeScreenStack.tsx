@@ -8,6 +8,7 @@ import CheckoutScreen from '../../screens/MainApp/Checkout/CheckoutScreen';
 import CheckOutSuccess from '../../screens/MainApp/Checkout/CheckOutSuccess';
 import Product from '../../screens/MainApp/Product/Product';
 import TrackOrderScreen from '../../screens/MainApp/Settings/Orders/TrackOrderScreen';
+import CheckRider from '../../screens/MainApp/Checkout/CheckRider';
 
 type HomeStackParamList = {
   HomeScreenIndex: undefined;
@@ -17,6 +18,7 @@ type HomeStackParamList = {
   Carts: undefined;
   Checkout: {total: number; navigation: any};
   Preview: undefined;
+  CheckRider: {orderId: number | string};
 };
 const HomeStack = createStackNavigator<HomeStackParamList>();
 
@@ -40,6 +42,7 @@ export default function HomeScreenStack() {
       <HomeStack.Screen name="Carts" component={AllCarts} />
       <HomeStack.Screen name="Checkout" component={CheckoutScreen} />
       <HomeStack.Screen name="Preview" component={TrackOrderScreen} />
+      <HomeStack.Screen name="CheckRider" component={CheckRider} />
       <HomeStack.Screen name="CheckoutSuccess" component={CheckOutSuccess} />
     </HomeStack.Navigator>
   );
