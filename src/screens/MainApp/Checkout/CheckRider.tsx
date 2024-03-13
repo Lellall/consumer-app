@@ -171,14 +171,6 @@ const CheckRider = ({route, navigation}) => {
     }
   }, [checkoutData?.transactionReference, stopTimer]);
 
-  console.log('summary Error', errors.summaryError);
-  console.log('riderData', riderData);
-  console.log('-------------');
-
-  console.log('checkout', checkoutData);
-  console.log('summaryData', summaryData);
-  console.log('checkoutError', errors.checkoutError);
-  console.log(' loading.isSummarySucess', loading.isSummarySucess);
   return (
     <>
       <View style={styles.container}>
