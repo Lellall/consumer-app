@@ -27,37 +27,44 @@ const SummaryMessageModal = ({modal, setModal}: CategoryModalProps) => {
       animationType={'fade'}
       visible={modal}>
       <View style={styles.containerModal}>
-        <View
-          style={{
-            backgroundColor: '#ffffff',
-            borderRadius: 8,
-            width: '100%',
-            paddingHorizontal: 20,
-            paddingVertical: 20,
-          }}>
-          <Text h2>Add New Items with Ongoing Transaction</Text>
-          <Text h3>
-            To include a new item in your cart, you can easily terminate the
-            ongoing transaction and proceed to add the desired item to the cart
+        <View style={styles.main}>
+          <Text h2 style={{textAlign: 'center'}}>
+            Are you sure ?
           </Text>
+          <Text h3>
+            To include a new item to your cart, you need to terminate your
+            ongoing transaction.
+          </Text>
+
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              paddingVertical: 10,
+              padding: 5,
+              marginVertical: 10,
+              borderWidth: 1,
+              borderTopColor: 'lightgrey',
+              borderBottomColor: 'lightgrey',
+              borderRightColor: 'white',
+              borderLeftColor: 'white',
             }}>
             <Button
-              label="Yes"
+              label="Yes, Terminate Transaction"
               onPress={resetOrder}
-              style={{width: '45%'}}
-              backgroundColor="orange"
-              fontStyle={{color: '#000'}}
+              style={{
+                width: '100%',
+              }}
+              backgroundColor="transparent"
+              fontStyle={{color: 'red'}}
             />
+          </View>
+
+          <View>
             <Button
-              label="No"
-              // backgroundColor="transparent"
-              style={{width: '45%'}}
+              label="Cancel"
+              backgroundColor="transparent"
               onPress={closeModal}
+              fontStyle={{
+                color: '#000',
+              }}
             />
           </View>
         </View>
@@ -79,5 +86,12 @@ const styles = StyleSheet.create({
     zIndex: 99999999999999,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  main: {
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    width: '100%',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
   },
 });
