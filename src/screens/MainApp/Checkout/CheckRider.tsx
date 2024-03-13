@@ -33,6 +33,7 @@ const CheckRider = ({route, navigation}) => {
   const {
     data: riderData,
     isFetching,
+    isSuccess,
     refetch,
   } = useCheckOrderStatusQuery(orderId);
 
@@ -154,11 +155,10 @@ const CheckRider = ({route, navigation}) => {
   }, [isRunning]);
 
   useEffect(() => {
-    if (riderData && riderData.deliveryPoint) {
+    if (isSuccess) {
       handleCheckSummary();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isSuccess]);
 
   useEffect(() => {
     if (checkoutData?.transactionReference) {
@@ -189,6 +189,45 @@ const CheckRider = ({route, navigation}) => {
           </Text>
           <Text>Please be patient as we match your order with a rider</Text>
         </View>
+
+        <>
+          {loading.isCheckingOutSummary ? (
+            <>
+              <Text>Loading summary...</Text>
+            </>
+          ) : loading.isSummarySucess ? (
+            <View style={{width: '90%'}}>
+              <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                <Text h1>Order Summary</Text>
+              </View>
+              <View style={styles.summaryItem}>
+                <Text h3>Total Items</Text>
+                <Text>{items?.length}</Text>
+              </View>
+              <View style={styles.summaryItem}>
+                <Text h3>Delivery Fee </Text>
+                <Text>{deliveryFee?.totalAmount}</Text>
+              </View>
+              <View style={styles.summaryItem}>
+                <Text h3>Service Charge</Text>
+                <Text>{serviceCharge?.totalAmount}</Text>
+              </View>
+              <View style={styles.summaryItem}>
+                <Text h3 style={{fontWeight: 'bold'}}>
+                  Grand Total
+                </Text>
+                <Text style={{fontWeight: 'bold'}}>
+                  {summaryData?.totalCost}
+                </Text>
+              </View>
+              {/* <Text h3>
+                Total Amount:
+                {orderInfo.totalAmount}
+              </Text> */}
+            </View>
+          ) : null}
+        </>
+
         <Button
           label="Try Again"
           isLoading={isFetching || loading.isCheckingOut}
@@ -203,33 +242,19 @@ const CheckRider = ({route, navigation}) => {
           Try agin in <Text style={{color: 'orange'}}>{seconds} secs</Text>
         </Text>
 
-        <>
-          {loading.isCheckingOutSummary ? (
-            <>
-              <Text>Loading summary...</Text>
-            </>
-          ) : loading.isSummarySucess ? (
-            <View style={{}}>
-              <Text h3>Total Items: {items?.length}</Text>
-              <Text h3>
-                Total Amount:
-                {/* {orderInfo.totalAmount} */}
-              </Text>
-              <Text h3>Delivery Fee: {deliveryFee?.totalAmount}</Text>
-              <Text h3>Service Charge: {serviceCharge?.totalAmount}</Text>
-              <Text h3>Total Cost: {summaryData?.totalCost}</Text>
-            </View>
-          ) : null}
-        </>
         <Button
           style={{
-            backgroundColor: 'red',
+            backgroundColor: 'transparent',
             padding: 4,
             borderRadius: 4,
             marginTop: 7,
             width: '50%',
           }}
-          label="Cancel"
+          fontStyle={{
+            fontWeight: 'bold',
+            color: 'red',
+          }}
+          label="Cancel Transaction"
           onPress={() => {
             dispatch(reset());
             navigation.goBack();
@@ -266,5 +291,11 @@ const styles = StyleSheet.create({
     zIndex: 99999999999999,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  summaryItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 5,
   },
 });
