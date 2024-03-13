@@ -74,6 +74,8 @@ const CategoryModal = ({
               style={{
                 flexDirection: 'row',
                 flexWrap: 'wrap',
+                width: '100%',
+                justifyContent: 'space-between',
                 // minHeight: '35%',
               }}>
               {categories?.map(
