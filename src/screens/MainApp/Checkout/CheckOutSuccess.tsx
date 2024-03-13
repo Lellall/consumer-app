@@ -3,8 +3,6 @@ import {Image, StyleSheet, View} from 'react-native';
 import React from 'react';
 import CheckoutHeader from './Components/CheckoutHeader';
 import Text from '../../../components/Text/Text';
-import LocationSelector from './Components/LocationSelector';
-import Previous from './Components/Previous';
 import Button from '../../../components/Buttons/Button';
 import {useNavigation} from '@react-navigation/native';
 import {AchieveImage} from '../../../assets/Images';

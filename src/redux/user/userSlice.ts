@@ -5,7 +5,29 @@ const initialState: LoginResponse = {
   refresh_token: '',
   access_token: '',
   token_type: '',
-  user: undefined,
+  user: {
+    id: '',
+    username: '',
+    firstName: '',
+    lastName: '',
+    role: '',
+    isEmailVerified: false,
+    registrationSource: '',
+    streetName: '',
+    houseNumber: '',
+    apartmentName: '',
+    estate: '',
+    poBox: '',
+    trail: false,
+    address: {
+      streetName: '',
+      houseNumber: '',
+      apartmentName: '',
+      estate: '',
+      poBox: '',
+      region: '',
+    },
+  },
 };
 const setAuthHandler = (state: LoginResponse, {payload: auth}) => {
   state = auth;
@@ -23,3 +45,4 @@ export const userSlice = createSlice({
 });
 
 export const {setUser, logout} = userSlice.actions;
+export const userSelector = (state: {user: LoginResponse}) => state.user;

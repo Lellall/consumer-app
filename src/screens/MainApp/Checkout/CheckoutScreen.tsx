@@ -3,22 +3,21 @@ import {StyleSheet, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import CheckoutHeader from './Components/CheckoutHeader';
 import Text from '../../../components/Text/Text';
-// import LocationSelector from './Components/LocationSelector';
 import Previous from './Components/Previous';
 import Toast from 'react-native-toast-message';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 // import {MapImage} from '../../../assets/Images';
 import Button from '../../../components/Buttons/Button';
 import {Product} from '../Shop/shop-api';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import useCheckoutController from './useCheckoutController';
 import Input from '../../../components/Inputs/Input';
-import LocationModal from './Components/LocationModal';
 import {useFormik} from 'formik';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {CheckoutScreenProps} from '../../../navigation/Stack/HomeScreenStack';
-import {googlePlaceKey} from '../../../utils/utils';
+import {calculateDistance, googlePlaceKey} from '../../../utils/utils';
 import Geocoder from 'react-native-geocoding';
+import {setInitiateOrder, setOrderInfo} from '../../../redux/ui';
 
 Geocoder.init(googlePlaceKey); // use a valid API key
 
@@ -26,9 +25,8 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
   const {total} = route.params;
   const cart = useSelector(state => state.cart);
   const [address, setAddress] = useState<null | any>(null);
-  const [isModal, setIsModal] = useState(false);
   const [longLatitude, setLongLatitude] = useState({});
-
+  const dispatch = useDispatch();
   const paymentItems = cart.map((product: Product) => ({
     productId: product.id,
     productName: product.name,
@@ -45,7 +43,7 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
   const {orderError} = checkoutErrors;
   const {OrderData, initialValues, validationSchema} = data;
   const {postOrder} = actions;
-  const {isChecking, isOrderError, isOrderSuccess, isOrderLoading} = loading;
+  const {isCheckingOut, isOrderError, isOrderSuccess, isOrderLoading} = loading;
 
   useEffect(() => {
     if (isOrderError) {
@@ -57,10 +55,12 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
     }
     if (isOrderSuccess) {
       // handleCheckout();
-      navigation.navigate('CheckRider', {
+      navigation.replace('CheckRider', {
         orderId: OrderData.orderId,
         totalAmount: total,
       });
+      dispatch(setInitiateOrder(true));
+      dispatch(setOrderInfo({orderId: OrderData.orderId, totalAmount: total}));
       Toast.show({
         type: 'success',
         text1: 'Your order has been registered successfully',
@@ -68,13 +68,13 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
     }
   }, [
     OrderData?.orderId,
+    dispatch,
     isOrderError,
     isOrderSuccess,
     navigation,
     orderError,
     total,
   ]);
-  console.log(orderError);
 
   const formik = useFormik({
     initialValues,
@@ -82,7 +82,6 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
     onSubmit: values => {
       // navigation.navigate('Preview');
       // handleOrder(values);
-
       postOrder({
         paymentItems,
         address: {
@@ -93,7 +92,12 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
           poBox: '38101',
         },
         deliveryPoint: longLatitude,
-        distance: 1.3,
+        distance: calculateDistance(
+          undefined,
+          undefined,
+          longLatitude?.latitude,
+          longLatitude?.longitude,
+        ),
         consumerPhoneNumber: values.consumerPhoneNumber,
       });
     },
@@ -132,10 +136,6 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
       </View>
 
       <View style={styles.remain}>
-        <TouchableOpacity onPress={() => setIsModal(true)}>
-          {/* <LocationSelector /> */}
-        </TouchableOpacity>
-
         <View
           style={{
             flex: 1,
@@ -250,7 +250,7 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
                 marginBottom: 15,
               }}
               label="Proceed to checkout"
-              isLoading={isOrderLoading || isChecking}
+              isLoading={isOrderLoading || isCheckingOut}
               disabled={!address}
             />
 
@@ -268,10 +268,6 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
           </View>
         </>
       </View>
-
-      <>
-        <LocationModal modal={isModal} setModal={setIsModal} />
-      </>
     </View>
   );
 };

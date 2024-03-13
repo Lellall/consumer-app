@@ -5,15 +5,17 @@ export const formatError = error => {
     return {error: {status, message}};
   }
 };
+
+const WUSE_MARKET_COORDINATES = {lat: 9.0685829, lng: 7.4660566};
+
 export const calculateDistance = (
-  lat1: number,
-  lon1: number,
+  lat1: number = WUSE_MARKET_COORDINATES.lat,
+  lon1: number = WUSE_MARKET_COORDINATES.lng,
   lat2: number,
   lon2: number,
 ) => {
   // Earth's mean radius in kilometers
   const earthRadius = 6371;
-
   // Convert latitudes and longitudes to radians using Math.PI/180
   const lat1Rad = (lat1 * Math.PI) / 180;
   const lon1Rad = (lon1 * Math.PI) / 180;

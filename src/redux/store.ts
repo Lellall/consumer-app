@@ -7,6 +7,7 @@ import {shopApi} from '../screens/MainApp/Shop/shop-api';
 import {cartSlice} from './cart/cartSlice';
 import {paymentOrder} from '../screens/MainApp/Settings/payment-order-api';
 import {categoriesApi} from '../screens/MainApp/Home/api/categories-api';
+import {uiSlice} from './ui';
 
 const persistConfig = {
   key: 'root',
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   [shopApi.reducerPath]: shopApi.reducer,
   [userSlice.name]: userSlice.reducer,
   [cartSlice.name]: cartSlice.reducer,
+  [uiSlice.name]: uiSlice.reducer,
   [paymentOrder.reducerPath]: paymentOrder.reducer,
   [categoriesApi.reducerPath]: categoriesApi.reducer,
 });

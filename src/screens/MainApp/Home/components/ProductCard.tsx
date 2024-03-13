@@ -5,14 +5,16 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Text from '../../../../components/Text/Text';
 import {CartIcon} from '../../../../assets/Svg/Index';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {addToCart} from '../../../../redux/cart/cartSlice';
 import Toast from 'react-native-toast-message';
 import {ProductMini} from '../../Shop/shop-api';
+import SummaryMessageModal from './SummaryMessageModal';
+import {uiSelector} from '../../../../redux/ui';
 
 const ProductCard = (props: ProductMini) => {
   const {imageUrl, name, price} = props;
@@ -21,40 +23,47 @@ const ProductCard = (props: ProductMini) => {
   // const shopName = cart[0]?.shop?.name;
 
   const dispatch = useDispatch();
+  const {initiateOrder} = useSelector(uiSelector);
+  console.log('initiateOrder', initiateOrder);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const addItemToCart = () => {
+    // if (shopName === undefined || shopName === shop.name) {
+    if (initiateOrder) {
+      setIsModalOpen(true);
+      return;
+    }
+    dispatch(addToCart(props));
+    Toast.show({
+      type: 'success',
+      text1: `${name} has been added to cart`,
+    });
+    // }
+    //  else {
+    //   Toast.show({
+    //     type: 'error',
+    //     text1: `Sorry you can not add ${name} is not on the same shop`,
+    //   });
+    // }
+
+    // navigate.navigate('Carts');
+  };
 
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => {
-        navigate.navigate('Product', {id: props.id, shopId: props.shop.id});
-      }}>
-      <ImageBackground
-        resizeMode="cover"
-        source={{uri: imageUrl}}
-        style={styles.image}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <TouchableOpacity
-            onPress={() => {
-              // if (shopName === undefined || shopName === shop.name) {
-              dispatch(addToCart(props));
-              Toast.show({
-                type: 'success',
-                text1: `${name} has been added to cart`,
-              });
-              // }
-              //  else {
-              //   Toast.show({
-              //     type: 'error',
-              //     text1: `Sorry you can not add ${name} is not on the same shop`,
-              //   });
-              // }
-
-              // navigate.navigate('Carts');
-            }}
-            style={styles.cartButton}>
-            <CartIcon color="#F06D06" />
-          </TouchableOpacity>
-          {/* <View style={styles.promoCard}>
+    <>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() => {
+          navigate.navigate('Product', {id: props.id, shopId: props.shop.id});
+        }}>
+        <ImageBackground
+          resizeMode="cover"
+          source={{uri: imageUrl}}
+          style={styles.image}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <TouchableOpacity onPress={addItemToCart} style={styles.cartButton}>
+              <CartIcon color="#F06D06" />
+            </TouchableOpacity>
+            {/* <View style={styles.promoCard}>
             <Text
               style={{
                 color: '#f06d06',
@@ -62,13 +71,15 @@ const ProductCard = (props: ProductMini) => {
               20% off
             </Text>
           </View> */}
+          </View>
+        </ImageBackground>
+        <View style={{paddingHorizontal: 10, margin: 0}}>
+          <Text style={{fontWeight: '700'}}>{name}</Text>
+          <Text>₦ {price}</Text>
         </View>
-      </ImageBackground>
-      <View style={{paddingHorizontal: 10, margin: 0}}>
-        <Text style={{fontWeight: '700'}}>{name}</Text>
-        <Text>₦ {price}</Text>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+      <SummaryMessageModal setModal={setIsModalOpen} modal={isModalOpen} />
+    </>
   );
 };
 

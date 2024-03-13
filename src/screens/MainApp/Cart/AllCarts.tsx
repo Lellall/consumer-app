@@ -10,17 +10,43 @@ import {useSelector} from 'react-redux';
 import {Product} from '../Shop/shop-api';
 import {EmptyState} from '../../../components/EmptyState';
 import Toast from 'react-native-toast-message';
+import {uiSelector} from '../../../redux/ui';
+import {useFocusEffect} from '@react-navigation/native';
 
 const AllCarts = ({navigation}) => {
   // const navigation = useNavigation();
   const cart = useSelector((state: Product[]) => state.cart);
   const {user} = useSelector(state => state.user);
 
+  const {initiateOrder, orderInfo} = useSelector(uiSelector);
+  console.log('initiateOrder', initiateOrder);
+  console.log('initiateOrder', orderInfo);
+
   const total = cart?.reduce(
     (acc: number, currVal: {price: number; quantity: number}) =>
       acc + currVal.price * currVal.quantity,
     0,
   );
+  //   useFocusEffect((
+  //     if (initiateOrder) {
+  //       navigation.navigate('CheckRider', {
+  //         orderId: orderInfo?.orderId,
+  //         totalAmount: orderInfo?.totalAmount,
+  //       });
+  //     }
+  // ))
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (initiateOrder) {
+        navigation.navigate('CheckRider', {
+          orderId: orderInfo?.orderId,
+          totalAmount: orderInfo?.totalAmount,
+        });
+      }
+    }, [initiateOrder, navigation, orderInfo?.orderId, orderInfo?.totalAmount]),
+  );
+
   const handlePress = () => {
     if (user.trial) {
       Toast.show({
