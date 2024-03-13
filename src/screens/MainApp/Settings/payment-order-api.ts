@@ -35,6 +35,13 @@ export const paymentOrder = createApi({
         body: data,
       }),
     }),
+    checkoutSummary: builder.mutation({
+      query: data => ({
+        url: '/checkout/summary',
+        method: 'post',
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -42,6 +49,7 @@ export const {
   useCheckOrderStatusQuery,
   usePostOrderMutation,
   useCheckoutMutation,
+  useCheckoutSummaryMutation,
 } = paymentOrder;
 
 export interface Order {

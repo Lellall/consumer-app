@@ -3,7 +3,7 @@ import React from 'react';
 import Text from '../../../../components/Text/Text';
 import {MapImage} from '../../../../assets/Images';
 
-const LocationSelector = () => {
+const SearchLocation = () => {
   return (
     <View style={styles.container}>
       <View style={styles.location}>
@@ -20,7 +20,7 @@ const LocationSelector = () => {
   );
 };
 
-export default LocationSelector;
+export default SearchLocation;
 
 const styles = StyleSheet.create({
   container: {

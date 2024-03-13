@@ -1,7 +1,7 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import type {PayloadAction} from '@reduxjs/toolkit';
-import {useDispatch, useSelector} from 'react-redux';
-import {LoginResponse, User} from '../../screens/Authentication/auth-api';
+import {createSlice} from '@reduxjs/toolkit';
+// import type {PayloadAction} from '@reduxjs/toolkit';
+// import {useDispatch, useSelector} from 'react-redux';
+// import {LoginResponse, User} from '../../screens/Authentication/auth-api';
 import {Product} from '../../screens/MainApp/Shop/shop-api';
 
 const initialState: Product[] = [];

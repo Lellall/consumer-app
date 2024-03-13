@@ -23,13 +23,13 @@ import CategoryModal from './components/CategoryModal';
 import {ArrowLeftIcon2} from '../../../assets/Svg/Index';
 import {useDebounce} from '../../../hooks/useDebounce';
 import {useHomeScreenController} from './useHomeScreenController';
+
 export default function HomeScreen() {
   const [search, setSearch] = useState('');
   const [categoryId, setCategoryId] = useState<string>('');
   const [modal, setModal] = useState(false);
   const debounceSearch = useDebounce(search);
   const [currentPage, setCurrentPage] = useState(0);
-
   const {data, actions, loading} = useHomeScreenController({
     debounceSearch,
     categoryId,
@@ -109,7 +109,6 @@ export default function HomeScreen() {
       </View>
     );
   };
-
   return (
     <>
       <View style={styles.container}>

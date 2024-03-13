@@ -9,6 +9,7 @@ import CheckOutSuccess from '../../screens/MainApp/Checkout/CheckOutSuccess';
 import Product from '../../screens/MainApp/Product/Product';
 import TrackOrderScreen from '../../screens/MainApp/Settings/Orders/TrackOrderScreen';
 import CheckRider from '../../screens/MainApp/Checkout/CheckRider';
+import CheckRiderSuccess from '../../screens/MainApp/Checkout/CheckRiderSuccess';
 
 type HomeStackParamList = {
   HomeScreenIndex: undefined;
@@ -19,6 +20,7 @@ type HomeStackParamList = {
   Checkout: {total: number; navigation: any};
   Preview: undefined;
   CheckRider: {orderId: number | string};
+  CheckRiderSuccess: {orderId: number | string; txtRef: string};
 };
 const HomeStack = createStackNavigator<HomeStackParamList>();
 
@@ -30,6 +32,7 @@ export type CheckoutScreenProps = {
 };
 
 export default function HomeScreenStack() {
+  // const {initiateOrder} = useSelector(uiSelector);
   return (
     <HomeStack.Navigator
       screenOptions={{
@@ -42,7 +45,13 @@ export default function HomeScreenStack() {
       <HomeStack.Screen name="Carts" component={AllCarts} />
       <HomeStack.Screen name="Checkout" component={CheckoutScreen} />
       <HomeStack.Screen name="Preview" component={TrackOrderScreen} />
+
       <HomeStack.Screen name="CheckRider" component={CheckRider} />
+      <HomeStack.Screen
+        name="CheckRiderSuccess"
+        component={CheckRiderSuccess}
+      />
+
       <HomeStack.Screen name="CheckoutSuccess" component={CheckOutSuccess} />
     </HomeStack.Navigator>
   );

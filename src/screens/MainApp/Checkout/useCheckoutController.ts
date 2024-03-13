@@ -1,5 +1,6 @@
 import {
   useCheckoutMutation,
+  useCheckoutSummaryMutation,
   usePostOrderMutation,
 } from '../Settings/payment-order-api';
 import * as Yup from 'yup';
@@ -18,13 +19,24 @@ const useCheckoutController = () => {
   const [
     postCheckout,
     {
-      isLoading: isChecking,
+      isLoading: isCheckingOut,
       isSuccess: isCheckoutSuccess,
       isError: isCheckoutError,
       data: checkoutData,
       error: checkoutError,
     },
   ] = useCheckoutMutation();
+
+  const [
+    postCheckOutSummary,
+    {
+      isLoading: isCheckingOutSummary,
+      isSuccess: isSummarySucess,
+      isError: isSummaryError,
+      data: summaryData,
+      error: summaryError,
+    },
+  ] = useCheckoutSummaryMutation();
 
   const initialValues = {
     landMark: '',
@@ -44,11 +56,20 @@ const useCheckoutController = () => {
       .max(12, 'must be at least 12 characters'),
   });
 
-  const actions = {postCheckout, postOrder};
-  const errors = {checkoutError, orderError};
-  const data = {checkoutData, OrderData, initialValues, validationSchema};
+  const actions = {postCheckout, postOrder, postCheckOutSummary};
+  const errors = {checkoutError, orderError, summaryError};
+  const data = {
+    checkoutData,
+    OrderData,
+    initialValues,
+    validationSchema,
+    summaryData,
+  };
   const loading = {
-    isChecking,
+    isCheckingOut,
+    isSummarySucess,
+    isSummaryError,
+    isCheckingOutSummary,
     isCheckoutSuccess,
     isCheckoutError,
     isOrderSuccess,

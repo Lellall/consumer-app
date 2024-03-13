@@ -17,6 +17,7 @@ import {ProfileHeader} from './Components/ProfileHeader';
 import {useDispatch} from 'react-redux';
 import {logout} from '../../../redux/user/userSlice';
 import AboutUsModal from './Components/AboutUsModal';
+import {reset} from '../../../redux/ui';
 
 export default function SettingsScreen({navigation}) {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ export default function SettingsScreen({navigation}) {
         <TouchableOpacity
           onPress={() => {
             dispatch(logout());
+            dispatch(reset());
             navigation.navigate('Authentication');
           }}
           style={styles.logout}>
