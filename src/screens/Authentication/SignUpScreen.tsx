@@ -22,67 +22,60 @@ import Colors from '../../constants/Colors';
 import {useFormik} from 'formik';
 // import useAlert from '../../hooks/useAlert';
 // import {useDispatch} from 'react-redux';
-import {
-  usePostGoogleAuthMutation,
-  usePostGoogleAuthVerifyMutation,
-  usePostSignupMutation,
-} from './auth-api';
+
 import Toast from 'react-native-toast-message';
 import useDeepLink from '../../utils/useDeepLink';
 import {useDispatch} from 'react-redux';
 import {setUser} from '../../redux/user/userSlice';
+import {useSignUpController} from './useSignUpController';
+
+const validationSchema = Yup.object({
+  first_name: Yup.string().required('First name is required'),
+  last_name: Yup.string().required('Last name is required'),
+  email: Yup.string().required('Email is required'),
+  password: Yup.string()
+    .min(8, 'Password must be more than eight characters')
+    .required()
+    .matches(
+      /^(?=.*[A-Z])(?=.*[a-z])/,
+      'Password must contain at least one uppercase letter and one lowercase letter',
+    ),
+  confirm_password: Yup.string()
+    .oneOf([Yup.ref('password')], 'Passwords must match')
+    .required('Confirm password is required'),
+  // phone: Yup.string().required(),
+});
+const initialValues = {
+  first_name: '',
+  last_name: '',
+  password: '',
+  confirm_password: '',
+  email: '',
+  address: '',
+};
 
 export default function SignUpScreen({
   navigation,
   signIn,
 }: {
   navigation: any;
-  signIn: void;
+  signIn: () => {};
 }) {
-  const initialValues = {
-    first_name: '',
-    last_name: '',
-    password: '',
-    confirm_password: '',
-    email: '',
-    address: '',
-  };
-
-  const [postSignup, {data, isLoading, isSuccess, isError, error}] =
-    usePostSignupMutation();
   const dispatch = useDispatch();
   const {value} = useDeepLink();
-  const [
-    postGoogleAuth,
-    {
-      isLoading: googleLoading,
-      isSuccess: googleSucess,
-      isError: googleError,
-      data: myData,
-    },
-  ] = usePostGoogleAuthMutation();
-  const [
-    postGoogleAuthVerify,
-    {isLoading: verifyLoading, isError: verifyError, isSuccess: verifySuccess},
-  ] = usePostGoogleAuthVerifyMutation();
 
-  const validationSchema = Yup.object({
-    first_name: Yup.string().required('First name is required'),
-    last_name: Yup.string().required('Last name is required'),
-    email: Yup.string().required('Email is required'),
-    password: Yup.string()
-      .min(8, 'Password must be more than eight characters')
-      .required()
-      .matches(
-        /^(?=.*[A-Z])(?=.*[a-z])/,
-        'Password must contain at least one uppercase letter and one lowercase letter',
-      ),
-    confirm_password: Yup.string()
-      .oneOf([Yup.ref('password')], 'Passwords must match')
-      .required('Confirm password is required'),
-    // phone: Yup.string().required(),
-  });
-
+  const {actions, errors: SignupErrors, loading} = useSignUpController();
+  const {
+    isGoogleLoading,
+    isSignupError,
+    isSignupSuccess,
+    isSignupLoading,
+    isVerifySuccess,
+  } = loading;
+  const {postGoogleAuth, postSignup, postGoogleAuthVerify} = actions;
+  const {signupError} = SignupErrors;
+  // const {access_token, refresh_token} = useSelector(userSelector);
+  // const [loadingScreen, setLoadingScrenn] = useState(true);
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
@@ -117,29 +110,29 @@ export default function SignUpScreen({
       });
     }
 
-    if (verifySuccess) {
+    if (isVerifySuccess) {
       navigation.navigate('MainApp');
     }
-  }, [navigation, postGoogleAuthVerify, value, verifySuccess]);
+  }, [navigation, postGoogleAuthVerify, value, isVerifySuccess]);
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSignupSuccess) {
       signIn();
       Toast.show({
         type: 'success',
         text1: 'Registered successfully 👋',
       });
     }
-  }, [isSuccess, signIn]);
+  }, [isSignupSuccess, signIn]);
 
   useEffect(() => {
-    if (isError) {
+    if (isSignupError) {
       Toast.show({
         type: 'error',
-        text1: formatError(error),
+        text1: formatError(signupError),
       });
     }
-  }, [isError, error]);
+  }, [isSignupError, signupError]);
   const {handleChange, handleSubmit, values, errors} = formik;
   const {password, email, first_name, last_name, confirm_password} = values;
 
@@ -203,7 +196,7 @@ export default function SignUpScreen({
       <Button
         // onPress={() => navigation.navigate('Otp')}
         onPress={handleSubmit}
-        isLoading={isLoading}
+        isLoading={isSignupLoading}
         style={{
           borderRadius: 20,
           marginTop: 20,
@@ -221,7 +214,11 @@ export default function SignUpScreen({
             Linking.openURL(data1.error.data);
           }}
           style={styles.option}>
-          {googleLoading ? <ActivityIndicator color="#000" /> : <GoogleIcon />}
+          {isGoogleLoading ? (
+            <ActivityIndicator color="#000" />
+          ) : (
+            <GoogleIcon />
+          )}
         </TouchableOpacity>
         <TouchableOpacity style={styles.option}>
           <AppleLogo />

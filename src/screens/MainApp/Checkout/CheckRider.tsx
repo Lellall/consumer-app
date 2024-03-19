@@ -17,7 +17,7 @@ const CheckRider = ({route, navigation}) => {
   // Redux state selectors
   const {user} = useSelector(userSelector);
   const {orderInfo} = useSelector(uiSelector);
-
+  console.log(orderInfo);
   // Redux dispatcher
   const dispatch = useDispatch();
 
@@ -44,29 +44,24 @@ const CheckRider = ({route, navigation}) => {
 
   // Variables
   const deliveryFee = summaryData?.items.find(
-    item => item.name === 'Delivery Fee',
+    (item: {name: string}) => item.name === 'Delivery Fee',
   );
   const serviceCharge = summaryData?.items.find(
-    item => item.name === 'Service Charge',
+    (item: {name: string}) => item.name === 'Service Charge',
   );
-  const items = summaryData?.items.filter(item => item.type === 'PRODUCT');
+  const items = summaryData?.items.filter(
+    (item: {type: string}) => item.type === 'PRODUCT',
+  );
 
   // Functions
   const handleCheckout = useCallback(() => {
     postCheckout({
       userId: user?.id,
-      orderId: riderData?.orderId,
+      orderId: orderInfo?.orderId,
       type: 'INLINE',
-      deliveryPoint: riderData?.deliveryPoint,
-      distance: riderData?.distance,
+      paymentPlatform: 'PAYSTACK',
     });
-  }, [
-    postCheckout,
-    riderData?.deliveryPoint,
-    riderData?.distance,
-    riderData?.orderId,
-    user?.id,
-  ]);
+  }, [orderInfo?.orderId, postCheckout, user?.id]);
 
   const cart = useSelector(state => state.cart);
   function handleCheckSummary() {
@@ -120,7 +115,8 @@ const CheckRider = ({route, navigation}) => {
     if (loading.isCheckoutError) {
       Toast.show({
         type: 'error',
-        text1: errors.checkoutError?.data?.message,
+        text1:
+          errors.checkoutError?.data?.message || errors?.checkoutError?.data[0],
       });
       return;
     }
@@ -139,6 +135,7 @@ const CheckRider = ({route, navigation}) => {
       });
     }
   }, [
+    errors.checkoutError?.data,
     errors.checkoutError?.data?.message,
     errors.summaryError?.data?.message,
     loading.isCheckoutError,
@@ -198,24 +195,26 @@ const CheckRider = ({route, navigation}) => {
               </View>
               <View style={styles.summaryItem}>
                 <Text h3>Delivery Fee </Text>
-                <Text>{deliveryFee?.totalAmount}</Text>
+                <Text>{deliveryFee?.totalAmount.toLocaleString('en-US')}</Text>
               </View>
               <View style={styles.summaryItem}>
                 <Text h3>Service Charge</Text>
-                <Text>{serviceCharge?.totalAmount}</Text>
+                <Text>
+                  {serviceCharge?.totalAmount.toLocaleString('en-US')}
+                </Text>
+              </View>
+              <View style={styles.summaryItem}>
+                <Text h3>Total Amount:</Text>
+                <Text>{orderInfo.totalAmount.toLocaleString('en-US')}</Text>
               </View>
               <View style={styles.summaryItem}>
                 <Text h3 style={{fontWeight: 'bold'}}>
                   Grand Total
                 </Text>
                 <Text style={{fontWeight: 'bold'}}>
-                  {summaryData?.totalCost}
+                  {summaryData?.totalCost.toLocaleString('en-US')}
                 </Text>
               </View>
-              {/* <Text h3>
-                Total Amount:
-                {orderInfo.totalAmount}
-              </Text> */}
             </View>
           ) : null}
         </>

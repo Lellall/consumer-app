@@ -24,7 +24,6 @@ const ProductCard = (props: ProductMini) => {
 
   const dispatch = useDispatch();
   const {initiateOrder} = useSelector(uiSelector);
-  console.log('initiateOrder', initiateOrder);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const addItemToCart = () => {
     // if (shopName === undefined || shopName === shop.name) {

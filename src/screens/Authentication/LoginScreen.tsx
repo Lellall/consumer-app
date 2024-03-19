@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import * as Yup from 'yup';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Input from '../../components/Inputs/Input';
 import Text from '../../components/Text/Text';
 import Button from '../../components/Buttons/Button';
@@ -17,20 +17,20 @@ import {AppleLogo, EmailIcon, GoogleIcon} from '../../assets/Svg/Index';
 import Colors from '../../constants/Colors';
 import {useFormik} from 'formik';
 import {Logo} from '../../assets/Images';
-import {
-  User,
-  usePostGoogleAuthMutation,
-  usePostGoogleAuthVerifyMutation,
-  usePostLoginMutation,
-} from './auth-api';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
-import {setUser} from '../../redux/user/userSlice';
+import {setUser, userSelector} from '../../redux/user/userSlice';
 import useDeepLink from '../../utils/useDeepLink';
+import {useLoginController} from './useLoginController';
 
-export default function LoginScreen({navigation, signUp}) {
-  const {access_token} = useSelector((state: User) => state.user);
-
+export default function LoginScreen({
+  navigation,
+  signUp,
+  setLoggingUser,
+  logginUser,
+}) {
+  const {access_token, refresh_token} = useSelector(userSelector);
+  // const [loadingScreen, setLoadingScrenn] = useState(true);
   const {value} = useDeepLink();
   const initialValues = {
     password: '',
@@ -38,8 +38,20 @@ export default function LoginScreen({navigation, signUp}) {
     role: '',
   };
   const dispatch = useDispatch();
-  const [postLogin, {isError, isLoading, isSuccess, error, data: loginData}] =
-    usePostLoginMutation();
+  const {actions, data, loading, errors: loginErrors} = useLoginController();
+  const {
+    isPostError,
+    isPostLoading,
+    isPostSuccess,
+    isVerifySuccess,
+    isGoogleLoading,
+    isLoadingRefresh,
+    isSucessRefresh,
+  } = loading;
+  const {postGoogleAuth, postGoogleAuthVerify, postLogin, updateToken} =
+    actions;
+  const {postLoginData, tokenData} = data;
+  const {postError} = loginErrors;
 
   const validationSchema = Yup.object({
     password: Yup.string()
@@ -79,24 +91,7 @@ export default function LoginScreen({navigation, signUp}) {
       return message;
     }
   };
-  const [
-    postGoogleAuth,
-    {
-      isLoading: googleLoading,
-      isSuccess: googleSucess,
-      isError: googleError,
-      data,
-    },
-  ] = usePostGoogleAuthMutation();
-  const [
-    postGoogleAuthVerify,
-    {
-      isLoading: verifyLoading,
-      isError: verifyError,
-      isSuccess: verifySuccess,
-      data: verifyData,
-    },
-  ] = usePostGoogleAuthVerifyMutation();
+
   useEffect(() => {
     if (value) {
       postGoogleAuthVerify({
@@ -104,23 +99,30 @@ export default function LoginScreen({navigation, signUp}) {
       });
     }
 
-    if (verifySuccess) {
+    if (isVerifySuccess) {
       navigation.navigate('MainApp');
     }
-  }, [navigation, postGoogleAuthVerify, value, verifySuccess]);
+  }, [isVerifySuccess, navigation, postGoogleAuthVerify, value]);
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isPostSuccess) {
       navigation.navigate('MainApp');
-      dispatch(setUser(loginData));
+      dispatch(setUser(postLoginData));
     }
-    if (isError) {
+    if (isPostError) {
       Toast.show({
         type: 'error',
-        text1: formatError(error),
+        text1: formatError(postError),
       });
     }
-  }, [isSuccess, isError, navigation, dispatch, loginData, error]);
+  }, [
+    isPostSuccess,
+    isPostError,
+    navigation,
+    dispatch,
+    postLoginData,
+    postError,
+  ]);
 
   useEffect(() => {
     if (value) {
@@ -129,19 +131,37 @@ export default function LoginScreen({navigation, signUp}) {
       });
     }
 
-    if (verifySuccess) {
+    if (isVerifySuccess) {
       navigation.navigate('MainApp');
     }
-  }, [navigation, postGoogleAuthVerify, value, verifySuccess]);
+  }, [isVerifySuccess, navigation, postGoogleAuthVerify, value]);
 
   const {values, handleChange, handleSubmit, errors} = formik;
   const {password, email} = values;
 
   useEffect(() => {
-    if (access_token) {
+    if (isSucessRefresh) {
       navigation.replace('MainApp');
+      setLoggingUser(false);
+      dispatch(setUser(tokenData));
     }
-  }, []);
+  }, [isSucessRefresh]);
+
+  useEffect(() => {
+    if (!access_token) {
+      setLoggingUser(false);
+    }
+    if (!isLoadingRefresh) {
+      updateToken({refreshToken: refresh_token, role: 'CONSUMER'});
+    }
+    let fourMinutes = 1000 * 60 * 4;
+    let interval = setInterval(() => {
+      if (access_token) {
+        updateToken({refreshToken: refresh_token, role: 'CONSUMER'});
+      }
+    }, fourMinutes);
+    return () => clearInterval(interval);
+  }, [access_token]);
 
   return (
     <View style={styles.container}>
@@ -192,8 +212,8 @@ export default function LoginScreen({navigation, signUp}) {
           borderRadius: 20,
           marginTop: 20,
         }}
-        label="Sign In"
-        isLoading={isLoading}
+        label={logginUser ? 'Loading...' : 'Sign In'}
+        isLoading={isPostLoading}
       />
       <View style={styles.otherSign}>
         <Text style={{color: '#AAAAAA'}}>Other sign in options</Text>
@@ -204,7 +224,11 @@ export default function LoginScreen({navigation, signUp}) {
             Linking.openURL(data1.error.data);
           }}
           style={styles.option}>
-          {googleLoading ? <ActivityIndicator color="#000" /> : <GoogleIcon />}
+          {isGoogleLoading ? (
+            <ActivityIndicator color="#000" />
+          ) : (
+            <GoogleIcon />
+          )}
         </TouchableOpacity>
         <TouchableOpacity style={styles.option}>
           <AppleLogo />

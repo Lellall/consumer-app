@@ -1,12 +1,13 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import {baseUrl} from '../../../utils/utils';
+// import {baseUrl} from '../../../utils/utils';
 // import { baseUrl } from '../../services/controller';
+import {BASE_URL} from '@env';
 
 export const paymentOrder = createApi({
   reducerPath: 'paymentOrder',
   tagTypes: ['paymentOrder'],
   baseQuery: fetchBaseQuery({
-    baseUrl: baseUrl,
+    baseUrl: BASE_URL,
     prepareHeaders: (headers, {getState}) => {
       const {access_token} = getState().user;
       // If we have a token set in state, let's assume that we should be passing it.

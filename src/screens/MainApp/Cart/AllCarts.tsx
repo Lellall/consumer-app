@@ -19,8 +19,6 @@ const AllCarts = ({navigation}) => {
   const {user} = useSelector(state => state.user);
 
   const {initiateOrder, orderInfo} = useSelector(uiSelector);
-  console.log('initiateOrder', initiateOrder);
-  console.log('initiateOrder', orderInfo);
 
   const total = cart?.reduce(
     (acc: number, currVal: {price: number; quantity: number}) =>
@@ -58,7 +56,6 @@ const AllCarts = ({navigation}) => {
       navigation.navigate('Checkout', {total: total});
     }
   };
-
   return (
     <View style={styles.container}>
       <CartHeader />

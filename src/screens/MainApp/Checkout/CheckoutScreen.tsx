@@ -9,21 +9,22 @@ import {useDispatch, useSelector} from 'react-redux';
 // import {MapImage} from '../../../assets/Images';
 import Button from '../../../components/Buttons/Button';
 import {Product} from '../Shop/shop-api';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+// import {TouchableOpacity} from 'react-native-gesture-handler';
 import useCheckoutController from './useCheckoutController';
 import Input from '../../../components/Inputs/Input';
 import {useFormik} from 'formik';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {CheckoutScreenProps} from '../../../navigation/Stack/HomeScreenStack';
-import {calculateDistance, googlePlaceKey} from '../../../utils/utils';
+import {calculateDistance} from '../../../utils/utils';
 import Geocoder from 'react-native-geocoding';
 import {setInitiateOrder, setOrderInfo} from '../../../redux/ui';
+import {GOOGLEPLACEKEY} from '@env';
 
-Geocoder.init(googlePlaceKey); // use a valid API key
+Geocoder.init(GOOGLEPLACEKEY); // use a valid API key
 
 const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
   const {total} = route.params;
-  const cart = useSelector(state => state.cart);
+  const cart = useSelector(state => state?.cart);
   const [address, setAddress] = useState<null | any>(null);
   const [longLatitude, setLongLatitude] = useState({});
   const dispatch = useDispatch();
@@ -103,7 +104,8 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
     },
   });
   const {values, handleChange, handleSubmit, errors} = formik;
-  function Run(address: string) {
+
+  function ConvertAddress(address: string) {
     // Search by address
     Geocoder.from(address)
       .then(json => {
@@ -119,7 +121,7 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
 
   useEffect(() => {
     if (address) {
-      Run(address?.description);
+      ConvertAddress(address?.description);
     }
   }, [address]);
 
@@ -146,11 +148,9 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
             left: 20,
             right: 0,
             width: '100%',
-
-            borderRadius: 3,
           }}>
           <GooglePlacesAutocomplete
-            placeholder="Search location..."
+            placeholder="Enter location"
             onPress={(data, details = null) => {
               // 'details' is provided when fetchDetails = true
               setAddress(data);
@@ -158,7 +158,7 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
               //   setIsModal(true);
             }}
             query={{
-              key: googlePlaceKey,
+              key: GOOGLEPLACEKEY,
               language: 'en',
             }}
             nearbyPlacesAPI="GooglePlacesSearch"
@@ -174,13 +174,13 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
                 fontSize: 15,
                 borderWidth: 1,
                 borderColor: '#F1EFEF',
-                // backgroundColor: '#9694949f',
+                backgroundColor: '#bababa9f',
                 color: '#000',
                 width: '90%',
-                backgroundColor: 'transparent',
+                // backgroundColor: 'transparent',
                 height: 48,
                 fontFamily: 'Poppins-Regular',
-                // elevation: 0.000093,
+                // elevation: 1,
               },
               description: {
                 color: 'black',

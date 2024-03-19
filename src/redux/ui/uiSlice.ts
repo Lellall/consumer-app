@@ -6,10 +6,12 @@ export type UIState = {
     orderId: number | string;
     totalAmount: number;
   };
+  login: boolean;
 };
 const initialState: UIState = {
   initiateOrder: false,
   orderInfo: {orderId: '', totalAmount: 0},
+  login: false,
 };
 
 export const uiSlice = createSlice({
@@ -24,6 +26,10 @@ export const uiSlice = createSlice({
       state.orderInfo = payload;
       return state;
     },
+    setLogin(state, {payload}: PayloadAction<boolean>) {
+      state.login = payload;
+      return state;
+    },
 
     reset() {
       return initialState;
@@ -31,6 +37,7 @@ export const uiSlice = createSlice({
   },
 });
 
-export const {setInitiateOrder, setOrderInfo, reset} = uiSlice.actions;
+export const {setInitiateOrder, setOrderInfo, setLogin, reset} =
+  uiSlice.actions;
 
 export const uiSelector = (state: {ui: UIState}) => state.ui;

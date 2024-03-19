@@ -1,15 +1,15 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import {baseApi} from '../../redux/base-api';
-import {baseUrl} from '../../utils/utils';
+// import {baseApi} from '../../redux/base-api';
+// import {baseUrl} from '../../utils/utils';
+import {BASE_URL} from '@env';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
   tagTypes: ['auth'],
   baseQuery: fetchBaseQuery({
-    baseUrl: baseUrl,
+    baseUrl: BASE_URL,
     prepareHeaders: (headers, {getState}) => {
       const {access_token} = getState().user;
-      console.log('TOKEN+++++++', access_token);
       // If we have a token set in state, let's assume that we should be passing it.
       if (access_token) {
         headers.set('authorization', `Bearer ${access_token}`);
@@ -37,6 +37,13 @@ export const authApi = createApi({
         body: data,
       }),
       //   invalidatesTags: ['student'],
+    }),
+    postRefereshToken: builder.mutation<LoginResponse, RefreshRequest>({
+      query: data => ({
+        url: 'auth/refresh-token',
+        method: 'POST',
+        body: data,
+      }),
     }),
     updateProfile: builder.mutation({
       query: data => ({
@@ -76,17 +83,13 @@ export const {
   useUpdateProfileMutation,
   usePostGoogleAuthMutation,
   usePostGoogleAuthVerifyMutation,
+  usePostRefereshTokenMutation,
 } = authApi;
 
-function transformLoginResponse(resp) {
-  const {user: rawUser, ...restResp} = resp;
-
-  const user = {...rawUser, currentRole: rawUser.roles[0]};
-
-  return {
-    ...restResp,
-    user,
-  };
+// interface RefreshResponse {}
+interface RefreshRequest {
+  refreshToken: string;
+  role: string;
 }
 
 export interface User {

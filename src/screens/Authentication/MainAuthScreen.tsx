@@ -4,8 +4,9 @@ import {
   StatusBar,
   Image,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {AuthBg, Logo} from '../../assets/Images';
 import SignUpScreen from './SignUpScreen';
 import LoginScreen from './LoginScreen';
@@ -13,6 +14,7 @@ import Text from '../../components/Text/Text';
 
 export default function MainAuthScreen({navigation}) {
   // const [active, setActive] = useState(0);
+  const [logginUser, setLoggingUser] = useState(true);
   const scrollRef = useRef();
   const SignUp = () => {
     scrollRef.current?.scrollTo({x: 0, y: 0, animated: true});
@@ -20,27 +22,41 @@ export default function MainAuthScreen({navigation}) {
   const SignIn = () => {
     scrollRef.current?.scrollToEnd({animated: true});
   };
+
   return (
     <ImageBackground
       resizeMode="cover"
       source={AuthBg}
       style={styles.container}>
       <StatusBar barStyle="dark-content" translucent />
-      <ScrollView
-        ref={scrollRef}
-        showsVerticalScrollIndicator={false}
-        pagingEnabled
-        contentContainerStyle={{
-          alignItems: 'center',
-        }}
-        style={styles.content}>
-        <Image resizeMode="contain" style={styles.logo} source={Logo} />
-        <Text h1>Create Account</Text>
 
-        <SignUpScreen signIn={SignIn} navigation={navigation} />
+      <>
+        <ScrollView
+          ref={scrollRef}
+          showsVerticalScrollIndicator={false}
+          pagingEnabled
+          contentContainerStyle={{
+            alignItems: 'center',
+          }}
+          style={styles.content}>
+          {logginUser ? (
+            <ActivityIndicator size={'large'} color={'#000'} />
+          ) : (
+            <>
+              <Image resizeMode="contain" style={styles.logo} source={Logo} />
+              <Text h1>Create Account</Text>
+              <SignUpScreen signIn={SignIn} navigation={navigation} />
+            </>
+          )}
 
-        <LoginScreen signUp={SignUp} navigation={navigation} />
-      </ScrollView>
+          <LoginScreen
+            setLoggingUser={setLoggingUser}
+            signUp={SignUp}
+            navigation={navigation}
+            logginUser={logginUser}
+          />
+        </ScrollView>
+      </>
     </ImageBackground>
   );
 }

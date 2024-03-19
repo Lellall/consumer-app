@@ -1,8 +1,8 @@
-import { Mutex } from 'async-mutex';
-import axios, { AxiosError } from 'axios';
-import { retry } from '@reduxjs/toolkit/dist/query';
+import {Mutex} from 'async-mutex';
+import axios, {AxiosError} from 'axios';
+import {retry} from '@reduxjs/toolkit/dist/query';
 
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type BaseQueryOptions = {
@@ -12,14 +12,14 @@ type BaseQueryOptions = {
 const mutex = new Mutex();
 
 export function createBaseQuery(opts: BaseQueryOptions) {
-  const axiosInstance = axios.create({ baseURL: opts.baseUrl });
+  const axiosInstance = axios.create({baseURL: opts.baseUrl});
 
   return async function baseQuery(requestConfig, api) {
     try {
       const resp = await axiosInstance(requestConfig);
       console.log('response', resp);
 
-      return { data: resp.data };
+      return {data: resp.data};
     } catch (error) {
       const err = error as AxiosError;
       const token = await AsyncStorage.getItem('accessToken');
@@ -47,7 +47,7 @@ async function tokenRefresh(url: string, api, data) {
     console.log('res', resp);
     AsyncStorage.setItem('accessToken', resp.data.token);
   } catch (err) {
-    api.dispatch({ type: 'clear' });
+    api.dispatch({type: 'clear'});
     await AsyncStorage.clear();
     navigation.navigate('Authentication');
   } finally {
@@ -69,8 +69,8 @@ function attachToken(headers) {
 
 function formatError(error) {
   if (error.response) {
-    const { status, data } = error.response;
+    const {status, data} = error.response;
     const message = data?.details || error.message;
-    return { error: { status, message } };
+    return {error: {status, message}};
   }
 }

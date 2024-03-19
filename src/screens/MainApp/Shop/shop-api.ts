@@ -1,13 +1,14 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 // import {baseApi} from '../../../redux/base-api';
-import {baseUrl} from '../../../utils/utils';
+// import {baseUrl} from '../../../utils/utils';
 // import { baseUrl } from '../../services/controller';
+import {BASE_URL} from '@env';
 
 export const shopApi = createApi({
   reducerPath: 'shopApi',
   tagTypes: ['shop'],
   baseQuery: fetchBaseQuery({
-    baseUrl: baseUrl,
+    baseUrl: BASE_URL,
   }),
   endpoints: builder => ({
     shop: builder.query<Shops, void>({

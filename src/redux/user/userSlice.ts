@@ -5,6 +5,7 @@ const initialState: LoginResponse = {
   refresh_token: '',
   access_token: '',
   token_type: '',
+
   user: {
     id: '',
     username: '',
