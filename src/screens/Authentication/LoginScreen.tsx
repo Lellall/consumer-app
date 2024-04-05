@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import * as Yup from 'yup';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import Input from '../../components/Inputs/Input';
 import Text from '../../components/Text/Text';
 import Button from '../../components/Buttons/Button';
@@ -23,13 +23,8 @@ import {setUser, userSelector} from '../../redux/user/userSlice';
 import useDeepLink from '../../utils/useDeepLink';
 import {useLoginController} from './useLoginController';
 
-export default function LoginScreen({
-  navigation,
-  signUp,
-  setLoggingUser,
-  logginUser,
-}) {
-  const {access_token, refresh_token} = useSelector(userSelector);
+export default function LoginScreen({navigation, signUp}) {
+  const {access_token} = useSelector(userSelector);
   // const [loadingScreen, setLoadingScrenn] = useState(true);
   const {value} = useDeepLink();
   const initialValues = {
@@ -45,12 +40,9 @@ export default function LoginScreen({
     isPostSuccess,
     isVerifySuccess,
     isGoogleLoading,
-    isLoadingRefresh,
-    isSucessRefresh,
   } = loading;
-  const {postGoogleAuth, postGoogleAuthVerify, postLogin, updateToken} =
-    actions;
-  const {postLoginData, tokenData} = data;
+  const {postGoogleAuth, postGoogleAuthVerify, postLogin} = actions;
+  const {postLoginData} = data;
   const {postError} = loginErrors;
 
   const validationSchema = Yup.object({
@@ -140,28 +132,10 @@ export default function LoginScreen({
   const {password, email} = values;
 
   useEffect(() => {
-    if (isSucessRefresh) {
+    if (access_token) {
       navigation.replace('MainApp');
-      setLoggingUser(false);
-      dispatch(setUser(tokenData));
     }
-  }, [isSucessRefresh]);
-
-  useEffect(() => {
-    if (!access_token) {
-      setLoggingUser(false);
-    }
-    if (!isLoadingRefresh) {
-      updateToken({refreshToken: refresh_token, role: 'CONSUMER'});
-    }
-    let fourMinutes = 1000 * 60 * 4;
-    let interval = setInterval(() => {
-      if (access_token) {
-        updateToken({refreshToken: refresh_token, role: 'CONSUMER'});
-      }
-    }, fourMinutes);
-    return () => clearInterval(interval);
-  }, [access_token]);
+  }, [access_token, navigation]);
 
   return (
     <View style={styles.container}>
@@ -212,7 +186,7 @@ export default function LoginScreen({
           borderRadius: 20,
           marginTop: 20,
         }}
-        label={logginUser ? 'Loading...' : 'Sign In'}
+        label={'Sign In'}
         isLoading={isPostLoading}
       />
       <View style={styles.otherSign}>

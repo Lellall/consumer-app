@@ -14,7 +14,7 @@ import Text from '../../components/Text/Text';
 
 export default function MainAuthScreen({navigation}) {
   // const [active, setActive] = useState(0);
-  const [logginUser, setLoggingUser] = useState(true);
+  // const [logginUser, setLoggingUser] = useState(true);
   const scrollRef = useRef();
   const SignUp = () => {
     scrollRef.current?.scrollTo({x: 0, y: 0, animated: true});
@@ -39,22 +39,13 @@ export default function MainAuthScreen({navigation}) {
             alignItems: 'center',
           }}
           style={styles.content}>
-          {logginUser ? (
-            <ActivityIndicator size={'large'} color={'#000'} />
-          ) : (
-            <>
-              <Image resizeMode="contain" style={styles.logo} source={Logo} />
-              <Text h1>Create Account</Text>
-              <SignUpScreen signIn={SignIn} navigation={navigation} />
-            </>
-          )}
+          <>
+            <Image resizeMode="contain" style={styles.logo} source={Logo} />
+            <Text h1>Create Account</Text>
+            <SignUpScreen signIn={SignIn} navigation={navigation} />
+          </>
 
-          <LoginScreen
-            setLoggingUser={setLoggingUser}
-            signUp={SignUp}
-            navigation={navigation}
-            logginUser={logginUser}
-          />
+          <LoginScreen signUp={SignUp} navigation={navigation} />
         </ScrollView>
       </>
     </ImageBackground>
