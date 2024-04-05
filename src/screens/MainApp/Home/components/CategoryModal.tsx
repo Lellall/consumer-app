@@ -67,7 +67,7 @@ const CategoryModal = ({
                 loop
               />
             </View>
-          ) : !categories?.length ? (
+          ) : categories?.length ? (
             <Text>No category</Text>
           ) : (
             <View
@@ -78,7 +78,7 @@ const CategoryModal = ({
                 justifyContent: 'space-between',
                 // minHeight: '35%',
               }}>
-              {categories?.map(
+              {categories?.data?.map(
                 (item: {id: string; imageUrl: string; name: string}) => {
                   return (
                     <TouchableOpacity
