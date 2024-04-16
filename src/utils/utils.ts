@@ -1,3 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export const formatError = error => {
   if (error) {
     const {status, data} = error.response;
@@ -37,4 +39,27 @@ export const calculateDistance = (
 
   // Return the distance in kilometers
   return earthRadius * c;
+};
+
+export const storeData = async (key: string, value: any) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem(key, jsonValue);
+    console.log('storeData saved', jsonValue);
+    return jsonValue;
+  } catch (e) {
+    //error
+    console.log(e);
+  }
+};
+
+export const getStoreData = async (value: any) => {
+  try {
+    const data = await AsyncStorage.getItem(value);
+    if (data !== null) {
+      return data;
+    }
+  } catch (e) {
+    console.log('Error: ', e);
+  }
 };

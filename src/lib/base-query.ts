@@ -1,76 +1,85 @@
-import {Mutex} from 'async-mutex';
-import axios, {AxiosError} from 'axios';
-import {retry} from '@reduxjs/toolkit/dist/query';
+import {BaseQueryFn} from '@reduxjs/toolkit/query';
+import axios, {AxiosError, AxiosRequestConfig} from 'axios';
+import {BASE_URL} from '@env';
+import {getStoreData, storeData} from '../utils/utils';
 
-import {useNavigation} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+export const axiosInstance = axios.create({
+  baseURL: BASE_URL,
+});
 
-type BaseQueryOptions = {
-  baseUrl: string;
-};
+let isRefreshingToken = false;
 
-const mutex = new Mutex();
-
-export function createBaseQuery(opts: BaseQueryOptions) {
-  const axiosInstance = axios.create({baseURL: opts.baseUrl});
-
-  return async function baseQuery(requestConfig, api) {
-    try {
-      const resp = await axiosInstance(requestConfig);
-      console.log('response', resp);
-
-      return {data: resp.data};
-    } catch (error) {
-      const err = error as AxiosError;
-      const token = await AsyncStorage.getItem('accessToken');
-
-      // Example: handle unauthorized errors and refresh token
-      if (err.response?.status === 401 && token) {
-        // Implement your token refresh logic here
-        // You might want to use a retry or dispatch an action to refresh the token
-      }
-
-      return formatError(error); // Re-throw the error to indicate a failed request
-    }
-  };
-}
-
-async function tokenRefresh(url: string, api, data) {
-  const navigation = useNavigation();
-
-  const unlock = await mutex.acquire();
+const refreshExpiredToken = async (refreshToken: any) => {
   try {
-    const resp = await axios.post(url, {
-      refreshToken: data,
+    const {data} = await axiosInstance.post(`/auth/refresh-token`, {
+      refreshToken: refreshToken,
       role: 'CONSUMER',
     });
-    console.log('res', resp);
-    AsyncStorage.setItem('accessToken', resp.data.token);
-  } catch (err) {
-    api.dispatch({type: 'clear'});
-    await AsyncStorage.clear();
-    navigation.navigate('Authentication');
-  } finally {
-    unlock();
+    await storeData('access_token', data.access_token);
+    return data;
+  } catch (error) {
+    return undefined;
   }
-}
+};
 
-// async function requestInterceptor(requestConfig) {
-//   attachToken(requestConfig.headers);
-//   return requestConfig;
-// }
+export const axiosBaseQuery =
+  (): BaseQueryFn<AxiosRequestConfig, unknown, AxiosError> =>
+  async ({url, method, data, params}) => {
+    try {
+      const result = await axiosInstance({
+        url,
+        method,
+        data,
+        params,
+      });
+      return {data: result.data};
+    } catch (axiosError) {
+      const error = axiosError as AxiosError;
+      if (error?.response?.status === 403 || error?.status === 403) {
+        console.log('*********>> response >>*********', error);
+        const originalRequest = error.response?.config;
+        if (!isRefreshingToken) {
+          isRefreshingToken = true;
+          const refresh_token = getStoreData('refresh_token');
+          delete axiosInstance.defaults.headers.common.Authorization;
 
-function attachToken(headers) {
-  const accessToken = AsyncStorage.getItem('accessToken');
-  if (accessToken) {
-    headers.authorization = `Bearer ${accessToken}`;
-  }
-}
+          try {
+            const res = await refreshExpiredToken(refresh_token);
+            if (res) {
+              const {access_token: token} = res;
+              await storeData('access_token', token);
+              isRefreshingToken = false;
+              axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
+              // @ts-ignore
+              if (originalRequest.headers) {
+                originalRequest.headers.Authorization = `Bearer ${token}`;
+                // const {data}: any = await axios(originalRequest);
+                // resolve(data);
+              }
+            }
+            // eslint-disable-next-line no-catch-shadow
+          } catch (error) {
+            isRefreshingToken = false;
+            return error;
+          }
+        } else {
+          setTimeout(async () => {
+            const access_token = getStoreData('access_token');
+            // @ts-ignore
+            originalRequest.headers.Authorization = `Bearer ${access_token}`;
+            const {data}: any = await axios(originalRequest);
+            // resolve(data);
+            return data;
+          }, 2000);
+        }
+      }
+      return {
+        error,
+      };
+    }
+  };
 
-function formatError(error) {
-  if (error.response) {
-    const {status, data} = error.response;
-    const message = data?.details || error.message;
-    return {error: {status, message}};
-  }
-}
+// axios.interceptors.request.use(async req => {
+//   console.log('*****intercepting request *****');
+//   return req;
+// });
