@@ -3,13 +3,15 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 // import {baseUrl} from '../../../utils/utils';
 // import { baseUrl } from '../../services/controller';
 import {BASE_URL} from '@env';
+import api from '../../../redux/api';
 
-export const shopApi = createApi({
-  reducerPath: 'shopApi',
-  tagTypes: ['shop'],
-  baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL,
-  }),
+// export const shopApi = createApi({
+//   reducerPath: 'shopApi',
+//   tagTypes: ['shop'],
+//   baseQuery: fetchBaseQuery({
+//     baseUrl: BASE_URL,
+//   }),
+export const shopApi = api.injectEndpoints({
   endpoints: builder => ({
     shop: builder.query<Shops, void>({
       query: () => 'shops',

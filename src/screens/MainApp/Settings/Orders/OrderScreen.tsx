@@ -11,6 +11,7 @@ import {useSelector} from 'react-redux';
 import {User} from '../../../Authentication/auth-api';
 import {EmptyState} from '../../../../components/EmptyState';
 import LoadingState from '../../../../components/LoadingState';
+import {useOrderHistoryQuery} from '../payment-order-api';
 
 const MENUS = ['All', 'Pending', 'Completed', 'Rejected'];
 
@@ -76,11 +77,31 @@ const sampleData = [
     },
   },
 ];
+
 export default function OrderScreen({navigation}) {
   const [activeMenu, setActiveMenu] = useState(0);
   const handlePress = ind => {
     setActiveMenu(ind);
   };
+
+  const {data, isLoading, isError, error} = useOrderHistoryQuery({
+    page: 1,
+    size: 10,
+    status: 'PENDING',
+  });
+
+  if (isError) {
+    return (
+      <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+        <Text
+          style={{
+            color: 'red',
+          }}>
+          {error?.message || 'Errors in order history'}
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -90,12 +111,10 @@ export default function OrderScreen({navigation}) {
         navigateLeftTo={'SettingsScreenIndex'}
         iconRight={false}
       />
-      <>
-        <EmptyState title={'No orders yet'} />
-      </>
-      {/* {isLoading ? (
+
+      {isLoading ? (
         <LoadingState />
-      ) : error?.data?.status === 403 ? (
+      ) : !data?.data?.length ? (
         <EmptyState title={'No orders yet'} />
       ) : (
         <>
@@ -123,25 +142,26 @@ export default function OrderScreen({navigation}) {
               }}>
               <View
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Text>Date</Text>
-                <Text>Order Number</Text>
+                <Text>Order Code</Text>
+                <Text>Items</Text>
                 <Text>Status</Text>
                 <Text>Actions</Text>
               </View>
 
-              {sampleData.map(data => {
+              {data?.data?.map(data => {
                 return (
                   <TouchableOpacity
                     onPress={() => navigation.navigate('orderDetails')}
                     style={styles.card}
                     key={data.orderId}>
-                    <Text>{data.orderId}</Text>
                     <Text>{data.orderCode}</Text>
+                    <Text>{data.paymentItems?.length}</Text>
                     <StatusCard
                       pending={data.status.toLocaleLowerCase() === 'pending'}
                       delivered={
                         data.status.toLocaleLowerCase() === 'delivered'
                       }
+                      accepted={data.status.toLocaleLowerCase() === 'accepted'}
                       canceled={data.status.toLocaleLowerCase() === 'canceled'}
                     />
                     <Text>{'...'}</Text>
@@ -151,7 +171,7 @@ export default function OrderScreen({navigation}) {
             </View>
           </ScrollView>
         </>
-      )} */}
+      )}
     </View>
   );
 }

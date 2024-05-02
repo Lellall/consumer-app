@@ -1,12 +1,14 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {BASE_URL} from '@env';
+import api from '../../../../redux/api';
 
-export const categoriesApi = createApi({
-  reducerPath: 'categoriesApi',
-  tagTypes: ['categories'],
-  baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL,
-  }),
+// export const categoriesApi = createApi({
+//   reducerPath: 'categoriesApi',
+//   tagTypes: ['categories'],
+//   baseQuery: fetchBaseQuery({
+//     baseUrl: BASE_URL,
+//   }),
+export const categoriesApi = api.injectEndpoints({
   endpoints: builder => ({
     categories: builder.query<Category[], void>({
       query: () => 'categories/all-categories',

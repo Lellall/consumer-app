@@ -2,21 +2,24 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 // import {baseApi} from '../../redux/base-api';
 // import {baseUrl} from '../../utils/utils';
 import {BASE_URL} from '@env';
+import api from '../../redux/api';
+('../../redux/api');
 
-export const authApi = createApi({
-  reducerPath: 'authApi',
-  tagTypes: ['auth'],
-  baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL,
-    prepareHeaders: (headers, {getState}) => {
-      const {access_token} = getState().user;
-      // If we have a token set in state, let's assume that we should be passing it.
-      if (access_token) {
-        headers.set('authorization', `Bearer ${access_token}`);
-      }
-      return headers;
-    },
-  }),
+// export const authApi = createApi({
+//   reducerPath: 'authApi',
+//   tagTypes: ['auth'],
+//   baseQuery: fetchBaseQuery({
+//     baseUrl: BASE_URL,
+//     prepareHeaders: (headers, {getState}) => {
+//       const {access_token} = getState().user;
+//       // If we have a token set in state, let's assume that we should be passing it.
+//       if (access_token) {
+//         headers.set('authorization', `Bearer ${access_token}`);
+//       }
+//       return headers;
+//     },
+//   }),
+export const authApi = api.injectEndpoints({
   endpoints: builder => ({
     login: builder.query({
       query: () => 'auth/login',

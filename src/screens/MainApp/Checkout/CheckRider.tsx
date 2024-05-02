@@ -195,24 +195,24 @@ const CheckRider = ({route, navigation}) => {
               </View>
               <View style={styles.summaryItem}>
                 <Text h3>Delivery Fee </Text>
-                <Text>{deliveryFee?.totalAmount.toLocaleString('en-US')}</Text>
+                <Text>{deliveryFee?.totalAmount?.toLocaleString('en-US')}</Text>
               </View>
               <View style={styles.summaryItem}>
                 <Text h3>Service Charge</Text>
                 <Text>
-                  {serviceCharge?.totalAmount.toLocaleString('en-US')}
+                  {serviceCharge?.totalAmount?.toLocaleString('en-US')}
                 </Text>
               </View>
               <View style={styles.summaryItem}>
                 <Text h3>Total Amount:</Text>
-                <Text>{orderInfo.totalAmount.toLocaleString('en-US')}</Text>
+                <Text>{orderInfo?.totalAmount?.toLocaleString('en-US')}</Text>
               </View>
               <View style={styles.summaryItem}>
                 <Text h3 style={{fontWeight: 'bold'}}>
                   Grand Total
                 </Text>
                 <Text style={{fontWeight: 'bold'}}>
-                  {summaryData?.totalCost.toLocaleString('en-US')}
+                  {summaryData?.totalCost?.toLocaleString('en-US')}
                 </Text>
               </View>
             </View>

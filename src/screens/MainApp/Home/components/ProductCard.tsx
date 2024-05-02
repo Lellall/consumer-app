@@ -73,8 +73,8 @@ const ProductCard = (props: ProductMini) => {
           </View>
         </ImageBackground>
         <View style={{paddingHorizontal: 10, margin: 0}}>
-          <Text style={{fontWeight: '700'}}>{name}</Text>
-          <Text>₦ {price}</Text>
+          <Text style={{fontWeight: '700', fontSize: 15}}>{name}</Text>
+          <Text>₦ {price.toLocaleString('en-US')}</Text>
         </View>
       </TouchableOpacity>
       <SummaryMessageModal setModal={setIsModalOpen} modal={isModalOpen} />
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#D9D9D9',
     // elevation: 2,
-    padding: 4,
+    padding: 5,
   },
   image: {
     width: '100%',

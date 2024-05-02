@@ -7,15 +7,17 @@ interface IProps {
   pending?: boolean;
   canceled?: boolean;
   delivered?: boolean;
+  accepted?: boolean;
 }
 
-const StatusCard = ({pending, canceled, delivered}: IProps) => {
+const StatusCard = ({pending, canceled, delivered, accepted}: IProps) => {
   // Define the background color style
   const backgroundColorStyle: ViewStyle = {
     backgroundColor:
       (pending && '#F06D061A') ||
       (canceled && '#E417491A') ||
       (delivered && '#0E5D371A') ||
+      (accepted && '#5cb85c60') ||
       undefined,
   };
 
@@ -26,6 +28,7 @@ const StatusCard = ({pending, canceled, delivered}: IProps) => {
           (pending && '#F06D06') ||
           (delivered && '#0E5D37') ||
           (canceled && '#E41749') ||
+          (accepted && '#5cb85c') ||
           undefined
         }
       />
@@ -35,12 +38,14 @@ const StatusCard = ({pending, canceled, delivered}: IProps) => {
             (pending && '#F06D06') ||
             (delivered && '#0E5D37') ||
             (canceled && '#E41749') ||
+            (accepted && '#2f722f') ||
             undefined,
         }}>
         {' '}
         {(pending && 'Pending') ||
           (canceled && 'Cancelled') ||
-          (delivered && 'Delivered')}
+          (delivered && 'Delivered') ||
+          (accepted && 'Accepted')}
       </Text>
     </View>
   );
@@ -55,6 +60,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 90,
     borderRadius: 15,
-    padding: 1,
+    padding: 2,
   },
 });

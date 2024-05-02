@@ -46,6 +46,8 @@ const CheckoutScreen = ({route, navigation}: CheckoutScreenProps) => {
   const {postOrder} = actions;
   const {isCheckingOut, isOrderError, isOrderSuccess, isOrderLoading} = loading;
 
+  console.log('------------------------');
+  console.log('orderError?', orderError);
   useEffect(() => {
     if (isOrderError) {
       Toast.show({

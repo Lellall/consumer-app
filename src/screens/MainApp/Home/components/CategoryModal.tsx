@@ -33,6 +33,7 @@ const CategoryModal = ({
             backgroundColor: '#ffffff',
             borderRadius: 8,
             width: '100%',
+            minHeight: 330,
           }}>
           <View
             style={{
@@ -43,7 +44,7 @@ const CategoryModal = ({
               margin: 'auto',
             }}>
             <Text style={{margin: 20}} h2>
-              Categories
+              {loadingCategories ? 'Loading...' : 'Categories'}
             </Text>
             <TouchableOpacity
               onPress={() => setModal(false)}
@@ -55,14 +56,17 @@ const CategoryModal = ({
           {loadingCategories ? (
             <View
               style={{
-                flex: 0.5,
-                width: '100%',
+                flex: 1,
+                // width: '100%',
                 justifyContent: 'center',
-                alignSelf: 'center',
+                alignItems: 'center',
               }}>
               <LottieView
                 source={require('../../../../assets/Lottie/loading.json')}
-                style={{width: 100, height: 100}}
+                style={{
+                  width: 100,
+                  height: 100,
+                }}
                 autoPlay
                 loop
               />

@@ -34,7 +34,7 @@ const CartItem = (props: Product) => {
           <Text>{category?.name}</Text>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text style={{fontSize: 14}} h2>
-              Price: ₦{price}
+              Price: ₦{price.toLocaleString('en-US')}
             </Text>
             {/* <Text
               style={{

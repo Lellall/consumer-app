@@ -50,6 +50,8 @@ export default function HomeScreen() {
   };
 
   const renderPaginationButtons = () => {
+    if (search !== '' || categoryId !== '') return; // u can remove this in future versions
+
     const maxButtonsToShow = 5;
     let startPage = Math.max(0, currentPage - Math.floor(maxButtonsToShow / 2));
 
