@@ -7,85 +7,19 @@ import {ArrowLeftIcon2} from '../../../../assets/Svg/Index';
 import MenuItem from '../../Shop/components/MenuItem';
 import StatusCard from '../Components/StatusCard';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {useSelector} from 'react-redux';
-import {User} from '../../../Authentication/auth-api';
 import {EmptyState} from '../../../../components/EmptyState';
 import LoadingState from '../../../../components/LoadingState';
 import {useOrderHistoryQuery} from '../payment-order-api';
 
 const MENUS = ['All', 'Pending', 'Completed', 'Rejected'];
 
-const sampleData = [
-  {
-    orderId: '1',
-    orderCode: '3233',
-    paymentItems: [
-      {
-        productId: 'string',
-        count: 'number',
-        productName: 'string',
-        price: 'number',
-      },
-    ],
-    status: 'PENDING',
-    address: {
-      streetName: 'string',
-      houseNumber: 'string',
-      apartmentName: 'string',
-      estate: 'string',
-      poBox: 'string',
-    },
-  },
-  {
-    orderId: '2',
-    orderCode: '2032',
-    paymentItems: [
-      {
-        productId: 'string',
-        count: 'number',
-        productName: 'string',
-        price: 'number',
-      },
-    ],
-    status: 'canceled',
-    address: {
-      streetName: 'string',
-      houseNumber: 'string',
-      apartmentName: 'string',
-      estate: 'string',
-      poBox: 'string',
-    },
-  },
-  {
-    orderId: '33',
-    orderCode: '4032',
-    paymentItems: [
-      {
-        productId: 'string',
-        count: 'number',
-        productName: 'string',
-        price: 'number',
-      },
-    ],
-    status: 'delivered',
-    address: {
-      streetName: 'string',
-      houseNumber: 'string',
-      apartmentName: 'string',
-      estate: 'string',
-      poBox: 'string',
-    },
-  },
-];
-
 export default function OrderScreen({navigation}) {
   const [activeMenu, setActiveMenu] = useState(0);
   const handlePress = ind => {
     setActiveMenu(ind);
   };
-
   const {data, isLoading, isError, error} = useOrderHistoryQuery({
-    page: 1,
+    page: 0,
     size: 10,
     status: 'PENDING',
   });
@@ -148,26 +82,37 @@ export default function OrderScreen({navigation}) {
                 <Text>Actions</Text>
               </View>
 
-              {data?.data?.map(data => {
-                return (
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('orderDetails')}
-                    style={styles.card}
-                    key={data.orderId}>
-                    <Text>{data.orderCode}</Text>
-                    <Text>{data.paymentItems?.length}</Text>
-                    <StatusCard
-                      pending={data.status.toLocaleLowerCase() === 'pending'}
-                      delivered={
-                        data.status.toLocaleLowerCase() === 'delivered'
-                      }
-                      accepted={data.status.toLocaleLowerCase() === 'accepted'}
-                      canceled={data.status.toLocaleLowerCase() === 'canceled'}
-                    />
-                    <Text>{'...'}</Text>
-                  </TouchableOpacity>
-                );
-              })}
+              {data?.data?.map(
+                (item: {
+                  orderId: React.Key | null | undefined;
+                  orderCode: any;
+                  paymentItems: string | any[];
+                  status: string;
+                }) => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('orderDetails')}
+                      style={styles.card}
+                      key={item.orderId}>
+                      <Text>{item.orderCode}</Text>
+                      <Text>{item.paymentItems?.length}</Text>
+                      <StatusCard
+                        pending={item.status.toLocaleLowerCase() === 'pending'}
+                        delivered={
+                          item.status.toLocaleLowerCase() === 'delivered'
+                        }
+                        accepted={
+                          item.status.toLocaleLowerCase() === 'accepted'
+                        }
+                        canceled={
+                          item.status.toLocaleLowerCase() === 'canceled'
+                        }
+                      />
+                      <Text>{'...'}</Text>
+                    </TouchableOpacity>
+                  );
+                },
+              )}
             </View>
           </ScrollView>
         </>

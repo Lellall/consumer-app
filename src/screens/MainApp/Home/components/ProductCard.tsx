@@ -15,12 +15,14 @@ import Toast from 'react-native-toast-message';
 import {ProductMini} from '../../Shop/shop-api';
 import SummaryMessageModal from './SummaryMessageModal';
 import {uiSelector} from '../../../../redux/ui';
+import useOpenCloseShop from '../../../../hooks/useOpenCloseShop';
 
 const ProductCard = (props: ProductMini) => {
   const {imageUrl, name, price} = props;
   const navigate = useNavigation();
   // const cart = useSelector(state => state.cart);
   // const shopName = cart[0]?.shop?.name;
+  const {isShopsClose} = useOpenCloseShop();
 
   const dispatch = useDispatch();
   const {initiateOrder} = useSelector(uiSelector);
@@ -63,13 +65,18 @@ const ProductCard = (props: ProductMini) => {
               <CartIcon color="#F06D06" />
             </TouchableOpacity>
             {/* <View style={styles.promoCard}>
-            <Text
-              style={{
-                color: '#f06d06',
-              }}>
-              20% off
-            </Text>
-          </View> */}
+              <Text
+                style={{
+                  color: '#f06d06',
+                }}>
+                20% off
+              </Text>
+            </View> */}
+            <View style={styles.openCloseCard}>
+              <Text style={{color: isShopsClose ? '#FE8A65' : '#000'}}>
+                {isShopsClose ? 'Close' : 'Open'}
+              </Text>
+            </View>
           </View>
         </ImageBackground>
         <View style={{paddingHorizontal: 10, margin: 0}}>
@@ -118,4 +125,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  openCloseCard: {
+    backgroundColor: '#fff',
+    padding: 5,
+    borderRadius: 10,
+    height: 30,
+    elevation: 2,
+  },
 });
+
+// HB1115776

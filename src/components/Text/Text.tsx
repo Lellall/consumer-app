@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/react-in-jsx-scope */
+import React from 'react';
 import {StyleSheet, Text as AppText, TextStyle} from 'react-native';
 interface TextProps {
   h1?: boolean;

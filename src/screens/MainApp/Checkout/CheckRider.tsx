@@ -9,7 +9,6 @@ import useCheckoutController from './useCheckoutController';
 import {useDispatch, useSelector} from 'react-redux';
 import Toast from 'react-native-toast-message';
 import {Product} from '../Shop/shop-api';
-import SummaryModal from './Components/SummaryModal';
 import {userSelector} from '../../../redux/user/userSlice';
 import {reset, uiSelector} from '../../../redux/ui';
 
@@ -22,7 +21,6 @@ const CheckRider = ({route, navigation}) => {
   const dispatch = useDispatch();
 
   // State variables
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [enableButton, setEnableButton] = useState(false);
   const [seconds, setSeconds] = useState(15);
   const [isRunning, setIsRunning] = useState(true);
@@ -252,13 +250,6 @@ const CheckRider = ({route, navigation}) => {
           }}
         />
       </View>
-      <>
-        <SummaryModal
-          open={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          data={summaryData}
-        />
-      </>
     </>
   );
 };
