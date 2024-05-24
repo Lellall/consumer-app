@@ -6,8 +6,8 @@ import Colors from '../../constants/Colors';
 import {CartIcon, SearchIcon} from '../../assets/Svg/Index';
 import Input from '../Inputs/Input';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
-import {User} from '../../screens/Authentication/auth-api';
+import {useUserSelector} from '../../redux/user/userSlice';
+import {useCartSelector} from '../../redux/cart/cartSlice';
 
 interface Props {
   search: string;
@@ -15,8 +15,8 @@ interface Props {
 }
 
 export default function AppHeader({search, setSearch}: Props) {
-  const {user} = useSelector((state: User) => state.user);
-  const cart = useSelector((state: User) => state.cart);
+  const cart = useCartSelector();
+  const {user} = useUserSelector();
   const navigation = useNavigation();
 
   return (

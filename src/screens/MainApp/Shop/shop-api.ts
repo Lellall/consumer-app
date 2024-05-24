@@ -96,7 +96,7 @@ export interface Shops {
 export interface Product {
   id: string;
   name: string;
-  price: string;
+  price: number;
   description: string;
   quantity: number;
   inventory: string;

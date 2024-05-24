@@ -14,13 +14,13 @@ import HomeScreenStack from '../Stack/HomeScreenStack';
 import SettingsScreenStack from '../Stack/SettingsScreenStack';
 import Notifications from '../../screens/MainApp/Notifications/Notifications';
 import AllCarts from '../../screens/MainApp/Cart/AllCarts';
-import {useSelector} from 'react-redux';
-import {User} from '../../screens/Authentication/auth-api';
 import AuthenticationStack from '../Stack/AuthenticationStack';
+import {useUserSelector} from '../../redux/user/userSlice';
+import {useCartSelector} from '../../redux/cart/cartSlice';
 const Tab = createBottomTabNavigator();
 const MainAppBottomTab = () => {
-  const cart = useSelector(state => state?.cart);
-  const {user} = useSelector((state: User) => state?.user);
+  const cart = useCartSelector();
+  const {user} = useUserSelector();
 
   return (
     <Tab.Navigator

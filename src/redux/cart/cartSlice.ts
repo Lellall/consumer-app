@@ -1,8 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
-// import type {PayloadAction} from '@reduxjs/toolkit';
-// import {useDispatch, useSelector} from 'react-redux';
-// import {LoginResponse, User} from '../../screens/Authentication/auth-api';
 import {Product} from '../../screens/MainApp/Shop/shop-api';
+import {useSelector} from 'react-redux';
 
 const initialState: Product[] = [];
 
@@ -53,5 +51,9 @@ export const {
   increaseQuantity,
   decreaseQuantity,
 } = cartSlice.actions;
-// export default userSlice.reducer;
-// export const useUser = () => useSelector((state: LoginResponse) => state);
+export interface RootState {
+  cart: Product[];
+}
+export const useCartSelector = () => {
+  return useSelector((state: RootState) => state.cart);
+};

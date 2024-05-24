@@ -1,28 +1,27 @@
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import Text from '../../../../components/Text/Text';
-import { CartIcon } from '../../../../assets/Svg/Index';
-import { useNavigation } from '@react-navigation/native';
-import { Product } from '../shop-api';
-import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../../../../redux/cart/cartSlice';
+import {CartIcon} from '../../../../assets/Svg/Index';
+import {useNavigation} from '@react-navigation/native';
+import {Product} from '../shop-api';
+import {useDispatch, useSelector} from 'react-redux';
+import {addToCart, useCartSelector} from '../../../../redux/cart/cartSlice';
 import Toast from 'react-native-toast-message';
 
 const ProductItem = (props: Product) => {
-  const { imageUrl, name, price, description, shop } = props;
+  const {imageUrl, name, price, description, shop} = props;
   const navigate = useNavigation();
-  const cart = useSelector((state) => state.cart);
+  // const cart = useSelector(state => state.cart);
+  const cart = useCartSelector();
   const shopName = cart[0]?.shop?.name;
   const dispatch = useDispatch();
   return (
     <View style={styles.container}>
-      <Image source={{ uri: imageUrl }} style={styles.image} />
+      <Image source={{uri: imageUrl}} style={styles.image} />
       <View style={styles.content}>
         <Text>{name}</Text>
         <Text h3>₦{price}</Text>
-        <Text style={{ fontSize: 10, textAlign: 'justify' }}>
-          {description}
-        </Text>
+        <Text style={{fontSize: 10, textAlign: 'justify'}}>{description}</Text>
       </View>
 
       <View style={styles.cart}>

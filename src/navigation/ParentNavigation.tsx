@@ -21,7 +21,6 @@ const Loading = () => {
 };
 
 export default function ParentNavigation() {
-  // const token = useSelector((state: RootState) => state.user.token);
   const [loading, setLoading] = useState(true);
   const [viewedOnboarding, setViewedOnboarding] = useState(false);
 

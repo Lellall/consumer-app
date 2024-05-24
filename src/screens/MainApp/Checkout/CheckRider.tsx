@@ -9,15 +9,13 @@ import useCheckoutController from './useCheckoutController';
 import {useDispatch, useSelector} from 'react-redux';
 import Toast from 'react-native-toast-message';
 import {Product} from '../Shop/shop-api';
-import {userSelector} from '../../../redux/user/userSlice';
+import {useUserSelector, userSelector} from '../../../redux/user/userSlice';
 import {reset, uiSelector} from '../../../redux/ui';
 
 const CheckRider = ({route, navigation}) => {
-  // Redux state selectors
-  const {user} = useSelector(userSelector);
+  const {user} = useUserSelector();
   const {orderInfo} = useSelector(uiSelector);
   console.log(orderInfo);
-  // Redux dispatcher
   const dispatch = useDispatch();
 
   // State variables
@@ -170,7 +168,7 @@ const CheckRider = ({route, navigation}) => {
     <>
       <View style={styles.container}>
         <LoadingIcon />
-        <View style={{marginVertical: 70}}>
+        <View style={{marginVertical: 30}}>
           <Text h1 style={{textAlign: 'center'}}>
             Order Processing!
           </Text>

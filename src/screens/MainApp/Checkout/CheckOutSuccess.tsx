@@ -8,12 +8,12 @@ import {useNavigation} from '@react-navigation/native';
 import {AchieveImage} from '../../../assets/Images';
 import {CheckoutSuccessProps} from '../../../navigation/Stack/HomeScreenStack';
 import {useSelector} from 'react-redux';
-import {User} from '../../Authentication/auth-api';
+import {useUserSelector} from '../../../redux/user/userSlice';
 
 const CheckOutSuccess = ({route}: CheckoutSuccessProps) => {
   const {tansaction_id} = route.params;
   const navigation = useNavigation();
-  const {user} = useSelector((state: User) => state.user);
+  const {user} = useUserSelector();
 
   return (
     <View style={styles.container}>

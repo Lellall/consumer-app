@@ -4,14 +4,13 @@ import {StyleSheet, View} from 'react-native';
 import {SettingsHeader} from './Components/SettingsHeader';
 import {ProfileHeader} from './Components/ProfileHeader';
 import Input from '../../../components/Inputs/Input';
-import Button from '../../../components/Buttons/Button';
 import {ScrollView} from 'react-native-gesture-handler';
-import {useSelector} from 'react-redux';
-import {User, useUpdateProfileMutation} from '../../Authentication/auth-api';
+import {useUpdateProfileMutation} from '../../Authentication/auth-api';
 import React, {useEffect} from 'react';
 import {FormikErrors, useFormik} from 'formik';
 import * as Yup from 'yup';
 import Toast from 'react-native-toast-message';
+import {useUserSelector} from '../../../redux/user/userSlice';
 // import Colors from '../../../constants/Colors';
 
 /*
@@ -34,7 +33,7 @@ import Toast from 'react-native-toast-message';
 */
 
 export default function ProfileScreen() {
-  const {user} = useSelector((state: User) => state.user);
+  const {user} = useUserSelector();
   const {
     firstName,
     lastName,
@@ -45,7 +44,7 @@ export default function ProfileScreen() {
     role,
   } = user;
 
-  const [updateProfile, {isLoading, isSuccess, isError, error}] =
+  const [updateProfile, {isSuccess, isError, error}] =
     useUpdateProfileMutation();
   console.log(error);
   const initialValues = {

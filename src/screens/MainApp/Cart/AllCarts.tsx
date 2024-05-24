@@ -14,11 +14,13 @@ import {uiSelector} from '../../../redux/ui';
 import {useFocusEffect} from '@react-navigation/native';
 import useOpenCloseShop from '../../../hooks/useOpenCloseShop';
 import ModalWrapper from '../../../components/ModalWrapper';
+import {useUserSelector} from '../../../redux/user/userSlice';
+import {useCartSelector} from '../../../redux/cart/cartSlice';
 
 const AllCarts = ({navigation}) => {
   // const navigation = useNavigation();
-  const cart = useSelector((state: Product[]) => state.cart);
-  const {user} = useSelector(state => state.user);
+  const cart = useCartSelector();
+  const {user} = useUserSelector();
   const {isShopsClose} = useOpenCloseShop();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -26,7 +28,7 @@ const AllCarts = ({navigation}) => {
 
   const total = cart?.reduce(
     (acc: number, currVal: {price: number; quantity: number}) =>
-      acc + currVal.price * currVal.quantity,
+      acc + Number(currVal.price) * currVal.quantity,
     0,
   );
   //   useFocusEffect((

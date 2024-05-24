@@ -18,13 +18,18 @@ import Colors from '../../constants/Colors';
 import {useFormik} from 'formik';
 import {Logo} from '../../assets/Images';
 import Toast from 'react-native-toast-message';
-import {useDispatch, useSelector} from 'react-redux';
-import {setUser, userSelector} from '../../redux/user/userSlice';
+import {useDispatch} from 'react-redux';
+import {
+  setUser,
+  useUserSelector,
+  // userSelector,
+} from '../../redux/user/userSlice';
 import useDeepLink from '../../utils/useDeepLink';
 import {useLoginController} from './useLoginController';
 
 export default function LoginScreen({navigation, signUp}) {
-  const {access_token} = useSelector(userSelector);
+  const {access_token} = useUserSelector();
+  //don't be in a hurry in d futu u will tired of eating more than one meat
   // const [loadingScreen, setLoadingScrenn] = useState(true);
   const {value} = useDeepLink();
   const initialValues = {

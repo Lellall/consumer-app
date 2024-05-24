@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {LoginResponse} from '../../screens/Authentication/auth-api';
+import {useSelector} from 'react-redux';
 
 const initialState: LoginResponse = {
   refresh_token: '',
@@ -45,4 +46,7 @@ export const userSlice = createSlice({
 });
 
 export const {setUser, logout} = userSlice.actions;
-export const userSelector = (state: {user: LoginResponse}) => state.user;
+
+export const useUserSelector = () => {
+  return useSelector((state: {user: LoginResponse}) => state.user);
+};

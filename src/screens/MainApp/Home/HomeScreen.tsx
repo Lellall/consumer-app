@@ -23,6 +23,7 @@ import CategoryModal from './components/CategoryModal';
 import {ArrowLeftIcon2} from '../../../assets/Svg/Index';
 import {useDebounce} from '../../../hooks/useDebounce';
 import {useHomeScreenController} from './useHomeScreenController';
+import {Pagination} from '../../../components/pagination';
 
 export default function HomeScreen() {
   const [search, setSearch] = useState('');
@@ -37,7 +38,7 @@ export default function HomeScreen() {
   });
   const {isFetching, loadingCategories, loadingProducts} = loading;
   const {categories, products} = data;
-  const totalPages = products?.resultTotal;
+  const totalPages = products?.pageTotal;
 
   const handlePageClick = (p: number) => setCurrentPage(p);
 
@@ -47,45 +48,6 @@ export default function HomeScreen() {
         <ProductCard {...item} />
       </View>
     );
-  };
-
-  const renderPaginationButtons = () => {
-    if (search !== '' || categoryId !== '') return; // u can remove this in future versions
-
-    const maxButtonsToShow = 5;
-    let startPage = Math.max(0, currentPage - Math.floor(maxButtonsToShow / 2));
-
-    let endPage = Math.min(
-      Number(totalPages),
-      startPage + maxButtonsToShow - 1,
-    );
-
-    if (endPage - startPage + 1 < maxButtonsToShow) {
-      startPage = Math.max(0, endPage - maxButtonsToShow + 1);
-    }
-
-    const buttons = [];
-
-    for (let i = startPage; i <= endPage; i++) {
-      buttons.push(
-        <TouchableOpacity
-          key={i}
-          onPress={() => handlePageClick(i)}
-          style={[
-            styles.paginationButton,
-            i === currentPage ? styles.activeButton : styles.inActiveButton,
-          ]}>
-          <Text
-            style={
-              i === currentPage ? styles.buttonTextActive : styles.buttonText
-            }>
-            {i}
-          </Text>
-        </TouchableOpacity>,
-      );
-    }
-
-    return buttons;
   };
 
   const handleCategoryChange = (newCategoryId: string) => {
@@ -105,7 +67,13 @@ export default function HomeScreen() {
               padding: 3,
               justifyContent: 'center',
             }}>
-            {renderPaginationButtons()}
+            {
+              <Pagination
+                currentPage={currentPage}
+                handlePageClick={handlePageClick}
+                totalPages={totalPages}
+              />
+            }
           </View>
         )}
       </View>
@@ -245,41 +213,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between', // Adjust vertical spacing if needed
     // backgroundColor: 'red',
     paddingHorizontal: 10,
-  },
-  paginationContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 8,
-    backgroundColor: 'red',
-  },
-  paginationButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 35,
-    height: 35,
-    borderRadius: 20,
-    marginHorizontal: 4,
-    backgroundColor: 'transparent',
-  },
-  activeButton: {
-    backgroundColor: '#F06D06',
-    width: 35,
-    height: 35,
-    borderRadius: 25,
-  },
-  inActiveButton: {
-    backgroundColor: 'transparent',
-    width: 35,
-    height: 35,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: '#888',
-  },
-  buttonTextActive: {
-    color: 'white',
-  },
-  buttonText: {
-    color: '#8888',
   },
 });

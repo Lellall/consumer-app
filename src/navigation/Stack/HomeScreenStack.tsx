@@ -32,7 +32,6 @@ export type CheckoutScreenProps = {
 };
 
 export default function HomeScreenStack() {
-  // const {initiateOrder} = useSelector(uiSelector);
   return (
     <HomeStack.Navigator
       screenOptions={{

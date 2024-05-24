@@ -16,10 +16,11 @@ import {
   // PAYSTACKPUBLICLIVEKEY,
   PAYSTACKPPUBLICTESTKEY,
 } from '@env';
-import {userSelector} from '../../../redux/user/userSlice';
+import {useUserSelector} from '../../../redux/user/userSlice';
 
 const CheckRiderSuccess = ({route, navigation}) => {
-  const {user} = useSelector(userSelector);
+  // const {user} = useSelector(userSelector);
+  const {user} = useUserSelector();
   const dispatch = useDispatch();
   const {orderInfo} = useSelector(uiSelector);
 
